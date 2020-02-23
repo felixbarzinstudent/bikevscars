@@ -3,7 +3,6 @@
 #include <GL/glut.h>
 #include "movement/square.h"
 
-GLfloat rotation = 90.0;
 float posX, posY, posZ;
 char xposFollow[] = "Start";
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
@@ -77,7 +76,7 @@ void display(){
     glPushMatrix();// sauvegarde l'état actuel de la matrice
     glTranslatef(posX,posY,posZ);
     rect();
-    text(xposFollow);
+    text(xposRecord);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     glFlush();
 }
@@ -98,36 +97,6 @@ void init(){
     //gluOrtho2D(-1.0, 1.0, -1.0, 1.0);// parametre de camera (+-)
 
 }
-// void keyboardown(int key, int x, int y)
-// {
-//     float move_unit = 0.1;
-//     switch (key){
-//         case GLUT_KEY_RIGHT:
-//             posX+=move_unit;
-//             char posXString[80]; 
-//             sprintf(posXString, "%f", posX); 
-//             strcpy(xposFollow, posXString);
-//             glFlush();
-//             break;
-
-//         case GLUT_KEY_LEFT:
-//             posX-=move_unit;;
-//         break;
-
-//         case GLUT_KEY_UP:
-//             posY+=move_unit;;
-//             break;
-
-//         case GLUT_KEY_DOWN:
-//             posY-=move_unit;;
-//         break;
-
-//         default:
-//          break;
-//     }
-//     glutPostRedisplay();
-// }
-
 
 int main(int argc, char** argv){
 

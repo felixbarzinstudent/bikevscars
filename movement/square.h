@@ -5,6 +5,7 @@
 extern float posX;
 extern float posY;
 extern float posZ;
+extern char xposRecord[];
 
 /*
 * fonction qui change les coordonnées d'un objet sur le plan cartesien en fonction de la touche appuyée sur le clavier
