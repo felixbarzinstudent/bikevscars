@@ -4,7 +4,6 @@
 #include "movement/square.h"
 
 float posX, posY, posZ;
-char xposFollow[] = "Start";
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
     /* window reshape when made it bigger or smaller*/
 

@@ -19,6 +19,8 @@ void keyboardown(int key, int x, int y)
     switch (key){
         case GLUT_KEY_RIGHT:
             posX+=move_unit;
+            if(posX > 1.0)
+                posX -= move_unit;
             char posXString[80]; 
             sprintf(posXString, "%f", posX); 
             strcpy(xposRecord, posXString);
