@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <GL/glut.h>
+#include <math.h>
 
 GLfloat rotation = 90.0;
 float posX = 0, posY = 0, posZ = 0;
-char test[] = "Start";
+char xposFollow[] = "Start";
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
     /* window reshape when made it bigger or smaller*/
 
@@ -33,10 +34,10 @@ void rect(){
     glEnd();
 }
 
-void text(char test[])
+void text(char xposFollow[])
 {
     char menu[80];
-    strcpy(menu,test);
+    strcpy(menu,xposFollow);
     int len;
     len = strlen(menu);
 
@@ -76,7 +77,7 @@ void display(){
     glPushMatrix();// sauvegarde l'état actuel de la matrice
     glTranslatef(posX,posY,posZ);
     rect();
-    text(test);
+    text(xposFollow);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     glFlush();
 }
@@ -97,13 +98,15 @@ void init(){
     //gluOrtho2D(-1.0, 1.0, -1.0, 1.0);// parametre de camera (+-)
 
 }
-float move_unit = 0.1f;
 void keyboardown(int key, int x, int y)
 {
+    float move_unit = 0.1;
     switch (key){
         case GLUT_KEY_RIGHT:
             posX+=move_unit;
-            strcpy(test, "move");
+            char posXString[80]; 
+            sprintf(posXString, "%f", posX); 
+            strcpy(xposFollow, posXString);
             glFlush();
             break;
 
