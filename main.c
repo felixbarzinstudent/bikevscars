@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <GL/glut.h>
-#include <math.h>
+#include "movement/square.h"
 
 GLfloat rotation = 90.0;
-float posX = 0, posY = 0, posZ = 0;
+float posX, posY, posZ;
 char xposFollow[] = "Start";
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
     /* window reshape when made it bigger or smaller*/
@@ -98,35 +98,35 @@ void init(){
     //gluOrtho2D(-1.0, 1.0, -1.0, 1.0);// parametre de camera (+-)
 
 }
-void keyboardown(int key, int x, int y)
-{
-    float move_unit = 0.1;
-    switch (key){
-        case GLUT_KEY_RIGHT:
-            posX+=move_unit;
-            char posXString[80]; 
-            sprintf(posXString, "%f", posX); 
-            strcpy(xposFollow, posXString);
-            glFlush();
-            break;
+// void keyboardown(int key, int x, int y)
+// {
+//     float move_unit = 0.1;
+//     switch (key){
+//         case GLUT_KEY_RIGHT:
+//             posX+=move_unit;
+//             char posXString[80]; 
+//             sprintf(posXString, "%f", posX); 
+//             strcpy(xposFollow, posXString);
+//             glFlush();
+//             break;
 
-        case GLUT_KEY_LEFT:
-            posX-=move_unit;;
-        break;
+//         case GLUT_KEY_LEFT:
+//             posX-=move_unit;;
+//         break;
 
-        case GLUT_KEY_UP:
-            posY+=move_unit;;
-            break;
+//         case GLUT_KEY_UP:
+//             posY+=move_unit;;
+//             break;
 
-        case GLUT_KEY_DOWN:
-            posY-=move_unit;;
-        break;
+//         case GLUT_KEY_DOWN:
+//             posY-=move_unit;;
+//         break;
 
-        default:
-         break;
-    }
-    glutPostRedisplay();
-}
+//         default:
+//          break;
+//     }
+//     glutPostRedisplay();
+// }
 
 
 int main(int argc, char** argv){
