@@ -3,9 +3,7 @@
 #include <GL/glut.h>
 #include "movement/square.h"
 
-float posX, posY, posZ;
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
-    /* window reshape when made it bigger or smaller*/
 
     //le parametre 'mode' (GL_PROJECTION) désigne la matrice que l'on souhaite activer.
     glMatrixMode(GL_PROJECTION);
