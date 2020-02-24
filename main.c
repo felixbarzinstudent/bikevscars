@@ -2,6 +2,7 @@
 #include <string.h>
 #include <GL/glut.h>
 #include "movement/square.h"
+#include "graphic/enemy.h"
 
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
 
@@ -75,6 +76,10 @@ void display(){
     rect();
     text(xposRecord);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
+    glPushMatrix();
+    glTranslatef(0, 0.5f, 0);
+    drawEnemy();
+    glPopMatrix();
     glFlush();
 }
 
