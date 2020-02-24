@@ -4,6 +4,9 @@
 #include "movement/square.h"
 #include "graphic/enemy.h"
 
+#define WINDOWWIDTH 500
+#define WINDOWHEIGHT 500
+
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
 
     //le parametre 'mode' (GL_PROJECTION) désigne la matrice que l'on souhaite activer.
@@ -23,21 +26,16 @@ void reshape(int width, int heigth){ // fonction de rappel pour les redimensionn
 
 void rect(){
     glBegin(GL_POLYGON);
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex2f(-0.1, -0.2);
-    glVertex2f(-0.1, 0.2);
-    glVertex2f(0.1, 0.2);
-    glVertex2f(0.1, -0.2);
+        glColor3f(1.0, 0.0, 0.0);
+        glVertex2f(-0.1, -0.2);
+        glVertex2f(-0.1, 0.2);
+        glVertex2f(0.1, 0.2);
+        glVertex2f(0.1, -0.2);
     glEnd();
 }
 
 void text(char xposFollow[])
 {
-    char menu[80];
-    strcpy(menu,xposFollow);
-    int len;
-    len = strlen(menu);
-
     glColor3f(1,1,1);
 
     glMatrixMode(GL_PROJECTION);
@@ -53,10 +51,9 @@ void text(char xposFollow[])
 
     glRasterPos2i(0, 0);// MET LE TEXTE EN BAS A GAUCHE 
 
-
-    for ( int i = 0; i < len; ++i )
+    for ( int i = 0; i < 5; ++i )
     {
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, menu[i]);
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, xposRecord[i]);
     }
 
     glPopMatrix();
@@ -65,6 +62,13 @@ void text(char xposFollow[])
     glPopMatrix();
     glMatrixMode( GL_MODELVIEW );
 }
+void moveVertical() {
+    if(ennemyPosY <= 1)
+        ennemyPosY += 0.001;
+    else
+        ennemyPosY -= 2;
+
+}
 
 void display(){
     //Clear Window
@@ -72,15 +76,16 @@ void display(){
     glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
     glLoadIdentity();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
-    glTranslatef(posX,posY,posZ);
-    rect();
-    text(xposRecord);
+        glTranslatef(posX,posY,posZ);
+        rect();
+        text(xposRecord);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     glPushMatrix();
-    glTranslatef(0, 0.5f, 0);
-    drawEnemy();
+        glTranslatef(ennemyPosX, ennemyPosY, ennemyPosZ);
+        drawEnemy();
     glPopMatrix();
-    glFlush();
+    glutPostRedisplay();
+    glutSwapBuffers(); // permute buffers
 }
 
 
@@ -106,12 +111,13 @@ int main(int argc, char** argv){
     //Windows tittle is name of program
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(500,500);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); //GLUT_DOUBLE pour activer le double buffering et GLUT_RGBA pour activer le mode couleur 32 bits
+    glutInitWindowSize(WINDOWWIDTH, WINDOWHEIGHT);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Practice 1");
     glutDisplayFunc(display);
     init();
+    glutIdleFunc(moveVertical);//activation du callback
     glutSpecialFunc(keyboardown);
     glutMainLoop();
 
