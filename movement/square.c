@@ -8,16 +8,22 @@
 #include "square.h"
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 
 /* initialisation des variables */
-float posX = 0, posY = 0;
-const float posZ = 0; // l'axe Z ne sera pas utilisée donc on peut utiliser une constante == 0
-char xposRecord[] = "Start"; // initialise la variable qui enregistre en temps réel la position de l'objet (dans le but de l'afficher à l'écran)
+char _xposRecord[12] = "Start"; // initialise la variable qui enregistre en temps réel la position de l'objet (dans le but de l'afficher à l'écran)
+struct Square _square;
+
+void initSquare() {
+    _square.position.x = 0;
+    _square.position.y = 0;
+    _square.position.z = 0;
+}
 
 void formatCoordinates(float coordinate) {
-    char posXString[80]; 
-    sprintf(posXString, "%f", coordinate); 
-    strcpy(xposRecord, posXString);
+    char posXString[12]; 
+    sprintf(posXString, "%.9f", coordinate); 
+    strcpy(_xposRecord, posXString);
 }
 
 float cantGoOut(float coordinate) {
@@ -29,31 +35,32 @@ float cantGoOut(float coordinate) {
 
 void keyboardown(int key, int x, int y)
 {
-    float move_unit = 0.1;
+    float move_unit = round(10*0.1)/10;// TODO : comment faire pour retirer l'imprécision du float ?
+    move_unit-=0.000000001;
     switch (key){
         case GLUT_KEY_RIGHT:
-            posX += move_unit;
+            _square.position.x += move_unit;
             break;
 
         case GLUT_KEY_LEFT:
-            posX -= move_unit;;
+            _square.position.x -= move_unit;
             break;
 
         case GLUT_KEY_UP:
-            posY += move_unit;;
+            _square.position.y += move_unit;
             break;
 
         case GLUT_KEY_DOWN:
-            posY -= move_unit;;
+            _square.position.y -= move_unit;
         break;
 
         default:
         break;
     }
     
-    posX = cantGoOut(posX);
-    posY = cantGoOut(posY);
-    formatCoordinates(posX);
+    _square.position.x = cantGoOut(_square.position.x);
+    _square.position.y = cantGoOut(_square.position.y);
+    formatCoordinates(_square.position.x);
 
     glutPostRedisplay();
 }

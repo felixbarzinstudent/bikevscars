@@ -1,10 +1,14 @@
 #include <GL/glut.h>
+#include "enemy.h"
 
 /* initialisation des variables */
-float ennemyPosX = 0, ennemyPosY = 0.5f;
-const float ennemyPosZ = 0;
+struct Enemy _enemy;
 
-float ennemyEndPosY = -0.5f;
+void initEnemy() {
+    _enemy.position.x = 0;
+    _enemy.position.y = 0;
+    _enemy.position.z = 0;
+}
 
 void drawEnemy(){
     glBegin(GL_POLYGON);

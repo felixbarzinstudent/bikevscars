@@ -1,11 +1,21 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 
+#include "../graphic/character.h"
+
 /* declaration des variables */
-extern float posX;
-extern float posY;
-extern const float posZ;
-extern char xposRecord[];
+extern char _xposRecord[]; // string qui enregistre la position en x de l'objet en mouvement
+
+typedef struct Square {
+    struct Coordinates position;
+} Square;
+
+extern struct Square _square;
+
+/*
+* Cette fonction initialise la position du square
+*/
+void initSquare();
 
 /*
 * Cette fonction formate les coordonnées recues en paramètre pour permettre l'affichage en temps réel de la position à l'écran

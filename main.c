@@ -7,6 +7,8 @@
 #define WINDOWWIDTH 500
 #define WINDOWHEIGHT 500
 
+char text2char[10] = "";
+
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
 
     //le parametre 'mode' (GL_PROJECTION) désigne la matrice que l'on souhaite activer.
@@ -34,40 +36,71 @@ void rect(){
     glEnd();
 }
 
-void text(char xposFollow[])
+void text(int x, int y, char text[])
 {
     glColor3f(1,1,1);
-
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
-    glLoadIdentity();
-
-    gluOrtho2D( 0, 600, 0, 600 );
-
-    glMatrixMode( GL_MODELVIEW );
-    glPushMatrix();
-
-    glLoadIdentity();
-
-    glRasterPos2i(0, 0);// MET LE TEXTE EN BAS A GAUCHE 
-
-    for ( int i = 0; i < 5; ++i )
-    {
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, xposRecord[i]);
-    }
-
-    glPopMatrix();
-
-    glMatrixMode( GL_PROJECTION );
+        glLoadIdentity();
+        gluOrtho2D( 0, 600, 0, 600 );
+        glMatrixMode( GL_MODELVIEW );
+        glPushMatrix();
+            glLoadIdentity();
+             glRasterPos2i(x, y);// MET LE TEXTE EN BAS A GAUCHE 
+             for ( int i = 0; i < 12; ++i )
+             {
+                 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
+             }
+        glPopMatrix();
+        glMatrixMode( GL_PROJECTION );
     glPopMatrix();
     glMatrixMode( GL_MODELVIEW );
 }
-void moveVertical() {
-    if(ennemyPosY <= 1)
-        ennemyPosY += 0.001;
-    else
-        ennemyPosY -= 2;
 
+void text2(int x, int y, char text[])
+{glPushMatrix();
+    glColor3f(1,1,1);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+        glLoadIdentity();
+        //gluOrtho2D( 0, 600, 0, 600 );
+        glMatrixMode( GL_MODELVIEW );
+        glPushMatrix();
+            glLoadIdentity();
+             glRasterPos2i(x, y);// MET LE TEXTE EN BAS A GAUCHE 
+             for ( int i = 0; i < 10; ++i )
+             {
+                 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
+             }
+        glPopMatrix();
+        glMatrixMode( GL_PROJECTION );
+    glPopMatrix();
+    glMatrixMode( GL_MODELVIEW );
+    glPopMatrix();
+}
+
+void detectCollision(Square square, Enemy enemy) {
+    if(
+        (square.position.y + 0.2 >= enemy.position.y -0.2)
+        &&
+        (square.position.y - 0.2 <= enemy.position.y + 0.2)
+        &&
+        (square.position.x <= (enemy.position.x + 0.2))
+        &&
+        (square.position.x > (enemy.position.x - 0.2))
+    ){
+        strcpy(text2char, "WATCHOUT");
+    } else 
+        strcpy(text2char, "Ride man");
+
+}
+
+void moveVertical() {
+    if(_enemy.position.y >= -1)
+        _enemy.position.y -= 0.001;
+    else
+        _enemy.position.y += 2;
+    detectCollision(_square, _enemy);
 }
 
 void display(){
@@ -76,12 +109,13 @@ void display(){
     glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
     glLoadIdentity();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
-        glTranslatef(posX,posY,posZ);
+        glTranslatef(_square.position.x, _square.position.y, _square.position.z);
         rect();
-        text(xposRecord);
+        text(0, 0, _xposRecord);
+        text2(0, 0, text2char);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     glPushMatrix();
-        glTranslatef(ennemyPosX, ennemyPosY, ennemyPosZ);
+        glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
         drawEnemy();
     glPopMatrix();
     glutPostRedisplay();
@@ -103,6 +137,8 @@ void init(){
     glLoadIdentity();
     //gluOrtho2D(-1.0, 1.0, -1.0, 1.0);// parametre de camera (+-)
 
+    initSquare();
+    initEnemy();
 }
 
 int main(int argc, char** argv){
