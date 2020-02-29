@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include "movement/square.h"
 #include "graphic/enemy.h"
+#include "utils/calculus.h"
 
 #define WINDOWWIDTH 500
 #define WINDOWHEIGHT 500
@@ -95,11 +96,17 @@ void detectCollision(Square square, Enemy enemy) {
 
 }
 
+void setRandomXPosition(Enemy* enemy) {
+    enemy->position.x = floatRandom(-0.8, 0.8);
+}
+
 void moveVertical() {
     if(_enemy.position.y >= -1)
         _enemy.position.y -= 0.001;
-    else
+    else {
         _enemy.position.y += 2;
+        setRandomXPosition(&_enemy);
+    }
     detectCollision(_square, _enemy);
 }
 
