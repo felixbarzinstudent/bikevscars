@@ -9,6 +9,7 @@ extern char _xposRecord[]; // string qui enregistre la position en x de l'objet 
 typedef struct Square {
     struct Coordinates position;
     int life;
+    int state; // bonus in game : état invincible (1), état plus rapide, ...
 } Square;
 
 extern struct Square _square;
@@ -43,5 +44,17 @@ float cantGoOut(float coordinate);
 * Post-condition:
 */
 void keyboardown(int key, int x, int y);
+/*
+* Cette fonction retire une vie au carré. Fin du jeu si plus de vies.
+* Retourne 0 si rien ne se passe
+* Retourne 1 si une vie a été perdue
+* Retourne 2 si le stock de vie est vide
+* @Param {square} le carré qui doit perdre une vie
+* Pré-condition :
+* Post-condition:
+*/
+int lifeLoss(Square* square);
+void lifeGain(Square* square);
+void pointGain();
 
 #endif

@@ -5,10 +5,13 @@
 */
 
 #include <../GL/glut.h>
-#include "square.h"
-#include <string.h>
-#include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
+#include "square.h"
 
 /* initialisation des variables */
 char _xposRecord[12] = "Start"; // initialise la variable qui enregistre en temps réel la position de l'objet (dans le but de l'afficher à l'écran)
@@ -19,6 +22,7 @@ void initSquare() {
     _square.position.y = 0;
     _square.position.z = 0;
     _square.life = 3;
+    _square.state = 0;
 }
 
 void formatCoordinates(float coordinate) {
@@ -34,8 +38,7 @@ float cantGoOut(float coordinate) {
         return coordinate >= -1.0f ? coordinate : -1.0f;
 }
 
-void keyboardown(int key, int x, int y)
-{
+void keyboardown(int key, int x, int y) {
     float move_unit = round(10*0.1)/10;// TODO : comment faire pour retirer l'imprécision du float ?
     move_unit-=0.000000001;
     switch (key){
@@ -64,4 +67,32 @@ void keyboardown(int key, int x, int y)
     formatCoordinates(_square.position.x);
 
     glutPostRedisplay();
+}
+
+bool lock = false;
+time_t seconds = 0;
+const int invicibilityDuration = 5;
+int lifeLoss(Square* square) {
+    time_t secondsLater;
+    secondsLater = time(NULL);
+
+    if(lock && (secondsLater - seconds) > invicibilityDuration){
+        lock = false;
+    }
+
+    if (square->life < 0){
+        // TODO : end of game
+        return 2;
+    } else {
+        if (!lock) { // je bloque cette partie du code car quand on perd une vie, on devient invincible pendant un certain laps de temps
+            lock = true;
+            seconds = time(NULL); 
+            square->life -= 1;
+            _square.state = 1; // invincible
+            return 1;
+        }
+
+    }
+
+    return 0;
 }

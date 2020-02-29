@@ -5,6 +5,7 @@
 #include "graphic/enemy.h"
 #include "utils/calculus.h"
 #include "utils/textTools.h"
+#include "utils/timerTools.h"
 
 #define WINDOWWIDTH 500
 #define WINDOWHEIGHT 500
@@ -27,8 +28,16 @@ void reshape(int width, int heigth){ // fonction de rappel pour les redimensionn
 }
 
 void rect(){
+    if(_square.state == 1) { // 1 == invincible
+        glColor4f(1.0, 0.0, 0.0, 0.1);
+        if(!timerInvincibilityFunc(5)) { 
+            _square.state = 0; // annule l'invincibilité
+        }
+
+    } else
+        glColor4f(1.0, 0.0, 0.0, 1.0);
+
     glBegin(GL_POLYGON);
-        glColor3f(1.0, 0.0, 0.0);
         glVertex2f(-0.1, -0.2);
         glVertex2f(-0.1, 0.2);
         glVertex2f(0.1, 0.2);
@@ -47,6 +56,7 @@ void detectCollision(Square square, Enemy enemy) {
         (square.position.x > (enemy.position.x - 0.2))
     ){
         strcpy(_textCollision, "Collision : true");
+        int isLifeLoss = lifeLoss(&_square); // TODO : make void ?
     } else 
         strcpy(_textCollision, "Collision : false");
 
@@ -92,8 +102,9 @@ void init(){
     glClearColor(0.0, 0.0, 0.0, 0.0);
 
     // set fill color to white
-    glColor3f(1.0, 1.0, 1.0);
-
+    //glColor3f(1.0, 1.0, 1.0);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //set up standard orthogonal view with clipping
     //box as cube of side 2 centered at origin
     //This is the default view and these statements could be removed
