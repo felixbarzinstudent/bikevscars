@@ -8,6 +8,7 @@ extern char _xposRecord[]; // string qui enregistre la position en x de l'objet 
 
 typedef struct Square {
     struct Coordinates position;
+    int life;
 } Square;
 
 extern struct Square _square;

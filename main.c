@@ -4,11 +4,10 @@
 #include "movement/square.h"
 #include "graphic/enemy.h"
 #include "utils/calculus.h"
+#include "utils/textTools.h"
 
 #define WINDOWWIDTH 500
 #define WINDOWHEIGHT 500
-
-char text2char[10] = "";
 
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
 
@@ -37,49 +36,6 @@ void rect(){
     glEnd();
 }
 
-void text(int x, int y, char text[])
-{
-    glColor3f(1,1,1);
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-        glLoadIdentity();
-        gluOrtho2D( 0, 600, 0, 600 );
-        glMatrixMode( GL_MODELVIEW );
-        glPushMatrix();
-            glLoadIdentity();
-             glRasterPos2i(x, y);// MET LE TEXTE EN BAS A GAUCHE 
-             for ( int i = 0; i < 12; ++i )
-             {
-                 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
-             }
-        glPopMatrix();
-        glMatrixMode( GL_PROJECTION );
-    glPopMatrix();
-    glMatrixMode( GL_MODELVIEW );
-}
-
-void text2(int x, int y, char text[])
-{glPushMatrix();
-    glColor3f(1,1,1);
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-        glLoadIdentity();
-        //gluOrtho2D( 0, 600, 0, 600 );
-        glMatrixMode( GL_MODELVIEW );
-        glPushMatrix();
-            glLoadIdentity();
-             glRasterPos2i(x, y);// MET LE TEXTE EN BAS A GAUCHE 
-             for ( int i = 0; i < 10; ++i )
-             {
-                 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
-             }
-        glPopMatrix();
-        glMatrixMode( GL_PROJECTION );
-    glPopMatrix();
-    glMatrixMode( GL_MODELVIEW );
-    glPopMatrix();
-}
-
 void detectCollision(Square square, Enemy enemy) {
     if(
         (square.position.y + 0.2 >= enemy.position.y -0.2)
@@ -90,14 +46,14 @@ void detectCollision(Square square, Enemy enemy) {
         &&
         (square.position.x > (enemy.position.x - 0.2))
     ){
-        strcpy(text2char, "WATCHOUT");
+        strcpy(_textCollision, "Collision : true");
     } else 
-        strcpy(text2char, "Ride man");
+        strcpy(_textCollision, "Collision : false");
 
 }
 
 void setRandomXPosition(Enemy* enemy) {
-    enemy->position.x = floatRandom(-0.8, 0.8);
+    enemy->position.x = floatRandom(-0.70, 0.70);
 }
 
 void moveVertical() {
@@ -114,12 +70,13 @@ void display(){
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
+    displayLife(&_square);
     glLoadIdentity();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
         glTranslatef(_square.position.x, _square.position.y, _square.position.z);
         rect();
-        text(0, 0, _xposRecord);
-        text2(0, 0, text2char);
+        displaySquarePositionX(0, 0, _xposRecord, WINDOWWIDTH, WINDOWHEIGHT);
+        displayCollision(-1, 0, _textCollision);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     glPushMatrix();
         glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);

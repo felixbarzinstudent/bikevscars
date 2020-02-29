@@ -18,6 +18,7 @@ void initSquare() {
     _square.position.x = 0;
     _square.position.y = 0;
     _square.position.z = 0;
+    _square.life = 3;
 }
 
 void formatCoordinates(float coordinate) {
