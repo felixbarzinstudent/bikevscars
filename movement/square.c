@@ -21,7 +21,7 @@ void initSquare() {
     _square.position.x = 0;
     _square.position.y = 0;
     _square.position.z = 0;
-    _square.life = 3;
+    _square.life = 1;
     _square.state = 0;
 }
 
@@ -72,7 +72,7 @@ void keyboardown(int key, int x, int y) {
 bool lock = false;
 time_t seconds = 0;
 const int invicibilityDuration = 5;
-int lifeLoss(Square* square) {
+void lifeLoss(Square* square) {
     time_t secondsLater;
     secondsLater = time(NULL);
 
@@ -82,17 +82,17 @@ int lifeLoss(Square* square) {
 
     if (square->life < 0){
         // TODO : end of game
-        return 2;
+        //return 2;
     } else {
         if (!lock) { // je bloque cette partie du code car quand on perd une vie, on devient invincible pendant un certain laps de temps
             lock = true;
             seconds = time(NULL); 
             square->life -= 1;
             _square.state = 1; // invincible
-            return 1;
+            //return 1;
         }
 
     }
 
-    return 0;
+    //return 0;
 }

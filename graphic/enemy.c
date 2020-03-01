@@ -5,7 +5,7 @@
 struct Enemy _enemy;
 
 void initEnemy() {
-    _enemy.position.x = 0;
+    _enemy.position.x = -0.75;
     _enemy.position.y = 0;
     _enemy.position.z = 0;
 }

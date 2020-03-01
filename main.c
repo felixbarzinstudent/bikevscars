@@ -6,9 +6,21 @@
 #include "utils/calculus.h"
 #include "utils/textTools.h"
 #include "utils/timerTools.h"
+#include "view/start-menu.h"
 
+/* définition des variables */
 #define WINDOWWIDTH 500
 #define WINDOWHEIGHT 500
+
+/*
+* définition des variables globales
+* variables globales relatives aux numéros des fenêtres du programme
+* Ces propriétés sont settées au moment ou la fenêtre est crée, il ne faut en aucun cas les 
+* modifier ensuite
+* 0 = fenetre menu départ
+* 1 = fenetre de jeux
+*/
+int numWindows[2];
 
 void reshape(int width, int heigth){ // fonction de rappel pour les redimensionnements de la fenetre
 
@@ -20,7 +32,7 @@ void reshape(int width, int heigth){ // fonction de rappel pour les redimensionn
     if (width < heigth) {
         glOrtho(-2.0, 2.0, -2.0 * (GLfloat)heigth / (GLfloat)width, 2.0 * (GLfloat)heigth / (GLfloat)width, 2.0, 2.0);
     }
-    else{
+    else {
         glOrtho(-2.0, 2.0, -2.0 * (GLfloat)width / (GLfloat)heigth, 2.0 * (GLfloat)width / (GLfloat)heigth,2.0 , 2.0);
     }
     // set viewport to use the entire new window
@@ -56,7 +68,7 @@ void detectCollision(Square square, Enemy enemy) {
         (square.position.x > (enemy.position.x - 0.2))
     ){
         strcpy(_textCollision, "Collision : true");
-        int isLifeLoss = lifeLoss(&_square); // TODO : make void ?
+        lifeLoss(&_square); // TODO : make void ?
     } else 
         strcpy(_textCollision, "Collision : false");
 
@@ -67,35 +79,50 @@ void setRandomXPosition(Enemy* enemy) {
 }
 
 void moveVertical() {
-    if(_enemy.position.y >= -1)
-        _enemy.position.y -= 0.001;
-    else {
-        _enemy.position.y += 2;
-        setRandomXPosition(&_enemy);
+    if(_square.life > 0) { // quand le vélo n'a plus de vie, les ennemis s'arretent
+        if(_enemy.position.y >= -1)
+            _enemy.position.y -= 0.001;
+        else {
+            _enemy.position.y += 2;
+            setRandomXPosition(&_enemy);
+        }
+        detectCollision(_square, _enemy);
     }
-    detectCollision(_square, _enemy);
+}
+
+// UNUSED
+void drawMenu() {
+    glBegin(GL_POLYGON);
+        glColor3f(0.0, 1.0, 0.0);
+        glVertex2f(-1.0, -1.0);
+        glVertex2f(-1.0, -0.5);
+        glVertex2f(1.0, -0.5);
+        glVertex2f(1.0, -1.0);
+    glEnd();
 }
 
 void display(){
-    //Clear Window
-    glClear(GL_COLOR_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
-    displayLife(&_square);
-    glLoadIdentity();
-    glPushMatrix();// sauvegarde l'état actuel de la matrice
-        glTranslatef(_square.position.x, _square.position.y, _square.position.z);
-        rect();
-        displaySquarePositionX(0, 0, _xposRecord, WINDOWWIDTH, WINDOWHEIGHT);
-        displayCollision(-1, 0, _textCollision);
-    glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
-    glPushMatrix();
-        glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
-        drawEnemy();
-    glPopMatrix();
-    glutPostRedisplay();
-    glutSwapBuffers(); // permute buffers
-}
+    if(glutGetWindow() == numWindows[1]) { // si la fenetre courante (ouverte) est celle du jeu, alors le jeu peu être activé
+        //Clear Window
+        glClear(GL_COLOR_BUFFER_BIT);
+        glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
+        displayLife(&_square);
+        glLoadIdentity();
+        glPushMatrix();// sauvegarde l'état actuel de la matrice
+            glTranslatef(_square.position.x, _square.position.y, _square.position.z);
+            rect();
+            displaySquarePositionX(0, 0, _xposRecord, WINDOWWIDTH, WINDOWHEIGHT);
+            displayCollision(-1, 0, _textCollision);
+        glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
+        glPushMatrix();
+            glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
+            drawEnemy();
+        glPopMatrix();
+        glutPostRedisplay();
+        glutSwapBuffers(); // permute buffers
+    }
 
+}
 
 void init(){
     // set clear color to black
@@ -123,13 +150,18 @@ int main(int argc, char** argv){
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); //GLUT_DOUBLE pour activer le double buffering et GLUT_RGBA pour activer le mode couleur 32 bits
+    
     glutInitWindowSize(WINDOWWIDTH, WINDOWHEIGHT);
     glutInitWindowPosition(0, 0);
-    glutCreateWindow("Practice 1");
+    numWindows[1] = glutCreateWindow("Bike VS Cars");
     glutDisplayFunc(display);
     init();
     glutIdleFunc(moveVertical);//activation du callback
     glutSpecialFunc(keyboardown);
+
+    /* fenêtre du menu de départ */
+    windowMenu(numWindows);
+
     glutMainLoop();
 
 }

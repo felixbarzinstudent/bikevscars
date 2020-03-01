@@ -1,5 +1,5 @@
-appexe : movement/square.o graphic/enemy.o utils/calculus.o utils/textTools.o utils/timerTools.o main.o
-	gcc -g movement/square.o graphic/enemy.o utils/calculus.o utils/textTools.o utils/timerTools.o main.o -o appexe -lglut -lGLU -lGL 
+appexe : movement/square.o graphic/enemy.o utils/calculus.o utils/textTools.o utils/timerTools.o view/start-menu.o main.o
+	gcc -g movement/square.o graphic/enemy.o utils/calculus.o utils/textTools.o utils/timerTools.o view/start-menu.o main.o -o appexe -lglut -lGLU -lGL 
 movement/square.o: movement/square.c
 	gcc -g -c movement/square.c -o movement/square.o -Wall -std=c99
 graphic/ennemy.o: graphic/enemy.c
@@ -10,6 +10,8 @@ utils/textTools.o : utils/textTools.c
 	gcc -g -c utils/textTools.c -o utils/textTools.o -Wall -std=c99
 utils/timerTools.o : utils/timerTools.c
 	gcc -g -c utils/timerTools.c -o utils/timerTools.o -Wall -std=c99
+view/start-menu.o : view/start-menu.c
+	gcc -g -c view/start-menu.c -o view/start-menu.o -Wall -std=c99
 main.o: main.c movement/square.h graphic/enemy.h
 	gcc -g -c main.c -Wall -std=c99
 clean:
