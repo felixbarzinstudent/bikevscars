@@ -16,7 +16,31 @@ int numCurrentWindow;
 /*
 * Correspond à l'entrée, au main, de la fenêtre
 */
-void windowGame(int numWindows[]);
-void vClavier(unsigned char key, int x, int y);
-void vDisplay();
-void vReshape();
+void windowGame();
+/*
+* Cette fonction affiche la page de fin de jeux
+* Pré-condition :
+* Post-condition:
+*/
+void vDisplayGame();
+/*
+* Cette fonction orchestre le déplacement des ennemis depuis le dessus de l'écran vers le bas
+* Pré-condition :
+* Post-condition:
+*/
+void moveVertical();
+/*
+* Cette fonction est utile lors de la réinitialisation d'une partie
+* Pré-condition :
+* Post-condition:
+*/
+void initGame();
+/*
+* fonction qui change les coordonnées d'un objet sur le plan cartesien en fonction de la touche appuyée sur le clavier
+* @Param {key} identifie quelle touche a été appuyée
+* @Param {x} identifie la position de la souris sur l'axe X au moment ou la touche du clavier est appuyée (UNUSED)
+* @Param {y} identifie la position de la souris sur l'axe Y au moment ou la touche du clavier est appuyée (UNUSED)
+* Pré-condition :
+* Post-condition:
+*/
+ void keyboardownGame(int key, int x, int y);

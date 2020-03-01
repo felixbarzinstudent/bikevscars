@@ -6,10 +6,16 @@
 /* declaration des variables */
 extern char _xposRecord[]; // string qui enregistre la position en x de l'objet en mouvement
 
+/*
+* life : le nombre de vie restante du carré
+* state : le carré devient invincible après avoir perdu une vie. Je pourrais ajouter d'autres bonus de ce genre
+* invincibilityDuration : ce temps d'invincibilité est propre au carré, il déterminera le temps d'invincibilité + sprite
+*/
 typedef struct Square {
     struct Coordinates position;
     int life;
     int state; // bonus in game : état invincible (1), état plus rapide, ...
+    int invincibilityDuration;
 } Square;
 
 extern struct Square _square;
@@ -35,23 +41,18 @@ void formatCoordinates(float coordinate);
 * Post-condition:
 */
 float cantGoOut(float coordinate);
-/*
-* fonction qui change les coordonnées d'un objet sur le plan cartesien en fonction de la touche appuyée sur le clavier
-* @Param {key} identifie quelle touche a été appuyée
-* @Param {x} identifie la position de la souris sur l'axe X au moment ou la touche du clavier est appuyée (UNUSED)
-* @Param {y} identifie la position de la souris sur l'axe Y au moment ou la touche du clavier est appuyée (UNUSED)
-* Pré-condition :
-* Post-condition:
-*/
-void keyboardown(int key, int x, int y);
+
 /*
 * Cette fonction retire une vie au carré. Fin du jeu si plus de vies.
 * @Param {square} le carré qui doit perdre une vie
 * Pré-condition :
 * Post-condition:
 */
-void lifeLoss(Square* square);
+int lifeLoss(Square* square);
+
+//TODO
 void lifeGain(Square* square);
+//TODO
 void pointGain();
 
 #endif

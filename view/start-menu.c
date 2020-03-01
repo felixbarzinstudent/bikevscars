@@ -4,8 +4,10 @@
 #include "./start-menu.h"
 #include "./../movement/square.h" // TODO : pourquoi je dois importer square.h pour faire fonctionner textTools.h alors que textTools.h importe lui même square.h
 #include "./../utils/textTools.h"
+#include "./navigation.h"
 
 /* définititon des variables*/
+
 int numberWindowGame;
 
 /* définititon des fonctions */
@@ -13,17 +15,11 @@ int numberWindowGame;
 void vClavier_startmenu(unsigned char key, int x, int y);
 void vClavierSpecial_startmenu(int key, int x, int y);
 void vDisplay_startmenu();
-void vReshape_startmenu();
 
-void windowMenu(int numeroWindows[]) {
-    glutInitWindowSize(WIDTH_STARTMENU, HEIGHT_STARTMENU);
-	glutInitWindowPosition(XWINDOWPOSITION_STARTMENU, YWINDOWPOSITION_STARTMENU);
-	numeroWindows[0] = glutCreateWindow("Menu");
-    numberWindowGame = numeroWindows[1];
-	glutDisplayFunc(vDisplay_startmenu);
-	glutReshapeFunc(vReshape_startmenu);
+void windowMenu() {
+    glutDisplayFunc(vDisplay_startmenu);
     glutSpecialFunc(vClavierSpecial_startmenu); // up and down
-	glutKeyboardFunc(vClavier_startmenu); // enter
+    glutKeyboardFunc(vClavier_startmenu); // enter
 }
 
 void vClavierSpecial_startmenu(int key, int x, int y) 
@@ -43,8 +39,7 @@ void vClavierSpecial_startmenu(int key, int x, int y)
 
 void vClavier_startmenu(unsigned char key, int x, int y) {
     if (key == 13) {
-        glutHideWindow();
-        glutSetWindow(numberWindowGame);
+        setMainCurrentWindow(1); // todo changer le hardcode
     }
 }
 
@@ -57,8 +52,4 @@ void vDisplay_startmenu() {
     glLoadIdentity();
     glutPostRedisplay();
     glutSwapBuffers(); 
-}
-
-void vReshape_startmenu() {
-
 }
