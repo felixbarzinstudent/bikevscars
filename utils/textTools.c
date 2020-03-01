@@ -1,8 +1,8 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include <string.h>
 #include "./textTools.h"
 #include "./../movement/square.h"
-#include <string.h>
 
 char _textCollision[18] = "";
 

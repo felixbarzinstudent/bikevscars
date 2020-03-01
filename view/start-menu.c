@@ -6,27 +6,27 @@
 #include "./../utils/textTools.h"
 
 /* définititon des variables*/
-int windowGame;
+int numberWindowGame;
 
 /* définititon des fonctions */
 
-void vClavier(unsigned char key, int x, int y);
-void vClavierSpecial(int key, int x, int y);
-void vDisplay();
-void vReshape();
+void vClavier_startmenu(unsigned char key, int x, int y);
+void vClavierSpecial_startmenu(int key, int x, int y);
+void vDisplay_startmenu();
+void vReshape_startmenu();
 
 void windowMenu(int numeroWindows[]) {
-    glutInitWindowSize(WIDTH, HEIGHT);
-	glutInitWindowPosition(XWINDOWPOSITION, YWINDOWPOSITION);
+    glutInitWindowSize(WIDTH_STARTMENU, HEIGHT_STARTMENU);
+	glutInitWindowPosition(XWINDOWPOSITION_STARTMENU, YWINDOWPOSITION_STARTMENU);
 	numeroWindows[0] = glutCreateWindow("Menu");
-    windowGame = numeroWindows[1];
-	glutDisplayFunc(vDisplay);
-	glutReshapeFunc(vReshape);
-    glutSpecialFunc(vClavierSpecial); // up and down
-	glutKeyboardFunc(vClavier); // enter
+    numberWindowGame = numeroWindows[1];
+	glutDisplayFunc(vDisplay_startmenu);
+	glutReshapeFunc(vReshape_startmenu);
+    glutSpecialFunc(vClavierSpecial_startmenu); // up and down
+	glutKeyboardFunc(vClavier_startmenu); // enter
 }
 
-void vClavierSpecial(int key, int x, int y) 
+void vClavierSpecial_startmenu(int key, int x, int y) 
 {
 	switch (key){
         case GLUT_KEY_UP:
@@ -41,14 +41,14 @@ void vClavierSpecial(int key, int x, int y)
     }
 }
 
-void vClavier(unsigned char key, int x, int y) {
+void vClavier_startmenu(unsigned char key, int x, int y) {
     if (key == 13) {
         glutHideWindow();
-        glutSetWindow(windowGame);
+        glutSetWindow(numberWindowGame);
     }
 }
 
-void vDisplay() {
+void vDisplay_startmenu() {
     char text [] = "Press ENTER to start the game";
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
@@ -59,6 +59,6 @@ void vDisplay() {
     glutSwapBuffers(); 
 }
 
-void vReshape() {
+void vReshape_startmenu() {
 
 }

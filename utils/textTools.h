@@ -4,6 +4,7 @@
 
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include "./../movement/square.h"
 
 extern char _textCollision[18];
 
