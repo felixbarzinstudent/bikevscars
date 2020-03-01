@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "./game.h"
+#include "./navigation.h"
 #include "./../graphic/enemy.h"
 #include "./../movement/square.h"
 #include "./../utils/calculus.h"
@@ -10,6 +11,7 @@
 
 /* définititon des variables*/
 int numCurrentWindow;
+int windowEndGame_endGame;
 
 /* définititon des fonctions */
 void vClavier(unsigned char key, int x, int y);
@@ -27,6 +29,7 @@ void windowGame(int numWindows[]) {
     glutInitWindowPosition(XWINDOWPOSITION, YWINDOWPOSITION);
     numWindows[1] = glutCreateWindow("Bike VS Cars");
     numCurrentWindow = numWindows[1];
+    windowEndGame_endGame = numWindows[2];
     glutDisplayFunc(vDisplay);
     init();
     glutIdleFunc(moveVertical);//activation du callback
@@ -53,7 +56,7 @@ void vClavier(unsigned char key, int x, int y) {
 }
 
 void vDisplay() {
-    if(glutGetWindow() == numCurrentWindow) { // si la fenetre courante (ouverte) est celle du jeu, alors le jeu peu être activé
+    //if(glutGetWindow() == getCurrentMainWindow()) {
         //Clear Window
         glClear(GL_COLOR_BUFFER_BIT);
         glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
@@ -71,7 +74,7 @@ void vDisplay() {
         glPopMatrix();
         glutPostRedisplay();
         glutSwapBuffers(); // permute buffers
-    }
+    //}
 }
 
 void vReshape() {
@@ -91,14 +94,18 @@ void vReshape() {
 }
 
 void moveVertical() {
-    if(_square.life > 0) { // quand le vélo n'a plus de vie, les ennemis s'arretent
-        if(_enemy.position.y >= -1)
-            _enemy.position.y -= 0.001;
-        else {
-            _enemy.position.y += 2;
-            setRandomXPosition(&_enemy);
+    if(glutGetWindow() == getCurrentMainWindow()) {
+        //glutShowWindow();
+        if(_square.life > 0) { // quand le vélo n'a plus de vie, les ennemis s'arretent
+            if(_enemy.position.y >= -1)
+                _enemy.position.y -= 0.001;
+            else {
+                _enemy.position.y += 2;
+                setRandomXPosition(&_enemy);
+            }
+            detectCollision(_square, _enemy);
         }
-        detectCollision(_square, _enemy);
+
     }
 }
 
@@ -131,7 +138,14 @@ void detectCollision(Square square, Enemy enemy) {
         (square.position.x > (enemy.position.x - 0.2))
     ){
         strcpy(_textCollision, "Collision : true");
-        lifeLoss(&_square); // TODO : make void ?
+        int isEndOfGame = lifeLoss(&_square);
+        if (isEndOfGame == 1) {
+            glutHideWindow();
+            glutSetWindow(windowEndGame_endGame); //ouvre la fenêtre de fin de jeu
+            setCurrentMainWindow(windowEndGame_endGame);
+            glutShowWindow();
+            //glutDestroyWindow(glutGetWindow());
+        }
     } else 
         strcpy(_textCollision, "Collision : false");
 
@@ -155,7 +169,7 @@ void init(){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //gluOrtho2D(-1.0, 1.0, -1.0, 1.0);// parametre de camera (+-)
-
+    glutHideWindow();
     initSquare();
     initEnemy();
 }

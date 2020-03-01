@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "texttools.h": "c"
+        "texttools.h": "c",
+        "navigation.h": "c"
     }
 }

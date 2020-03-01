@@ -9,7 +9,7 @@
 #define YWINDOWPOSITION_STARTMENU 0
 
 /* définition des variables */
-int numWindow;
+int numberWindowGame;
 
 /* définition des fonctions*/
 

@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <string.h>
+#include "./navigation.h"
 #include "./start-menu.h"
 #include "./../movement/square.h" // TODO : pourquoi je dois importer square.h pour faire fonctionner textTools.h alors que textTools.h importe lui même square.h
 #include "./../utils/textTools.h"
@@ -44,7 +45,10 @@ void vClavierSpecial_startmenu(int key, int x, int y)
 void vClavier_startmenu(unsigned char key, int x, int y) {
     if (key == 13) {
         glutHideWindow();
+        //glutDestroyWindow(glutGetWindow());
         glutSetWindow(numberWindowGame);
+        glutShowWindow();
+        setCurrentMainWindow(numberWindowGame);
     }
 }
 

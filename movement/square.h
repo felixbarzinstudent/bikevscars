@@ -47,10 +47,12 @@ void keyboardown(int key, int x, int y);
 /*
 * Cette fonction retire une vie au carré. Fin du jeu si plus de vies.
 * @Param {square} le carré qui doit perdre une vie
+* Retourne 0 si le square a encore des vies
+* retourne 1 si le square n'a plus de vies
 * Pré-condition :
 * Post-condition:
 */
-void lifeLoss(Square* square);
+int lifeLoss(Square* square);
 void lifeGain(Square* square);
 void pointGain();
 
