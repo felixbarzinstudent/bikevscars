@@ -1,18 +1,20 @@
 #include <GL/glut.h>
+#include <math.h> 
 #include <stdio.h>
 #include <string.h>
 #include "./game.h"
+#include "./navigation.h"
 #include "./../graphic/enemy.h"
+#include "./../linked-list/shot-list.h"
 #include "./../movement/square.h"
 #include "./../utils/calculus.h"
 #include "./../utils/textTools.h"
 #include "./../utils/timerTools.h"
-#include "./navigation.h"
-#include <math.h> 
 
 /* définititon des variables*/
 int numCurrentWindow;
 bool isInitGame = false;
+List* shotList;
 
 /* définititon des fonctions */
 void vDisplayGame();
@@ -22,12 +24,16 @@ void detectCollision(Square square, Enemy enemy);
 void setRandomXPosition(Enemy* enemy);
 void initGame();
 void keyboardownGame();
+void clavierGame(unsigned char key, int x, int y);
+void shoot();
+void drawShots();
 
 void windowGame() {
     initGame();
     glutDisplayFunc(vDisplayGame);
     moveVertical();
     glutSpecialFunc(keyboardownGame);
+    glutKeyboardFunc(clavierGame);
 }
 
 void vDisplayGame() {
@@ -42,6 +48,7 @@ void vDisplayGame() {
         displaySquarePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
         displayCollision(-1, 0, _textCollision);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
+    drawShots();
     glPushMatrix();
         glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
         drawEnemy();
@@ -78,6 +85,47 @@ void drawSquare(){
         glVertex2f(0.1, 0.2);
         glVertex2f(0.1, -0.2);
     glEnd();
+    
+}
+
+void drawShots() {
+    glColor4f(1.0, 1.0, 1.0, 0.1);
+    int shotsCount = length(shotList);
+    if(shotsCount > 0) {
+        
+        if(shotList->first != NULL) {
+            glPushMatrix();
+            shotList->first->position.y += shotList->first->speed;
+            glTranslatef(shotList->first->position.x, shotList->first->position.y, shotList->first->position.z);
+            glBegin(GL_POLYGON);
+                glVertex2f(-0.05, -0.1);
+                glVertex2f(-0.05, 0.1);
+                glVertex2f(0.05, 0.1);
+                glVertex2f(0.05, -0.1);
+            glEnd();
+            glPopMatrix();
+        } else {
+            exit(EXIT_FAILURE);
+        }
+
+        if(shotsCount > 1) {
+            Shot* current = shotList->first->next;
+            while(current != NULL) {
+                glPushMatrix(); 
+                current->position.y += current->speed;
+                glTranslatef(current->position.x, current->position.y, current->position.z);
+                glBegin(GL_POLYGON);
+                    glVertex2f(-0.05, -0.1);
+                    glVertex2f(-0.05, 0.1);
+                    glVertex2f(0.05, 0.1);
+                    glVertex2f(0.05, -0.1);
+                glEnd();
+                glPopMatrix(); 
+                current = current->next;
+            }
+
+        }
+    }
 }
 
 void detectCollision(Square square, Enemy enemy) {
@@ -123,6 +171,7 @@ void initGame(){
         initSquare();
         initEnemy();
         isInitGame = true;
+        shotList = newList();
     }
 }
 
@@ -155,4 +204,20 @@ void keyboardownGame(int key, int x, int y) {
     formatCoordinates(_square.position.x);
 
     glutPostRedisplay();
+}
+
+void shoot() {
+    struct Shot shot;
+    shot.position.x = _square.position.x;
+    shot.position.y = _square.position.y;
+    shot.position.z = 0;
+    shot.speed = 0.001;
+    insertFront(shotList, shot);
+}
+
+void clavierGame(unsigned char key, int x, int y) {
+    if (key == 32) {
+        // todo : shoot frequency (ex : pas plus de 3 tir/seconde)
+        shoot();
+    }
 }

@@ -43,4 +43,16 @@ void initGame();
 * Pré-condition :
 * Post-condition:
 */
- void keyboardownGame(int key, int x, int y);
+void keyboardownGame(int key, int x, int y);
+/*
+* Cette fonction permet la gestion des touches normales appuyée sur le clavier (espace, ...)
+*/
+void clavierGame(unsigned char key, int x, int y);
+/*
+* Cette fonction initialise le tir : vitesse de la munition, position, ...
+*/
+void shoot();
+/*
+* Cette fonction dessine les tirs dans ka fenêtre de jeux
+*/
+void drawShots();
