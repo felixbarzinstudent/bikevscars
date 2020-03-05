@@ -13,6 +13,7 @@ struct Shot
     struct Coordinates position;
     float speed;
     Shot *next;
+    Shot *previous;
 };
 
 typedef struct List
@@ -42,4 +43,6 @@ void insertFront(List* ls, Shot shot);
 */
 int length(List* ls);
 
+
+void delete(List *ls, Shot* shot);
 #endif

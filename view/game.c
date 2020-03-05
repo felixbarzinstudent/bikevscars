@@ -21,6 +21,7 @@ void vDisplayGame();
 void moveVertical();
 void drawSquare();
 void detectCollision(Square square, Enemy enemy);
+void detectCollisionShot(List* shotList, Enemy* enemy);
 void setRandomXPosition(Enemy* enemy);
 void initGame();
 void keyboardownGame();
@@ -64,8 +65,10 @@ void moveVertical() {
         else {
             _enemy.position.y += 2;
             setRandomXPosition(&_enemy);
+            _enemy.isAlive = true; //redonne vie a l ennemi
         }
         detectCollision(_square, _enemy);
+        detectCollisionShot(shotList, &_enemy);
     }
 }
 
@@ -130,6 +133,8 @@ void drawShots() {
 
 void detectCollision(Square square, Enemy enemy) {
     if(
+        enemy.isAlive == true
+        &&
         (square.position.y + 0.2 >= enemy.position.y -0.2)
         &&
         (square.position.y - 0.2 <= enemy.position.y + 0.2)
@@ -147,6 +152,31 @@ void detectCollision(Square square, Enemy enemy) {
         }
     } else 
         strcpy(_textCollision, "Collision : false");
+
+}
+
+void detectCollisionShot(List* shotList, Enemy* enemy) {
+    if (shotList->size > 0) {
+        Shot* current = shotList->first;
+        while(current != NULL) {
+            if (
+                (current->position.y >= enemy->position.y - 0.2)
+                &&
+                (current->position.y <= enemy->position.y + 0.2)
+                &&
+                (current->position.x <= enemy->position.x + 0.2)
+                &&
+                (current->position.x > enemy->position.x - 0.2)
+                ) {
+                 enemy->isAlive = false; 
+                delete(shotList, current); 
+            } else if(current->position.y > 1) { 
+                delete(shotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
+            } 
+            current = current->next;
+        }
+
+    }
 
 }
 
