@@ -20,8 +20,8 @@ List* shotList;
 /* définititon des fonctions */
 void vDisplayGame();
 void moveVertical();
-void drawSquare();
-void detectCollision(Square square, Enemy enemy);
+void drawBike();
+void detectCollision(Bike bike, Enemy enemy);
 void detectCollisionShot(List* shotList, Enemy* enemy);
 void setRandomXPosition(Enemy* enemy);
 void initGame();
@@ -42,12 +42,12 @@ void vDisplayGame() {
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
-    displayLife(&_square);
+    displayLife(&_bike);
     glLoadIdentity();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
-        glTranslatef(_square.position.x, _square.position.y, _square.position.z);
-        drawSquare();
-        displaySquarePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
+        glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
+        drawBike();
+        displayBikePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
         displayCollision(-1, 0, _textCollision);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots();
@@ -60,7 +60,7 @@ void vDisplayGame() {
 }
 
 void moveVertical() {
-    if(_square.life >= 1) { // quand le vélo n'a plus de vie, les ennemis s'arretent
+    if(_bike.life >= 1) { // quand le vélo n'a plus de vie, les ennemis s'arretent
         if(_enemy.position.y >= -1)
             _enemy.position.y -= 0.001;
         else {
@@ -68,16 +68,16 @@ void moveVertical() {
             setRandomXPosition(&_enemy);
             _enemy.isAlive = true; //redonne vie a l ennemi
         }
-        detectCollision(_square, _enemy);
+        detectCollision(_bike, _enemy);
         detectCollisionShot(shotList, &_enemy);
     }
 }
 
-// void drawSquare(){
-//     if(_square.state == 1) { // 1 == invincible
+// void drawBike(){
+//     if(_bike.state == 1) { // 1 == invincible
 //         glColor4f(1.0, 0.0, 0.0, 0.1);
-//         if(!timerInvincibilityFunc(_square.invincibilityDuration)) { 
-//             _square.state = 0; // annule l'invincibilité
+//         if(!timerInvincibilityFunc(_bike.invincibilityDuration)) { 
+//             _bike.state = 0; // annule l'invincibilité
 //         }
 
 //     } else
@@ -132,24 +132,24 @@ void drawShots() {
     }
 }
 
-void detectCollision(Square square, Enemy enemy) {
+void detectCollision(Bike bike, Enemy enemy) {
     if(
         enemy.isAlive == true
         &&
-        (square.position.y + 0.2 >= enemy.position.y -0.2)
+        (bike.position.y + 0.2 >= enemy.position.y -0.2)
         &&
-        (square.position.y - 0.2 <= enemy.position.y + 0.2)
+        (bike.position.y - 0.2 <= enemy.position.y + 0.2)
         &&
-        (square.position.x <= (enemy.position.x + 0.2))
+        (bike.position.x <= (enemy.position.x + 0.2))
         &&
-        (square.position.x > (enemy.position.x - 0.2))
+        (bike.position.x > (enemy.position.x - 0.2))
     ){
         strcpy(_textCollision, "Collision : true");
-        int isLowLife = lifeLoss(&_square); // TODO : make void ?
+        int isLowLife = lifeLoss(&_bike); // TODO : make void ?
         if(isLowLife == 1) {
             setMainCurrentWindow(2);
             isInitGame = false; // pour que le jeu puisse se réinitialiser
-            _square.state = 0; // reinitialise l'etat du carré 
+            _bike.state = 0; // reinitialise l'etat du carré 
         }
     } else 
         strcpy(_textCollision, "Collision : false");
@@ -201,7 +201,7 @@ void initGame(){
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
 
-        initSquare();
+        initBike();
         initEnemy();
         isInitGame = true;
         shotList = newList();
@@ -213,36 +213,36 @@ void keyboardownGame(int key, int x, int y) {
     move_unit-=0.000000001;
     switch (key){
         case GLUT_KEY_RIGHT:
-            _square.position.x += move_unit;
+            _bike.position.x += move_unit;
             break;
 
         case GLUT_KEY_LEFT:
-            _square.position.x -= move_unit;
+            _bike.position.x -= move_unit;
             break;
 
         case GLUT_KEY_UP:
-            _square.position.y += move_unit;
+            _bike.position.y += move_unit;
             break;
 
         case GLUT_KEY_DOWN:
-            _square.position.y -= move_unit;
+            _bike.position.y -= move_unit;
         break;
 
         default:
         break;
     }
     
-    _square.position.x = cantGoOut(_square.position.x);
-    _square.position.y = cantGoOut(_square.position.y);
-    formatCoordinates(_square.position.x);
+    _bike.position.x = cantGoOut(_bike.position.x);
+    _bike.position.y = cantGoOut(_bike.position.y);
+    formatCoordinates(_bike.position.x);
 
     glutPostRedisplay();
 }
 
 void shoot() {
     struct Shot shot;
-    shot.position.x = _square.position.x;
-    shot.position.y = _square.position.y;
+    shot.position.x = _bike.position.x;
+    shot.position.y = _bike.position.y;
     shot.position.z = 0;
     shot.speed = 0.001;
     insertFront(shotList, shot);

@@ -14,30 +14,30 @@
 * state : le vélo devient invincible après avoir perdu une vie. Je pourrais ajouter d'autres bonus de ce genre
 * invincibilityDuration : ce temps d'invincibilité est propre au vélo, il déterminera le temps d'invincibilité + sprite
 */
-typedef struct Square {
-    struct Coordinates position;
+typedef struct Bike {
+    struct Coordinate position;
     int life;
     int state; // bonus in game : état invincible (1), état plus rapide, ...
     int invincibilityDuration;
-} Square;
+} Bike;
 
-extern struct Square _square;
+extern struct Bike _bike;
 
 /*
-* Cette fonction initialise la position du square
+* Cette fonction initialise la position du bike
 */
-void initSquare();
+void initBike();
 
 /*
 * Cette fonction retire une vie au carré. Fin du jeu si plus de vies.
-* @Param {square} le carré qui doit perdre une vie
+* @Param {bike} le carré qui doit perdre une vie
 * Pré-condition :
 * Post-condition:
 */
-int lifeLoss(Square* square);
+int lifeLoss(Bike* bike);
 
 //TODO
-void lifeGain(Square* square);
+void lifeGain(Bike* bike);
 //TODO
 void pointGain();
 

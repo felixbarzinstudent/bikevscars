@@ -10,7 +10,7 @@
 typedef struct Shot Shot;
 struct Shot
 {
-    struct Coordinates position;
+    struct Coordinate position;
     float speed;
     Shot *next;
     Shot *previous;

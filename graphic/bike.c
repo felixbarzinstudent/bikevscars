@@ -6,22 +6,22 @@
 /* initialisation des variables */
 const int invicibilityDuration = 4;
 
-struct Square _square;
+struct Bike _bike;
 
-void initSquare() {
-    _square.position.x = 0;
-    _square.position.y = 0;
-    _square.position.z = 0;
-    _square.life = 2;
-    _square.state = 0;
-    _square.invincibilityDuration = invicibilityDuration;
+void initBike() {
+    _bike.position.x = 0;
+    _bike.position.y = 0;
+    _bike.position.z = 0;
+    _bike.life = 2;
+    _bike.state = 0;
+    _bike.invincibilityDuration = invicibilityDuration;
 }
 
-void drawSquare(){
-    if(_square.state == 1) { // 1 == invincible
+void drawBike(){
+    if(_bike.state == 1) { // 1 == invincible
         glColor4f(1.0, 0.0, 0.0, 0.1);
-        if(!timerInvincibilityFunc(_square.invincibilityDuration)) { 
-            _square.state = 0; // annule l'invincibilité
+        if(!timerInvincibilityFunc(_bike.invincibilityDuration)) { 
+            _bike.state = 0; // annule l'invincibilité
         }
 
     } else
@@ -38,10 +38,10 @@ void drawSquare(){
 
 bool lock = false;
 time_t seconds = 0;
-int lifeLoss(Square* square) {
+int lifeLoss(Bike* bike) {
     time_t secondsLater;
     secondsLater = time(NULL);
-    _square.state = 1; // invincible
+    _bike.state = 1; // invincible
 
     if(lock && (secondsLater - seconds) > invicibilityDuration){
         lock = false;
@@ -50,8 +50,8 @@ int lifeLoss(Square* square) {
     if (!lock) { // je bloque cette partie du code car quand on perd une vie, on devient invincible pendant un certain laps de temps
         lock = true;
         seconds = time(NULL); 
-        square->life -= 1;
-        if(square->life == 0){
+        bike->life -= 1;
+        if(bike->life == 0){
             seconds = 0;
             return 1;
         }

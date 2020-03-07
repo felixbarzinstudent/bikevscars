@@ -1,5 +1,5 @@
-#ifndef SQUARE_H
-#define SQUARE_H
+#ifndef BIKEMOVEMENT_H
+#define BIKEMOVEMENT_H
 
 #include "../graphic/coordinate.h"
 

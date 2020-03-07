@@ -15,7 +15,7 @@ int numberWindowStartMenu;
 void vClavier_endgame(unsigned char key, int x, int y);
 void vClavierSpecial_endgame(int key, int x, int y);
 void vDisplay_endgame();
-void drawSquare_endgame();
+void drawBike_endgame();
 void initEndGame();
 
 void windowEndGame() {
@@ -58,8 +58,8 @@ void vDisplay_endgame() {
         writeOnWindow(-1, 0.9, text, strlen(text));
         glLoadIdentity();
         glPushMatrix();// sauvegarde l'état actuel de la matrice
-            glTranslatef(_square.position.x, _square.position.y, _square.position.z);
-            drawSquare_endgame();
+            glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
+            drawBike_endgame();
         glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
         glPushMatrix();
             glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
@@ -69,7 +69,7 @@ void vDisplay_endgame() {
         glutSwapBuffers(); // permute buffers
 }
 
-void drawSquare_endgame(){
+void drawBike_endgame(){
     glColor4f(1.0, 0.0, 0.0, 1.0);
 
     glBegin(GL_POLYGON);

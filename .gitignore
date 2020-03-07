@@ -1,3 +1,9 @@
+**/backup
+**/graphic/backup
+**/linked-list/backup
+**/movement/backup
+**/utils/backup
+**/view/backup
 # Prerequisites
 *.d
 

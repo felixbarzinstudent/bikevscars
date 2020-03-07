@@ -22,11 +22,11 @@ void concatArrayOfString(char* string1, char* string2, int sizeString2, char* ou
 	 strncat(string1, string2, sizeString2);
 }
 
-void displayLife(Square* square) {
+void displayLife(Bike* bike) {
 	int size = 6;
 	char lifeText [] = "Life: ";
 	char lifeArray[size];
-	for(int i = 0; i < ((square->life) * 2); i++){
+	for(int i = 0; i < ((bike->life) * 2); i++){
 		if (i%2 == 0) {
 			lifeArray[i] = '|';
 		} else {
@@ -39,7 +39,7 @@ void displayLife(Square* square) {
 	writeOnWindow(-1, 0.9, lifeText, 15);
 }
 
-void displaySquarePositionX(int x, int y, char text[], int windowWidth, int windowHeight) {
+void displayBikePositionX(int x, int y, char text[], int windowWidth, int windowHeight) {
     glColor3f(1,1,1);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();

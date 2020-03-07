@@ -5,10 +5,10 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
-typedef struct Coordinates {
+typedef struct Coordinate {
     float x;
     float y;
     float z;
-} Coordinates;
+} Coordinate;
 
 #endif

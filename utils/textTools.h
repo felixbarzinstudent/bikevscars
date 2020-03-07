@@ -18,9 +18,9 @@ extern char _textCollision[18];
 void writeOnWindow(float x, float y, char text[], int size);
 /*
 * Cette fonction affiche la vie restante du carré
-* @Param {square} objet dont la vie doit être affichée
+* @Param {bike} objet dont la vie doit être affichée
 */
-void displayLife(Square* square);
+void displayLife(Bike* bike);
 /*
 * Cette fonction affiche le texte des collisions
 * @Param {x} position en X sur la fenêtre
@@ -36,4 +36,4 @@ void displayCollision(int x, int y, char text[]);
 * @Param {windowWidth} largeur de la fenêtre
 * @Param {windowHeight} largeur de la fenêtre
 */
-void displaySquarePositionX(int x, int y, char text[], int windowWidth, int windowHeight);
+void displayBikePositionX(int x, int y, char text[], int windowWidth, int windowHeight);

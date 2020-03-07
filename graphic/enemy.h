@@ -8,7 +8,7 @@
 /* définition des structures */
 /* Ce struct représente un ennemi présent dans le jeu. Cet ennemi peut bouger et est soit vivant, soit mort */
 typedef struct Enemy {
-    struct Coordinates position;
+    struct Coordinate position;
     bool isAlive;
 } Enemy;
 
