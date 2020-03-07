@@ -36,22 +36,9 @@ void moveVertical();
 */
 void initGame();
 /*
-* fonction qui change les coordonnées d'un objet sur le plan cartesien en fonction de la touche appuyée sur le clavier
-* @Param {key} identifie quelle touche a été appuyée
-* @Param {x} identifie la position de la souris sur l'axe X au moment ou la touche du clavier est appuyée (UNUSED)
-* @Param {y} identifie la position de la souris sur l'axe Y au moment ou la touche du clavier est appuyée (UNUSED)
-* Pré-condition :
-* Post-condition:
-*/
-void keyboardownGame(int key, int x, int y);
-/*
 * Cette fonction permet la gestion des touches normales appuyée sur le clavier (espace, ...)
 */
 void clavierGame(unsigned char key, int x, int y);
-/*
-* Cette fonction initialise le tir : vitesse de la munition, position, ...
-*/
-void shoot();
 /*
 * Cette fonction dessine les tirs dans ka fenêtre de jeux
 */

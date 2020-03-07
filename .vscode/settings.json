@@ -2,6 +2,7 @@
     "files.associations": {
         "texttools.h": "c",
         "type_traits": "c",
-        "bike.h": "c"
+        "bike.h": "c",
+        "bike-movement.h": "c"
     }
 }

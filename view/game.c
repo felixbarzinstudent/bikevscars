@@ -1,5 +1,4 @@
 #include <GL/glut.h>
-#include <math.h> 
 #include <stdio.h>
 #include <string.h>
 #include "./game.h"
@@ -10,7 +9,6 @@
 #include "./../movement/bike-movement.h"
 #include "./../utils/calculus.h"
 #include "./../utils/textTools.h"
-// #include "./../utils/timerTools.h"
 
 /* définititon des variables*/
 int numCurrentWindow;
@@ -25,7 +23,7 @@ void detectCollision(Bike bike, Enemy enemy);
 void detectCollisionShot(List* shotList, Enemy* enemy);
 void setRandomXPosition(Enemy* enemy);
 void initGame();
-void keyboardownGame();
+void keyboardownBike();
 void clavierGame(unsigned char key, int x, int y);
 void shoot();
 void drawShots();
@@ -34,7 +32,7 @@ void windowGame() {
     initGame();
     glutDisplayFunc(vDisplayGame);
     moveVertical();
-    glutSpecialFunc(keyboardownGame);
+    glutSpecialFunc(keyboardownBike);
     glutKeyboardFunc(clavierGame);
 }
 
@@ -72,25 +70,6 @@ void moveVertical() {
         detectCollisionShot(shotList, &_enemy);
     }
 }
-
-// void drawBike(){
-//     if(_bike.state == 1) { // 1 == invincible
-//         glColor4f(1.0, 0.0, 0.0, 0.1);
-//         if(!timerInvincibilityFunc(_bike.invincibilityDuration)) { 
-//             _bike.state = 0; // annule l'invincibilité
-//         }
-
-//     } else
-//         glColor4f(1.0, 0.0, 0.0, 1.0);
-
-//     glBegin(GL_POLYGON);
-//         glVertex2f(-0.1, -0.2);
-//         glVertex2f(-0.1, 0.2);
-//         glVertex2f(0.1, 0.2);
-//         glVertex2f(0.1, -0.2);
-//     glEnd();
-    
-// }
 
 void drawShots() {
     glColor4f(1.0, 1.0, 1.0, 0.1);
@@ -208,49 +187,9 @@ void initGame(){
     }
 }
 
-void keyboardownGame(int key, int x, int y) {
-    float move_unit = round(10*0.1)/10;// TODO : comment faire pour retirer l'imprécision du float ?
-    move_unit-=0.000000001;
-    switch (key){
-        case GLUT_KEY_RIGHT:
-            _bike.position.x += move_unit;
-            break;
-
-        case GLUT_KEY_LEFT:
-            _bike.position.x -= move_unit;
-            break;
-
-        case GLUT_KEY_UP:
-            _bike.position.y += move_unit;
-            break;
-
-        case GLUT_KEY_DOWN:
-            _bike.position.y -= move_unit;
-        break;
-
-        default:
-        break;
-    }
-    
-    _bike.position.x = cantGoOut(_bike.position.x);
-    _bike.position.y = cantGoOut(_bike.position.y);
-    formatCoordinates(_bike.position.x);
-
-    glutPostRedisplay();
-}
-
-void shoot() {
-    struct Shot shot;
-    shot.position.x = _bike.position.x;
-    shot.position.y = _bike.position.y;
-    shot.position.z = 0;
-    shot.speed = 0.001;
-    insertFront(shotList, shot);
-}
-
 void clavierGame(unsigned char key, int x, int y) {
     if (key == 32) {
         // todo : shoot frequency (ex : pas plus de 3 tir/seconde)
-        shoot();
+        shoot(shotList);
     }
 }

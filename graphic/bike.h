@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "coordinate.h"
+#include "./../linked-list/shot-list.h"
 
 /* declaration des variables */
 
@@ -41,7 +42,21 @@ void lifeGain(Bike* bike);
 //TODO
 void pointGain();
 
+/*
+* fonction qui change les coordonnées d'un objet sur le plan cartesien en fonction de la touche appuyée sur le clavier
+* @Param {key} identifie quelle touche a été appuyée
+* @Param {x} identifie la position de la souris sur l'axe X au moment ou la touche du clavier est appuyée (UNUSED)
+* @Param {y} identifie la position de la souris sur l'axe Y au moment ou la touche du clavier est appuyée (UNUSED)
+* Pré-condition :
+* Post-condition:
+*/
+void keyboardownBike(int key, int x, int y);
+/*
+* Cette fonction initialise le tir : vitesse de la munition, position, ...
+* @Param {shotList}
+*/
+void shoot(List* shotList);
 /* Cette fonction définit comment doit être dessiner un ennemi */
-void drawEnemy();
+//void drawEnemy();
 
 #endif

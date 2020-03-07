@@ -2,6 +2,9 @@
 #include <time.h>
 #include <../GL/glut.h>
 #include "./../utils/timerTools.h"
+#include <math.h>
+#include "./../movement/bike-movement.h"
+#include "./../linked-list/shot-list.h"
 
 /* initialisation des variables */
 const int invicibilityDuration = 4;
@@ -60,4 +63,44 @@ int lifeLoss(Bike* bike) {
     }
 
     return 0;
+}
+
+void keyboardownBike(int key, int x, int y) {
+    float move_unit = round(10*0.1)/10;// TODO : comment faire pour retirer l'imprécision du float ?
+    move_unit-=0.000000001;
+    switch (key){
+        case GLUT_KEY_RIGHT:
+            _bike.position.x += move_unit;
+            break;
+
+        case GLUT_KEY_LEFT:
+            _bike.position.x -= move_unit;
+            break;
+
+        case GLUT_KEY_UP:
+            _bike.position.y += move_unit;
+            break;
+
+        case GLUT_KEY_DOWN:
+            _bike.position.y -= move_unit;
+        break;
+
+        default:
+        break;
+    }
+    
+    _bike.position.x = cantGoOut(_bike.position.x);
+    _bike.position.y = cantGoOut(_bike.position.y);
+    formatCoordinates(_bike.position.x);
+
+    glutPostRedisplay();
+}
+
+void shoot(List *shotList) {
+    struct Shot shot;
+    shot.position.x = _bike.position.x;
+    shot.position.y = _bike.position.y;
+    shot.position.z = 0;
+    shot.speed = 0.001;
+    insertFront(shotList, shot);
 }

@@ -2,7 +2,7 @@ appexe : movement/bike-movement.o graphic/bike.o graphic/enemy.o utils/calculus.
 	gcc -g movement/bike-movement.o graphic/bike.o graphic/enemy.o utils/calculus.o utils/textTools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o main.o -o appexe -lglut -lGLU -lGL 
 movement/bike-movement.o: movement/bike-movement.c
 	gcc -g -c movement/bike-movement.c -o movement/bike-movement.o -Wall -std=c99
-graphic/bike.o: graphic/bike.c
+graphic/bike.o: graphic/bike.c movement/bike-movement.h linked-list/shot-list.h
 	gcc -g -c graphic/bike.c -o graphic/bike.o -Wall -std=c99
 graphic/ennemy.o: graphic/enemy.c
 	gcc -g -c graphic/enemy.c -o graphic/enemy.o -Wall -std=c99
