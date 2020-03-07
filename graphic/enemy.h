@@ -15,11 +15,19 @@ typedef struct Enemy {
 extern struct Enemy _enemy;
 
 /*
-* initialisation de la position de l'ennemi et de son état (mort ou vivant)
+* Cette fonction initialise un ennemi
 */
 void initEnemy();
 
 /* Cette fonction définit comment doit être dessiner un ennemi */
 void drawEnemy();
 
+//TODO
+/*
+* Cette fonction initialise un tir (vitesse de la munition, position... ) et l'insert dans la liste passée
+* en paramètre
+* @Param {}
+* Pré-condition : speed > 0 et ls != NULL
+*/
+//void shootEnemy(ListShootEnemy list, int speed);
 #endif

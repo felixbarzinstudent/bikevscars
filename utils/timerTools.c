@@ -1,18 +1,18 @@
 #include <stdbool.h>
 #include "timerTools.h"
+#include <../GL/glut.h>
 
 Timer timerInvincibility;
-long int timerInvincibilitySeconds = 0;
-long int timerInvincibilitySecondsLater = 0;
-long int timerInvincibilityLock = false;
 
 bool timerInvincibilityFunc(int duration) {
+    if (duration < 1) 
+        exit(EXIT_FAILURE);
+
     timerInvincibility.secondsLater = time(NULL);
 
     if(timerInvincibility.seconds != 0 && (timerInvincibility.secondsLater - timerInvincibility.seconds) > duration){
-        timerInvincibility.lock = false;
+        timerInvincibility.lock = false;//reset
         timerInvincibility.seconds = 0;//reset
-        timerInvincibilityLock = false;//reset
         return false;
     }
 
@@ -21,5 +21,6 @@ bool timerInvincibilityFunc(int duration) {
             timerInvincibility.seconds = time(NULL); 
             return true;
         }
+
     return true;
 }

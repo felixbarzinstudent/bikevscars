@@ -1,8 +1,8 @@
-int mainCurrentWindow = 0;
+int _mainCurrentWindow = 0;
 
 void setMainCurrentWindow(int id) {
-    mainCurrentWindow = id;
+    _mainCurrentWindow = id;
 }
 int getMainCurrentWindow() {
-    return mainCurrentWindow;
+    return _mainCurrentWindow;
 }

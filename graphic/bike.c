@@ -2,7 +2,7 @@
 #include <time.h>
 #include <../GL/glut.h>
 #include "./../utils/timerTools.h"
-#include <math.h>
+// #include <math.h>
 #include "./../movement/bike-movement.h"
 #include "./../linked-list/shot-list.h"
 
@@ -11,12 +11,13 @@ const int invicibilityDuration = 4;
 
 struct Bike _bike;
 
+//TODO : utiliser un enum pour le state
 void initBike() {
     _bike.position.x = 0;
     _bike.position.y = 0;
     _bike.position.z = 0;
     _bike.life = 2;
-    _bike.state = 0;
+    _bike.state = 0; // 0 == vulnérable et 1 == invincible
     _bike.invincibilityDuration = invicibilityDuration;
 }
 
@@ -42,6 +43,11 @@ void drawBike(){
 bool lock = false;
 time_t seconds = 0;
 int lifeLoss(Bike* bike) {
+    if(bike == NULL)
+        exit(EXIT_FAILURE);
+    if(bike->life <= 0)
+        exit(EXIT_FAILURE);
+
     time_t secondsLater;
     secondsLater = time(NULL);
     _bike.state = 1; // invincible
@@ -65,39 +71,12 @@ int lifeLoss(Bike* bike) {
     return 0;
 }
 
-void keyboardownBike(int key, int x, int y) {
-    float move_unit = round(10*0.1)/10;// TODO : comment faire pour retirer l'imprécision du float ?
-    move_unit-=0.000000001;
-    switch (key){
-        case GLUT_KEY_RIGHT:
-            _bike.position.x += move_unit;
-            break;
-
-        case GLUT_KEY_LEFT:
-            _bike.position.x -= move_unit;
-            break;
-
-        case GLUT_KEY_UP:
-            _bike.position.y += move_unit;
-            break;
-
-        case GLUT_KEY_DOWN:
-            _bike.position.y -= move_unit;
-        break;
-
-        default:
-        break;
-    }
-    
-    _bike.position.x = cantGoOut(_bike.position.x);
-    _bike.position.y = cantGoOut(_bike.position.y);
-    formatCoordinates(_bike.position.x);
-
-    glutPostRedisplay();
-}
-
 void shoot(List *shotList) {
-    struct Shot shot;
+
+    if (shotList == NULL)
+        exit(EXIT_FAILURE);
+
+    Shot shot;
     shot.position.x = _bike.position.x;
     shot.position.y = _bike.position.y;
     shot.position.z = 0;

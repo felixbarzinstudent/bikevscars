@@ -44,6 +44,9 @@ void insertFront(List *ls, Shot shot)
 //POST: renvoie le number d'éléments de ls
 int length(List *ls)
 {
+    if (ls == NULL)
+        exit(EXIT_FAILURE);
+        
     if (ls->first == NULL)
         return 0; // Liste vide
 

@@ -8,10 +8,9 @@
 #include "./../linked-list/shot-list.h"
 #include "./../movement/bike-movement.h"
 #include "./../utils/calculus.h"
-#include "./../utils/textTools.h"
+#include "./../utils/text-tools.h"
 
 /* définititon des variables*/
-int numCurrentWindow;
 bool isInitGame = false;
 List* shotList;
 
@@ -111,6 +110,11 @@ void drawShots() {
     }
 }
 
+/*
+* Cette fonction permet de détecter si un vélo entre en collision avec un ennemi
+* @Param {bike} vélo dont on vérifie la collision
+* @Param {enemy} ennemi dont on vérifie la collision
+*/
 void detectCollision(Bike bike, Enemy enemy) {
     if(
         enemy.isAlive == true
@@ -128,14 +132,26 @@ void detectCollision(Bike bike, Enemy enemy) {
         if(isLowLife == 1) {
             setMainCurrentWindow(2);
             isInitGame = false; // pour que le jeu puisse se réinitialiser
-            _bike.state = 0; // reinitialise l'etat du carré 
+            _bike.state = 0; // reinitialise l'etat du vélo 
         }
     } else 
         strcpy(_textCollision, "Collision : false");
 
 }
 
+/*
+* Cette fonction permet de détecter si un des tirs du vélo touche un ennemi
+* @Param {shotList} liste des tirs effectués par le vélo
+* @Param {enemy} l'ennemi dont on vérifie s'il est touché ou non
+* Pré-condition: shotList != NULL et enemy != NULL
+*/
 void detectCollisionShot(List* shotList, Enemy* enemy) {
+    if (shotList == NULL)
+        exit(EXIT_FAILURE);
+    
+    if (enemy == NULL)
+        exit(EXIT_FAILURE);
+
     if (shotList->size > 0) {
         Shot* current = shotList->first;
         while(current != NULL) {
@@ -162,7 +178,15 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
 
 }
 
+/*
+* Cette fonction permet de définir à quelle position aléatoire l'ennemi va appraitre (en haut de l'écran)
+* @Param {enemy} nouvel ennemi qui va appraitre
+* Pré-condition: enemy != NULL
+*/
 void setRandomXPosition(Enemy* enemy) {
+    if(enemy == NULL)
+        exit (EXIT_FAILURE);
+
     enemy->position.x = floatRandom(-0.70, 0.70);
 }
 

@@ -8,13 +8,10 @@
 #define XWINDOWPOSITION_STARTMENU 0
 #define YWINDOWPOSITION_STARTMENU 0
 
-/* définition des variables */
-int numWindow;
-
 /* définition des fonctions*/
 
 /*
-* Correspond à l'entrée, au main, de la fenêtre
+* Point d’entrée sur la fenêtre du menu.
 */
 void windowMenu();
 /*

@@ -3,12 +3,10 @@
 #include <string.h>
 #include "./start-menu.h"
 #include "./../graphic/bike.h"
-#include "./../utils/textTools.h"
+#include "./../utils/text-tools.h"
 #include "./navigation.h"
 
 /* définititon des variables*/
-
-int numberWindowGame;
 
 /* définititon des fonctions */
 

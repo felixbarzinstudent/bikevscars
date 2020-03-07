@@ -1,17 +1,18 @@
 /*
-* Ce fichier permet à tous les autres fichiers qui le souhaitent, de pouvoir mettre a jour la page a affichée
+* Ce fichier permet à tous les autres fichiers qui le souhaitent, de pouvoir mettre a jour la page qu'il 
+* faut afficher
 */
 
 /* déclaration des variables */
-int mainCurrentWindow;
+int _mainCurrentWindow;
 
 /*déclaration des fonctions */
 
 /*
-* Set la propriété mainCurrentWindow
+* Set la propriété _mainCurrentWindow
 */
 void setMainCurrentWindow();
 /*
-* Get la propriété mainCurrentWindow
+* Get la propriété _mainCurrentWindow
 */
 int getMainCurrentWindow();

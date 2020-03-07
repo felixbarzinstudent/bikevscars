@@ -5,7 +5,7 @@
 #include "./navigation.h"
 #include "./../graphic/bike.h"
 #include "./../graphic/enemy.h"
-#include "./../utils/textTools.h"
+#include "./../utils/text-tools.h"
 
 /* définititon des variables*/
 int numberWindowStartMenu;
@@ -48,7 +48,7 @@ void vClavier_endgame(unsigned char key, int x, int y) {
 
 }
 /*
-* Affiche la scene finale du jeu mais sans les commandes pour déplacer le carré
+* Affiche la scene finale du jeu mais sans les commandes pour déplacer le vélo
 * Les nouvelles commandes permettent de recommencer une partie ou de revenir au menu de départ
 */
 void vDisplay_endgame() {

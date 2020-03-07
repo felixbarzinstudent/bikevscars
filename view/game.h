@@ -14,25 +14,19 @@ int numCurrentWindow;
 /* définition des fonctions*/
 
 /*
-* Correspond à l'entrée, au main, de la fenêtre
+* Point d’entrée sur la fenêtre du jeu
 */
 void windowGame();
 /*
-* Cette fonction affiche la page de fin de jeux
-* Pré-condition :
-* Post-condition:
+* Cette fonction affiche la page du jeu
 */
 void vDisplayGame();
 /*
 * Cette fonction orchestre le déplacement des ennemis depuis le dessus de l'écran vers le bas
-* Pré-condition :
-* Post-condition:
 */
 void moveVertical();
 /*
 * Cette fonction est utile lors de la réinitialisation d'une partie
-* Pré-condition :
-* Post-condition:
 */
 void initGame();
 /*
@@ -40,6 +34,9 @@ void initGame();
 */
 void clavierGame(unsigned char key, int x, int y);
 /*
-* Cette fonction dessine les tirs dans ka fenêtre de jeux
+* Cette fonction dessine les tirs dans la fenêtre de jeux
 */
 void drawShots();
+
+//TODO
+void pointCounter();

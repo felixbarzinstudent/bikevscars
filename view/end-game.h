@@ -5,14 +5,12 @@
 
 #define WIDTH_ENDGAME 500
 #define HEIGHT_ENDGAME 500
-#define XWINDOWPOSITION_ENDGAME 0
-#define YWINDOWPOSITION_ENDGAME 0
 
 
 /* définition des fonctions*/
 
 /*
-* Correspond à l'entrée, au main, de la fenêtre
+* Point d'entrée sur la fenêtre de jeu
 */
 void windowEndGame();
 /*
@@ -20,14 +18,10 @@ void windowEndGame();
 * @Param {key} touche du clavier appuyée
 * @Param {x} position de la souris sur l'axe x
 * @Param {y} position de la souris sur l'axe y
-* Pré-condition :
-* Post-condition:
 */
 void vClavier_endgame(unsigned char key, int x, int y);
 /*
 * Cette fonction affiche la page de fin de jeux
-* Pré-condition :
-* Post-condition:
 */
 void vDisplay_endgame();
 /*
@@ -35,7 +29,9 @@ void vDisplay_endgame();
 * @Param {key} touche du clavier appuyée
 * @Param {x} position de la souris sur l'axe x
 * @Param {y} position de la souris sur l'axe y
-* Pré-condition :
-* Post-condition:
 */
 void vClavierSpecial_endgame(int key, int x, int y);
+/*
+* Dessine le vélo à la position ou il était au moment ou il a perdu sa dernière vie
+*/
+void drawBike_endgame();

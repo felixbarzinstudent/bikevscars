@@ -25,38 +25,30 @@ typedef struct Bike {
 extern struct Bike _bike;
 
 /*
-* Cette fonction initialise la position du bike
+* Cette fonction initialise les propriétés du vélo
 */
 void initBike();
 
 /*
-* Cette fonction retire une vie au carré. Fin du jeu si plus de vies.
-* @Param {bike} le carré qui doit perdre une vie
-* Pré-condition :
-* Post-condition:
+* Cette fonction retire une vie au vélo. Return 1 si le vélo n'a plus de vie.
+* @Param {bike} le vélo qui doit perdre une vie
+* Pré-condition : bike->life > 0
+* Post-condition: /
 */
 int lifeLoss(Bike* bike);
 
 //TODO
+/*
+* Ajoute une vie au compteur de vie du vélo
+*/
 void lifeGain(Bike* bike);
-//TODO
-void pointGain();
 
 /*
-* fonction qui change les coordonnées d'un objet sur le plan cartesien en fonction de la touche appuyée sur le clavier
-* @Param {key} identifie quelle touche a été appuyée
-* @Param {x} identifie la position de la souris sur l'axe X au moment ou la touche du clavier est appuyée (UNUSED)
-* @Param {y} identifie la position de la souris sur l'axe Y au moment ou la touche du clavier est appuyée (UNUSED)
-* Pré-condition :
-* Post-condition:
-*/
-void keyboardownBike(int key, int x, int y);
-/*
-* Cette fonction initialise le tir : vitesse de la munition, position, ...
+* Cette fonction initialise un tir (vitesse de la munition, position... ) et l'insert dans la liste passée
+* en paramètre
 * @Param {shotList}
+* Pré-condition: shotList != NULL
 */
 void shoot(List* shotList);
-/* Cette fonction définit comment doit être dessiner un ennemi */
-//void drawEnemy();
 
 #endif

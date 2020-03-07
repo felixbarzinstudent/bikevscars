@@ -14,10 +14,11 @@ extern char _textCollision[18];
 * @Param {y} position en Y sur la fenêtre
 * @Param {text} chaîne de caractère représentant le texte qui doit être affiché
 * @Param {size} taille de la chaîne de caractère
+* Pré-condition: size == taille de text[]
 */
 void writeOnWindow(float x, float y, char text[], int size);
 /*
-* Cette fonction affiche la vie restante du carré
+* Cette fonction affiche la vie restante du vélo
 * @Param {bike} objet dont la vie doit être affichée
 */
 void displayLife(Bike* bike);
@@ -29,7 +30,7 @@ void displayLife(Bike* bike);
 */
 void displayCollision(int x, int y, char text[]);
 /*
-* Cette fonction affiche le texte représentant la position du carré en X
+* Cette fonction affiche le texte représentant la position du vélo en X
 * @Param {x} position en X sur la fenêtre
 * @Param {y} position en Y sur la fenêtre
 * @Param {text} chaîne de caractère représentant le texte qui doit être affiché
