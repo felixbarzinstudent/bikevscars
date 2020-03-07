@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "character.h"
+#include "coordinate.h"
 
 /* définition des structures */
 /* Ce struct représente un ennemi présent dans le jeu. Cet ennemi peut bouger et est soit vivant, soit mort */

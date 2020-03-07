@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "./start-menu.h"
-#include "./../movement/square.h" // TODO : pourquoi je dois importer square.h pour faire fonctionner textTools.h alors que textTools.h importe lui même square.h
+#include "./../graphic/bike.h"
 #include "./../utils/textTools.h"
 #include "./navigation.h"
 

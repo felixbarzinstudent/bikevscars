@@ -2,7 +2,7 @@
 #include <GL/glut.h>
 #include <string.h>
 #include "./textTools.h"
-#include "./../movement/square.h"
+#include "./../graphic/bike.h"
 
 char _textCollision[18] = "";
 

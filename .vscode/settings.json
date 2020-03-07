@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "texttools.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "bike.h": "c"
     }
 }

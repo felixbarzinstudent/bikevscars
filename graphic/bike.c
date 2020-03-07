@@ -1,21 +1,12 @@
-/*
-* Librairie contenant l'implémentation des mouvements d'un objet dans une fenêtre
-*
-* Import GL/glut.h pour utiliser les fonctionnalités de la librairie GLUT OpenGL
-*/
-
-#include <../GL/glut.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
+#include "bike.h"
 #include <time.h>
-#include <unistd.h>
-#include "square.h"
+#include <../GL/glut.h>
+#include "./../utils/timerTools.h"
 
 /* initialisation des variables */
-char _xposRecord[12] = "Start"; // initialise la variable qui enregistre en temps réel la position de l'objet (dans le but de l'afficher à l'écran)
-struct Square _square;
 const int invicibilityDuration = 4;
+
+struct Square _square;
 
 void initSquare() {
     _square.position.x = 0;
@@ -26,17 +17,23 @@ void initSquare() {
     _square.invincibilityDuration = invicibilityDuration;
 }
 
-void formatCoordinates(float coordinate) {
-    char posXString[12]; 
-    sprintf(posXString, "%.9f", coordinate); 
-    strcpy(_xposRecord, posXString);
-}
+void drawSquare(){
+    if(_square.state == 1) { // 1 == invincible
+        glColor4f(1.0, 0.0, 0.0, 0.1);
+        if(!timerInvincibilityFunc(_square.invincibilityDuration)) { 
+            _square.state = 0; // annule l'invincibilité
+        }
 
-float cantGoOut(float coordinate) {
-    if(coordinate >= 0)
-        return coordinate <= 1.0f ? coordinate : 1.0f;
-    else 
-        return coordinate >= -1.0f ? coordinate : -1.0f;
+    } else
+        glColor4f(1.0, 0.0, 0.0, 1.0);
+
+    glBegin(GL_POLYGON);
+        glVertex2f(-0.1, -0.2);
+        glVertex2f(-0.1, 0.2);
+        glVertex2f(0.1, 0.2);
+        glVertex2f(0.1, -0.2);
+    glEnd();
+    
 }
 
 bool lock = false;

@@ -4,12 +4,13 @@
 #include <string.h>
 #include "./game.h"
 #include "./navigation.h"
+#include "./../graphic/bike.h"
 #include "./../graphic/enemy.h"
 #include "./../linked-list/shot-list.h"
-#include "./../movement/square.h"
+#include "./../movement/bike-movement.h"
 #include "./../utils/calculus.h"
 #include "./../utils/textTools.h"
-#include "./../utils/timerTools.h"
+// #include "./../utils/timerTools.h"
 
 /* définititon des variables*/
 int numCurrentWindow;
@@ -72,24 +73,24 @@ void moveVertical() {
     }
 }
 
-void drawSquare(){
-    if(_square.state == 1) { // 1 == invincible
-        glColor4f(1.0, 0.0, 0.0, 0.1);
-        if(!timerInvincibilityFunc(_square.invincibilityDuration)) { 
-            _square.state = 0; // annule l'invincibilité
-        }
+// void drawSquare(){
+//     if(_square.state == 1) { // 1 == invincible
+//         glColor4f(1.0, 0.0, 0.0, 0.1);
+//         if(!timerInvincibilityFunc(_square.invincibilityDuration)) { 
+//             _square.state = 0; // annule l'invincibilité
+//         }
 
-    } else
-        glColor4f(1.0, 0.0, 0.0, 1.0);
+//     } else
+//         glColor4f(1.0, 0.0, 0.0, 1.0);
 
-    glBegin(GL_POLYGON);
-        glVertex2f(-0.1, -0.2);
-        glVertex2f(-0.1, 0.2);
-        glVertex2f(0.1, 0.2);
-        glVertex2f(0.1, -0.2);
-    glEnd();
+//     glBegin(GL_POLYGON);
+//         glVertex2f(-0.1, -0.2);
+//         glVertex2f(-0.1, 0.2);
+//         glVertex2f(0.1, 0.2);
+//         glVertex2f(0.1, -0.2);
+//     glEnd();
     
-}
+// }
 
 void drawShots() {
     glColor4f(1.0, 1.0, 1.0, 0.1);

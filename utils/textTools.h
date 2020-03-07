@@ -4,7 +4,7 @@
 
 #include <GL/gl.h>
 #include <GL/glut.h>
-#include "./../movement/square.h"
+#include "./../graphic/bike.h"
 
 extern char _textCollision[18];
 

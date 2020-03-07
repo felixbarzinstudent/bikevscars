@@ -5,7 +5,7 @@
 
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
-#include "./../graphic/character.h"
+#include "./../graphic/coordinate.h"
 
 typedef struct Shot Shot;
 struct Shot

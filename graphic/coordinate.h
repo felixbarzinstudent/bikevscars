@@ -2,8 +2,8 @@
 * Fichier contenant tous les attributs commun qu'on les personnages
 */
 
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef COORDINATE_H
+#define COORDINATE_H
 
 typedef struct Coordinates {
     float x;

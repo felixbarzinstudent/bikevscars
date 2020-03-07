@@ -3,9 +3,10 @@
 #include <string.h>
 #include "./end-game.h"
 #include "./navigation.h"
-#include "./../movement/square.h"
+#include "./../graphic/bike.h"
 #include "./../graphic/enemy.h"
 #include "./../utils/textTools.h"
+
 /* définititon des variables*/
 int numberWindowStartMenu;
 

@@ -1,2 +1,0 @@
-# learnglut
-Sand box glut

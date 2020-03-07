@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "./shot-list.h"
-#include "./../graphic/character.h"
+#include "./../graphic/coordinate.h"
 
 List *newList()
 {
