@@ -65,7 +65,9 @@ int length(List *ls)
 void delete(List *ls, Shot* shot) {
     Shot* current = ls->first;
     bool out = false;
-    while(!out) {
+    int counter = 0;
+    while(!out && counter <= ls->size && current != NULL) {
+        counter ++;
         if(shot == current) {
             if(current->previous == NULL) { //si c'est le premier élément de la liste
                 if(current->next == NULL) { //si c'est le seul élément de la liste
@@ -73,22 +75,34 @@ void delete(List *ls, Shot* shot) {
                     ls->size -= 1;
                     free(shot);
                     out = true;
+                } else {
+                    current->next->previous = NULL;
+                    ls->first = current->next;
+                    ls->size -= 1;
+                    free(shot);
+                    out = true;
+                }
+            } else {
+                if(current->next == NULL) { //si c'est le dernier élément de la liste
+                    current->previous->next = NULL;
+                    ls->size -= 1;
+                    free(shot);
+                    out = true;
+                } else {
+                    Shot *tempCurrentNext = malloc(sizeof(Shot));
+                    Shot *tempCurrentPrevious = malloc(sizeof(Shot));
+                    tempCurrentNext = current->next;
+                    tempCurrentPrevious = current->previous;
+
+                    current->previous->next = tempCurrentNext;
+                    current->next->previous = tempCurrentPrevious;
+                    ls->size -= 1;
+                    free(shot);
+                    out = true;
                 }
             }
-    //         //current->previous->next = current->next;
-    //         //free(current);
-    //         // printf("hoho");
-    //         // Shot *toDelete = current;
-    //         // if(current->next != NULL)
-    //         //     current = current->next;
-    //         // free(toDelete);
-    //         // if(replace != NULL)
-    //         //     ls->first = replace;
-    //         // else
-    //         //     ls->first = NULL;
-            
-    //         // ls->size -= 1;
-         }
-    //     //current = current->next;
+        }
+        current = current->next;
+
      }
 }

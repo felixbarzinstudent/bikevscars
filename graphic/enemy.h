@@ -6,6 +6,7 @@
 #include "character.h"
 
 /* définition des structures */
+/* Ce struct représente un ennemi présent dans le jeu. Cet ennemi peut bouger et est soit vivant, soit mort */
 typedef struct Enemy {
     struct Coordinates position;
     bool isAlive;
@@ -14,11 +15,11 @@ typedef struct Enemy {
 extern struct Enemy _enemy;
 
 /*
-* initialisation de la position de l'ennemi
+* initialisation de la position de l'ennemi et de son état (mort ou vivant)
 */
 void initEnemy();
 
-/* Cette fonction définit les bases pour dessiner un ennemi */
+/* Cette fonction définit comment doit être dessiner un ennemi */
 void drawEnemy();
 
 #endif

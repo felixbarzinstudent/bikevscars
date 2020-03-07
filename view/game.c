@@ -168,8 +168,10 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
                 &&
                 (current->position.x > enemy->position.x - 0.2)
                 ) {
-                 enemy->isAlive = false; 
-                delete(shotList, current); 
+                    if(enemy->isAlive == true)
+                        delete(shotList, current); 
+                 
+                    enemy->isAlive = false; 
             } else if(current->position.y > 1) { 
                 delete(shotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
             } 
