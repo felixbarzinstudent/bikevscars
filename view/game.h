@@ -24,7 +24,7 @@ void vDisplayGame();
 /*
 * Cette fonction orchestre le déplacement des ennemis depuis le dessus de l'écran vers le bas
 */
-void moveVertical();
+void detectCollision();
 /*
 * Cette fonction est utile lors de la réinitialisation d'une partie
 */

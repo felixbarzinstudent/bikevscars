@@ -62,8 +62,8 @@ void vDisplay_endgame() {
             drawBike_endgame();
         glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
         glPushMatrix();
-            glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
-            drawEnemy();
+            //glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
+            //drawEnemy();
         glPopMatrix();
         glutPostRedisplay();
         glutSwapBuffers(); // permute buffers

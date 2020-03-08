@@ -9,28 +9,32 @@
 #include "./../movement/bike-movement.h"
 #include "./../utils/calculus.h"
 #include "./../utils/text-tools.h"
+#include "./../graphic/enemy.h"
+#include "./../linked-list/enemy-list.h"
 
 /* définititon des variables*/
 bool isInitGame = false;
 List* shotList;
+EnemyList* enemyList;
 
 /* définititon des fonctions */
 void vDisplayGame();
-void moveVertical();
+void detectCollision();
 void drawBike();
-void detectCollision(Bike bike, Enemy enemy);
+void detectCollisionBike(Bike bike, Enemy* enemy);
 void detectCollisionShot(List* shotList, Enemy* enemy);
-void setRandomXPosition(Enemy* enemy);
 void initGame();
 void keyboardownBike();
 void clavierGame(unsigned char key, int x, int y);
 void shoot();
+void drawEnemies();
 void drawShots();
 
 void windowGame() {
     initGame();
+    createEnemies(enemyList);
     glutDisplayFunc(vDisplayGame);
-    moveVertical();
+    detectCollision();
     glutSpecialFunc(keyboardownBike);
     glutKeyboardFunc(clavierGame);
 }
@@ -48,25 +52,70 @@ void vDisplayGame() {
         displayCollision(-1, 0, _textCollision);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots();
-    glPushMatrix();
-        glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
-        drawEnemy();
-    glPopMatrix();
+    drawEnemies();
     glutPostRedisplay();
     glutSwapBuffers(); // permute buffers
 }
 
-void moveVertical() {
+void detectCollision() {
     if(_bike.life >= 1) { // quand le vélo n'a plus de vie, les ennemis s'arretent
-        if(_enemy.position.y >= -1)
-            _enemy.position.y -= 0.001;
-        else {
-            _enemy.position.y += 2;
-            setRandomXPosition(&_enemy);
-            _enemy.isAlive = true; //redonne vie a l ennemi
+        Enemy* currentEnemy = enemyList->first;
+        while (currentEnemy != NULL) {
+            if (currentEnemy->position.y < -1) 
+                deleteEnemy(enemyList, currentEnemy);
+
+            detectCollisionBike(_bike, currentEnemy);
+            detectCollisionShot(shotList, currentEnemy);
+            currentEnemy = currentEnemy->next;
         }
-        detectCollision(_bike, _enemy);
-        detectCollisionShot(shotList, &_enemy);
+    }
+}
+
+void drawEnemies() {
+    glColor3f(0.0, 1.0, 0.0);
+    int enemiesCount = lengthEnemyList(enemyList);
+    if(enemiesCount > 0) {
+        
+        if(enemyList->first != NULL) {
+            if(enemyList->first->isAlive == true)
+                glColor3f(0.0, 1.0, 0.0);
+            else
+                glColor4f(0.0, 1.0, 0.0, 0.1);
+            glPushMatrix();
+            enemyList->first->position.y -= enemyList->first->speed;
+            glTranslatef(enemyList->first->position.x, enemyList->first->position.y, enemyList->first->position.z);
+            glBegin(GL_POLYGON);
+                glVertex2f(-0.1, -0.2);
+                glVertex2f(-0.1, 0.2);
+                glVertex2f(0.1, 0.2);
+                glVertex2f(0.1, -0.2);
+            glEnd();
+            glPopMatrix();
+        } else {
+            exit(EXIT_FAILURE);
+        }
+
+        if(enemiesCount > 1) {
+            Enemy* current = enemyList->first->next;
+            while(current != NULL) {
+                if(current->isAlive == true)
+                    glColor3f(0.0, 1.0, 0.0);
+                else
+                    glColor4f(0.0, 1.0, 0.0, 0.1);
+                glPushMatrix(); 
+                current->position.y -= current->speed;
+                glTranslatef(current->position.x, current->position.y, current->position.z);
+                glBegin(GL_POLYGON);
+                    glVertex2f(-0.1, -0.2);
+                    glVertex2f(-0.1, 0.2);
+                    glVertex2f(0.1, 0.2);
+                    glVertex2f(0.1, -0.2);
+                glEnd();
+                glPopMatrix(); 
+                current = current->next;
+            }
+
+        }
     }
 }
 
@@ -115,17 +164,17 @@ void drawShots() {
 * @Param {bike} vélo dont on vérifie la collision
 * @Param {enemy} ennemi dont on vérifie la collision
 */
-void detectCollision(Bike bike, Enemy enemy) {
+void detectCollisionBike(Bike bike, Enemy* enemy) {
     if(
-        enemy.isAlive == true
+        enemy->isAlive == true
         &&
-        (bike.position.y + 0.2 >= enemy.position.y -0.2)
+        (bike.position.y + 0.2 >= enemy->position.y -0.2)
         &&
-        (bike.position.y - 0.2 <= enemy.position.y + 0.2)
+        (bike.position.y - 0.2 <= enemy->position.y + 0.2)
         &&
-        (bike.position.x <= (enemy.position.x + 0.2))
+        (bike.position.x <= (enemy->position.x + 0.2))
         &&
-        (bike.position.x > (enemy.position.x - 0.2))
+        (bike.position.x > (enemy->position.x - 0.2))
     ){
         strcpy(_textCollision, "Collision : true");
         int isLowLife = lifeLoss(&_bike); // TODO : make void ?
@@ -178,18 +227,6 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
 
 }
 
-/*
-* Cette fonction permet de définir à quelle position aléatoire l'ennemi va appraitre (en haut de l'écran)
-* @Param {enemy} nouvel ennemi qui va appraitre
-* Pré-condition: enemy != NULL
-*/
-void setRandomXPosition(Enemy* enemy) {
-    if(enemy == NULL)
-        exit (EXIT_FAILURE);
-
-    enemy->position.x = floatRandom(-0.70, 0.70);
-}
-
 void initGame(){
     if(!isInitGame) {
         // set clear color to black
@@ -205,9 +242,9 @@ void initGame(){
         glLoadIdentity();
 
         initBike();
-        initEnemy();
         isInitGame = true;
         shotList = newList();
+        enemyList = newEnemyList();
     }
 }
 

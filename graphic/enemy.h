@@ -1,26 +1,8 @@
-#ifndef ENEMY_H
-#define ENEMY_H
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include "coordinate.h"
+#ifndef enemy_H
+#define enemy_H
+#include "./../linked-list/enemy-list.h"
 
-/* définition des structures */
-/* Ce struct représente un ennemi présent dans le jeu. Cet ennemi peut bouger et est soit vivant, soit mort */
-typedef struct Enemy {
-    struct Coordinate position;
-    bool isAlive;
-} Enemy;
-
-extern struct Enemy _enemy;
-
-/*
-* Cette fonction initialise un ennemi
-*/
-void initEnemy();
-
-/* Cette fonction définit comment doit être dessiner un ennemi */
-void drawEnemy();
+void createEnemies(EnemyList* list);
 
 //TODO
 /*
