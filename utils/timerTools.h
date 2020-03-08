@@ -21,3 +21,5 @@ typedef struct Timer {
 * Pré-condition: duration > 0
 */
 bool timerInvincibilityFunc(int duration);
+
+bool timerInitEnemiesFunc(int duration);

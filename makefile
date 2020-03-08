@@ -1,10 +1,10 @@
-appexe : movement/bike-movement.o graphic/bike.o graphic/enemy.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o main.o
-	gcc -g movement/bike-movement.o graphic/bike.o graphic/enemy.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o main.o -o appexe -lglut -lGLU -lGL 
+appexe : movement/bike-movement.o graphic/bike.o graphic/enemy.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/enemy-list.o linked-list/shot-list.o main.o
+	gcc -g movement/bike-movement.o graphic/bike.o graphic/enemy.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/enemy-list.o linked-list/shot-list.o main.o -o appexe -lglut -lGLU -lGL 
 movement/bike-movement.o: movement/bike-movement.c
 	gcc -g -c movement/bike-movement.c -o movement/bike-movement.o -Wall -std=c99
 graphic/bike.o: graphic/bike.c movement/bike-movement.h linked-list/shot-list.h
 	gcc -g -c graphic/bike.c -o graphic/bike.o -Wall -std=c99
-graphic/ennemy.o: graphic/enemy.c
+graphic/ennemy.o: graphic/enemy.c linked-list/enemy-list.h
 	gcc -g -c graphic/enemy.c -o graphic/enemy.o -Wall -std=c99
 utils/calculus.o : utils/calculus.c
 	gcc -g -c utils/calculus.c -o utils/calculus.o -Wall -std=c99
@@ -22,6 +22,8 @@ view/start-menu.o : view/start-menu.c graphic/bike.h utils/text-tools.h
 	gcc -g -c view/start-menu.c -o view/start-menu.o -Wall -std=c99
 linked-list/shot-list.o : linked-list/shot-list.c 
 	gcc -g -c linked-list/shot-list.c -o linked-list/shot-list.o -Wall -std=c99
+linked-list/enemy-list.o : linked-list/enemy-list.c 
+	gcc -g -c linked-list/enemy-list.c -o linked-list/enemy-list.o -Wall -std=c99
 main.o: main.c view/game.h view/start-menu.h view/navigation.h view/end-game.h
 	gcc -g -c main.c -Wall -std=c99
 clean:

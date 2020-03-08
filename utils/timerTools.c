@@ -24,3 +24,26 @@ bool timerInvincibilityFunc(int duration) {
 
     return true;
 }
+
+Timer timerInitEnemies;
+
+bool timerInitEnemiesFunc(int duration) {
+    if (duration < 1) 
+        exit(EXIT_FAILURE);
+
+    timerInitEnemies.secondsLater = time(NULL);
+
+    if(timerInitEnemies.seconds != 0 && (timerInitEnemies.secondsLater - timerInitEnemies.seconds) > duration){
+        timerInitEnemies.lock = false;//reset
+        timerInitEnemies.seconds = 0;//reset
+        return false;
+    }
+
+    if (!timerInitEnemies.lock) { 
+            timerInitEnemies.lock = true;
+            timerInitEnemies.seconds = time(NULL); 
+            return true;
+        }
+
+    return true;
+}

@@ -3,6 +3,9 @@
         "texttools.h": "c",
         "type_traits": "c",
         "bike.h": "c",
-        "bike-movement.h": "c"
+        "bike-movement.h": "c",
+        "stdlib.h": "c",
+        "shot-list.h": "c",
+        "coordinate.h": "c"
     }
 }
