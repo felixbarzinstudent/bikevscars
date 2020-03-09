@@ -11,6 +11,7 @@
 #include "./../utils/text-tools.h"
 #include "./../graphic/enemy.h"
 #include "./../linked-list/enemy-list.h"
+#include "./../records/save.h"
 
 /* définititon des variables*/
 bool isInitGame = false;
@@ -185,6 +186,7 @@ void detectCollisionBike(Bike bike, Enemy* enemy) {
             setMainCurrentWindow(2);
             isInitGame = false; // pour que le jeu puisse se réinitialiser
             _bike.state = 0; // reinitialise l'etat du vélo 
+            saveHighscores(_totalPoints);
         }
     } else 
         strcpy(_textCollision, "Collision : false");
@@ -233,7 +235,7 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
 void countPoints() {
     _totalPoints++;
     if(_totalPoints % 10 == 0) {
-        
+
     }
 }
 
@@ -253,6 +255,7 @@ void initGame(){
 
         initBike();
         isInitGame = true;
+        _totalPoints = 0;
         shotList = newList();
         enemyList = newEnemyList();
     }

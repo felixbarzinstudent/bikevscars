@@ -1,5 +1,5 @@
-appexe : movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o main.o
-	gcc -g movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o main.o -o appexe -lglut -lGLU -lGL 
+appexe : movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o records/save.o main.o
+	gcc -g movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timerTools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o records/save.o main.o -o appexe -lglut -lGLU -lGL 
 movement/bike-movement.o: movement/bike-movement.c
 	gcc -g -c movement/bike-movement.c -o movement/bike-movement.o -Wall -std=c99
 graphic/bike.o: graphic/bike.c movement/bike-movement.h linked-list/shot-list.h
@@ -24,6 +24,8 @@ linked-list/enemy-list.o : linked-list/enemy-list.c
 	gcc -g -c linked-list/enemy-list.c -o linked-list/enemy-list.o -Wall -std=c99
 linked-list/shot-list.o : linked-list/shot-list.c 
 	gcc -g -c linked-list/shot-list.c -o linked-list/shot-list.o -Wall -std=c99
+records/save.o : records/save.c 
+	gcc -g -c records/save.c -o records/save.o -Wall -std=c99
 main.o: main.c view/game.h view/start-menu.h view/navigation.h view/end-game.h
 	gcc -g -c main.c -Wall -std=c99
 clean:
