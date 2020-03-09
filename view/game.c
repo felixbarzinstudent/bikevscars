@@ -16,6 +16,7 @@
 bool isInitGame = false;
 List* shotList;
 EnemyList* enemyList;
+int _totalPoints = 0;
 
 /* définititon des fonctions */
 void vDisplayGame();
@@ -29,6 +30,7 @@ void clavierGame(unsigned char key, int x, int y);
 void shoot();
 void drawEnemies();
 void drawShots();
+void countPoints();
 
 void windowGame() {
     initGame();
@@ -44,6 +46,7 @@ void vDisplayGame() {
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
     displayLife(&_bike);
+    displayScore(_totalPoints);
     glLoadIdentity();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
         glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
@@ -213,8 +216,10 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
                 &&
                 (current->position.x > enemy->position.x - 0.2)
                 ) {
-                    if(enemy->isAlive == true)
+                    if(enemy->isAlive == true) {
                         delete(shotList, current); 
+                        countPoints();
+                    }
                  
                     enemy->isAlive = false; 
             } else if(current->position.y > 1) { 
@@ -222,9 +227,14 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
             } 
             current = current->next;
         }
-
     }
+}
 
+void countPoints() {
+    _totalPoints++;
+    if(_totalPoints % 10 == 0) {
+        
+    }
 }
 
 void initGame(){

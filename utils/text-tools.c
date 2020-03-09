@@ -80,3 +80,18 @@ void displayCollision(int x, int y, char text[])
     glMatrixMode( GL_MODELVIEW );
     glPopMatrix();
 }
+
+void displayScore(int total) {
+	//int size = 8;
+	//char lifeText [] = "Points: ";
+    char buf[12];
+
+    snprintf(buf, 12, "Points: %d", total);
+    glColor3f(1,1,1);
+    glRasterPos2f(0.6, 0.9);
+    for ( int i = 0; i < 11; ++i )
+    {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buf[i]);
+    }
+	//writeOnWindow(0.6, 0.9, buf, 15);
+}

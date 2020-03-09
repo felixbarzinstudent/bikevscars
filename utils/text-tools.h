@@ -38,3 +38,5 @@ void displayCollision(int x, int y, char text[]);
 * @Param {windowHeight} largeur de la fenêtre
 */
 void displayBikePositionX(int x, int y, char text[], int windowWidth, int windowHeight);
+
+void displayScore(int _totalPoints);
