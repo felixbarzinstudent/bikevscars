@@ -3,6 +3,7 @@
 #include <string.h>
 #include <../GL/glut.h>
 #include "timerTools.h"
+#include "./../structs/enemy-struct.h"
 
 Timer timerInvincibility;
 bool timerInvincibilityFunc(double duration) {
@@ -15,7 +16,7 @@ bool timerInvincibilityFunc(double duration) {
         if(seconds >= duration){
             timerInvincibility.lock = false;//reset
             timerInvincibility.start.tv_usec = 0;//reset
-            printf("Finished in %f sec\n", seconds); 
+            //printf("Finished in %f sec\n", seconds); 
             return false;
         }
     }    
@@ -47,6 +48,30 @@ bool timerInitEnemiesFunc(double duration) {
     if (!timerInitEnemies.lock) { 
         timerInitEnemies.lock = true;
         timerInitEnemies.start = timerInitEnemies.stop; 
+        return true;
+    }
+
+    return true;
+}
+
+bool timerEnemiesShootFunc(Enemy* enemy, double duration) {
+    if (duration < 0)
+        exit(EXIT_FAILURE);
+
+    gettimeofday(&enemy->coolDownShoot.stop, NULL);
+    if(enemy->coolDownShoot.start.tv_usec > 0) {
+        double seconds = (double)(enemy->coolDownShoot.stop.tv_usec - enemy->coolDownShoot.start.tv_usec) / 1000000 + (double)(enemy->coolDownShoot.stop.tv_sec - enemy->coolDownShoot.start.tv_sec);
+        if(seconds >= duration){
+            enemy->coolDownShoot.lock = false;//reset
+            enemy->coolDownShoot.start.tv_usec = 0;//reset
+            printf("Finished in %f sec\n", seconds); 
+            return false;
+        }
+    }    
+
+    if (!enemy->coolDownShoot.lock) { 
+        enemy->coolDownShoot.lock = true;
+        enemy->coolDownShoot.start = enemy->coolDownShoot.stop; 
         return true;
     }
 

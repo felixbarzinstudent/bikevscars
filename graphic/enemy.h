@@ -7,6 +7,10 @@ extern float enemySpeedMax;
 extern float enemySpeedMin;
 
 void createEnemies(EnemyList* list);
+/*
+* Cette fonction initialise un tir ennemi
+*/
+void shootEnemy();
 
 //TODO
 /*

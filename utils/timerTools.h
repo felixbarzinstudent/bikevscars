@@ -1,8 +1,12 @@
 /*
 * Ce fichier contient des classes qui maintiennent des timers
 */
+#ifndef TIMERTOOLS_H
+#define TIMERTOOLS_H
 #include <stdbool.h>
 #include <sys/time.h>
+#include "./../structs/enemy-struct.h"
+
 typedef struct Timer {
     bool lock;
     struct timeval start;
@@ -23,3 +27,5 @@ extern Timer timerInvincibility;
 */
 bool timerInvincibilityFunc(double duration);
 bool timerInitEnemiesFunc(double duration);
+bool timerEnemiesShootFunc(Enemy* enemy, double duration);
+#endif

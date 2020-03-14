@@ -7,17 +7,20 @@
 #include "./../graphic/enemy.h"
 #include "./../graphic/enemy.h"
 #include "./../linked-list/enemy-list.h"
+#include "./../linked-list/enemy-shot-list.h"
 #include "./../linked-list/shot-list.h"
 #include "./../movement/bike-movement.h"
 #include "./../records/save.h"
 #include "./../utils/calculus.h"
 #include "./../utils/text-tools.h"
 #include "./../utils/timerTools.h"
+#include "./../structs/enemy-struct.h"
 
 /* définititon des variables*/
 bool isInitGame = false;
 List* shotList;
 EnemyList* enemyList;
+EnemyShotList* enemyShotList;
 int _totalPoints = 0;
 
 /* définititon des fonctions */
@@ -33,8 +36,12 @@ void clavierGame(unsigned char key, int x, int y);
 void shoot();
 void drawEnemies();
 void drawShots();
+void drawEnemiesShots();
 void countPoints();
 void makeItHarder();
+void enemyShoot(Bike bike, Enemy* enemy);
+void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike);
+void endOfGame(int isLowLife);
 
 void windowGame() {
     initGame();
@@ -60,6 +67,7 @@ void vDisplayGame() {
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots();
     drawEnemies();
+    drawEnemiesShots();
     glutPostRedisplay();
     glutSwapBuffers(); // permute buffers
 }
@@ -68,11 +76,13 @@ void detectCollision() {
     if(_bike.life >= 1) { // quand le vélo n'a plus de vie, les ennemis s'arretent
         Enemy* currentEnemy = enemyList->first;
         while (currentEnemy != NULL) {
-            if (currentEnemy->position.y < -2) 
+            if (currentEnemy->position.y < -1) 
                 deleteEnemy(enemyList, currentEnemy);
 
             detectCollisionBike(_bike, currentEnemy);
+            enemyShoot(_bike, currentEnemy);
             detectCollisionShot(shotList, currentEnemy);
+            detectCollisionEnemiesShots(enemyShotList, _bike);
             currentEnemy = currentEnemy->next;
         }
     }
@@ -166,6 +176,60 @@ void drawShots() {
     }
 }
 
+void drawEnemiesShots() {
+    glColor4f(1.0, 1.0, 1.0, 0.1);
+    int shotsCount = lengthEnemyShotList(enemyShotList);
+    if(shotsCount > 0) {
+        
+        if(enemyShotList->first != NULL) {
+            glPushMatrix();
+            enemyShotList->first->position.y -= enemyShotList->first->speed;
+            glTranslatef(enemyShotList->first->position.x, enemyShotList->first->position.y, enemyShotList->first->position.z);
+            glBegin(GL_POLYGON);
+                glVertex2f(-0.05, -0.1);
+                glVertex2f(-0.05, 0.1);
+                glVertex2f(0.05, 0.1);
+                glVertex2f(0.05, -0.1);
+            glEnd();
+            glPopMatrix();
+        } else {
+            exit(EXIT_FAILURE);
+        }
+
+        if(shotsCount > 1) {
+            Shot* current = enemyShotList->first->next;
+            while(current != NULL) {
+                glPushMatrix(); 
+                current->position.y -= current->speed;
+                glTranslatef(current->position.x, current->position.y, current->position.z);
+                glBegin(GL_POLYGON);
+                    glVertex2f(-0.05, -0.1);
+                    glVertex2f(-0.05, 0.1);
+                    glVertex2f(0.05, 0.1);
+                    glVertex2f(0.05, -0.1);
+                glEnd();
+                glPopMatrix(); 
+                current = current->next;
+            }
+
+        }
+    }
+}
+
+void enemyShoot(Bike bike, Enemy* enemy) {
+    if (
+        enemy->isAlive == true
+        &&
+        (bike.position.x <= (enemy->position.x + 0.2))
+        &&
+        (bike.position.x > (enemy->position.x - 0.2))
+    ) {
+        if (!timerEnemiesShootFunc(enemy, 1.75)) {
+            shootEnemy(enemyShotList, enemy);
+        }
+    }
+}
+
 /*
 * Cette fonction permet de détecter si un vélo entre en collision avec un ennemi
 * @Param {bike} vélo dont on vérifie la collision
@@ -185,15 +249,19 @@ void detectCollisionBike(Bike bike, Enemy* enemy) {
     ){
         strcpy(_textCollision, "Collision : true");
         int isLowLife = lifeLoss(&_bike); // TODO : make void ?
-        if(isLowLife == 1) {
-            setMainCurrentWindow(2);
-            isInitGame = false; // pour que le jeu puisse se réinitialiser
-            _bike.state = 0; // reinitialise l'etat du vélo 
-            saveHighscores(_totalPoints);
-        }
+        endOfGame(isLowLife);
     } else 
         strcpy(_textCollision, "Collision : false");
 
+}
+
+void endOfGame(int isLowLife) {
+    if(isLowLife == 1) {
+        setMainCurrentWindow(2);
+        isInitGame = false; // pour que le jeu puisse se réinitialiser
+        _bike.state = 0; // reinitialise l'etat du vélo 
+        saveHighscores(_totalPoints);
+    }
 }
 
 /*
@@ -229,6 +297,34 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
                     enemy->isAlive = false; 
             } else if(current->position.y > 1) { 
                 delete(shotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
+            } 
+            current = current->next;
+        }
+    }
+}
+
+void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
+    if (enemyShotList == NULL)
+        exit(EXIT_FAILURE);
+
+    if (enemyShotList->size > 0) {
+        Shot* current = enemyShotList->first;
+        while(current != NULL) {
+            if (
+                (current->position.y >= bike.position.y - 0.2)
+                &&
+                (current->position.y <= bike.position.y + 0.2)
+                &&
+                (current->position.x <= bike.position.x + 0.2)
+                &&
+                (current->position.x > bike.position.x - 0.2)
+                ) {
+                    deleteEnemyShot(enemyShotList, current); 
+                    int isLowLife = lifeLoss(&_bike); // TODO : make void ?
+                    endOfGame(isLowLife);
+                 
+            } else if(current->position.y < -1) { 
+                deleteEnemyShot(enemyShotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
             } 
             current = current->next;
         }
@@ -279,6 +375,7 @@ void initGame(){
         _totalPoints = 0;
         shotList = newList();
         enemyList = newEnemyList();
+        enemyShotList = newEnemyShotList();
     }
 }
 

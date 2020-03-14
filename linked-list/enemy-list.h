@@ -1,16 +1,7 @@
 #ifndef ENEMYLIST_H
 #define ENEMYLIST_H
 #include <stdbool.h>
-#include "./../graphic/coordinate.h"
-
-typedef struct Enemy Enemy;
-struct Enemy {
-    struct Coordinate position;
-    bool isAlive;
-    float speed;
-    Enemy *next;
-    Enemy *previous;
-};
+#include "./../structs/enemy-struct.h"
 
 typedef struct EnemyList
 {
@@ -48,7 +39,5 @@ int lengthEnemyList(EnemyList* list);
 * @Param {enemy} l'élément qu'il faut supprimer de la liste
 */
 void deleteEnemy(EnemyList *list, Enemy* enemy);
-
-void enemyListTest();
 
 #endif

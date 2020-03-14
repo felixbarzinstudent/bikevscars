@@ -5,16 +5,7 @@
 
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
-#include "./../graphic/coordinate.h"
-
-typedef struct Shot Shot;
-struct Shot
-{
-    struct Coordinate position;
-    float speed;
-    Shot *next;
-    Shot *previous;
-};
+#include "./../structs/shot-struct.h"
 
 typedef struct List
 {
