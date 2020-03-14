@@ -44,3 +44,16 @@ void getTop(int* tab) {
         }
     }
 }
+
+void saveCheckpoint(int points, int life) {
+	FILE *fichier;
+	fichier = fopen("/home/felix/Desktop/repos/learnglut/records/checkpoint.txt","w");// Ouverture du fichier en écriture grâce à "w"
+	
+	if (fichier != NULL) { // Verifier que le fichier est ouvert
+		// Ecriture
+		fprintf(fichier,"%i\n",points);
+		fprintf(fichier,"%i\n",life);
+		// Fermeture du fichier
+		fclose(fichier);
+	}
+}

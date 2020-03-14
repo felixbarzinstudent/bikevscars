@@ -19,7 +19,7 @@ typedef struct Bike {
     struct Coordinate position;
     int life;
     int state; // bonus in game : état invincible (1), état plus rapide, ...
-    int invincibilityDuration;
+    double invincibilityDuration;
 } Bike;
 
 extern struct Bike _bike;

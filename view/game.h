@@ -37,6 +37,12 @@ void clavierGame(unsigned char key, int x, int y);
 * Cette fonction dessine les tirs dans la fenêtre de jeux
 */
 void drawShots();
-
-//TODO
-void pointCounter();
+/*
+* Cette fonction compte les points après chaque ennemi éliminé
+* Post-condition : la variable qui contient le décompte les poitns doit avoir été incrémentée
+*/
+void countPoints();
+/*
+* Cette fonction orchestre le passage d'un checkpoint
+*/
+void doCheckpoint();

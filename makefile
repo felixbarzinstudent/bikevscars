@@ -16,7 +16,7 @@ view/navigation.o : view/navigation.c
 	gcc -g -c view/navigation.c -o view/navigation.o -Wall -std=c99
 view/end-game.o : view/end-game.c graphic/enemy.h graphic/bike.h
 	gcc -g -c view/end-game.c -o view/end-game.o -Wall -std=c99
-view/game.o : view/game.c graphic/bike.h movement/bike-movement.h utils/calculus.h utils/text-tools.h utils/timerTools.h linked-list/shot-list.h graphic/enemy.h linked-list/enemy-list.h
+view/game.o : view/game.c graphic/bike.h movement/bike-movement.h utils/calculus.h utils/text-tools.h utils/timerTools.h linked-list/shot-list.h graphic/enemy.h linked-list/enemy-list.h utils/timerTools.h
 	gcc -g -c view/game.c -o view/game.o -Wall -std=c99
 view/start-menu.o : view/start-menu.c graphic/bike.h utils/text-tools.h
 	gcc -g -c view/start-menu.c -o view/start-menu.o -Wall -std=c99

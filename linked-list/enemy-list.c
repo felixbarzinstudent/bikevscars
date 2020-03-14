@@ -25,10 +25,8 @@ void insertEnemyFront(EnemyList *ls, Enemy enemy)
     first->isAlive = enemy.isAlive;
 
     if(ls->first == NULL) { // si c'est la premiere insertion de la liste
-        printf("1\n");
         first->previous = NULL;
     } else {
-        printf("2\n");
         ls->first->previous = first;
     }
     first->next = ls->first;
@@ -84,7 +82,8 @@ void deleteEnemy(EnemyList *ls, Enemy* enemy) {
                 }
             } else {
                 if(current->next == NULL) { //si c'est le dernier élément de la liste
-                    current->previous->next = NULL;
+                    if(current->previous != NULL)
+                        current->previous->next = NULL;
                     ls->size -= 1;
                     free(enemy);
                     out = true;

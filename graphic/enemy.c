@@ -6,7 +6,9 @@
 #include "./../utils/timerTools.h"
 
 /* initialisation des variables */
-const int timeBetweenEnemyPop = 1;
+double timeBetweenEnemyPop = 1;
+float enemySpeedMax = 0.001; //init
+float enemySpeedMin = 0.001; //init
 
 void createEnemies(EnemyList* list) {
     if(list == NULL)
@@ -17,7 +19,7 @@ void createEnemies(EnemyList* list) {
         enemy.position.x = floatRandom(-0.70, 0.70);
         enemy.position.y = 1;
         enemy.position.z = 0;
-        enemy.speed = 0.001;
+        enemy.speed = floatRandom(enemySpeedMin, enemySpeedMax);
         enemy.isAlive = true;
         insertEnemyFront(list, enemy);
     }

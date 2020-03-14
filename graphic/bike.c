@@ -7,7 +7,7 @@
 #include "./../linked-list/shot-list.h"
 
 /* initialisation des variables */
-const int invicibilityDuration = 4;
+const double invicibilityDuration = 4;
 
 struct Bike _bike;
 

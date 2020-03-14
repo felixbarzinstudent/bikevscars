@@ -1,49 +1,54 @@
 #include <stdbool.h>
-#include "timerTools.h"
+#include <stdio.h>
+#include <string.h>
 #include <../GL/glut.h>
+#include "timerTools.h"
 
 Timer timerInvincibility;
-
-bool timerInvincibilityFunc(int duration) {
-    if (duration < 1) 
+bool timerInvincibilityFunc(double duration) {
+    if (duration < 0) 
         exit(EXIT_FAILURE);
 
-    timerInvincibility.secondsLater = time(NULL);
-
-    if(timerInvincibility.seconds != 0 && (timerInvincibility.secondsLater - timerInvincibility.seconds) > duration){
-        timerInvincibility.lock = false;//reset
-        timerInvincibility.seconds = 0;//reset
-        return false;
-    }
+    gettimeofday(&timerInvincibility.stop, NULL);
+    if(timerInvincibility.start.tv_usec > 0) {
+        double seconds = (double)(timerInvincibility.stop.tv_usec - timerInvincibility.start.tv_usec) / 1000000 + (double)(timerInvincibility.stop.tv_sec - timerInvincibility.start.tv_sec);
+        if(seconds >= duration){
+            timerInvincibility.lock = false;//reset
+            timerInvincibility.start.tv_usec = 0;//reset
+            printf("Finished in %f sec\n", seconds); 
+            return false;
+        }
+    }    
 
     if (!timerInvincibility.lock) { 
-            timerInvincibility.lock = true;
-            timerInvincibility.seconds = time(NULL); 
-            return true;
-        }
+        timerInvincibility.lock = true;
+        timerInvincibility.start = timerInvincibility.stop; 
+        return true;
+    }
 
     return true;
 }
-
 Timer timerInitEnemies;
-
-bool timerInitEnemiesFunc(int duration) {
-    if (duration < 1) 
+bool timerInitEnemiesFunc(double duration) {
+    if (duration < 0)
         exit(EXIT_FAILURE);
 
-    timerInitEnemies.secondsLater = time(NULL);
-
-    if(timerInitEnemies.seconds != 0 && (timerInitEnemies.secondsLater - timerInitEnemies.seconds) > duration){
-        timerInitEnemies.lock = false;//reset
-        timerInitEnemies.seconds = 0;//reset
-        return false;
-    }
+    gettimeofday(&timerInitEnemies.stop, NULL);
+    if(timerInitEnemies.start.tv_usec > 0) {
+        double seconds = (double)(timerInitEnemies.stop.tv_usec - timerInitEnemies.start.tv_usec) / 1000000 + (double)(timerInitEnemies.stop.tv_sec - timerInitEnemies.start.tv_sec);
+        if(seconds >= duration){
+            timerInitEnemies.lock = false;//reset
+            timerInitEnemies.start.tv_usec = 0;//reset
+            //printf("Finished in %f sec\n", seconds); 
+            return false;
+        }
+    }    
 
     if (!timerInitEnemies.lock) { 
-            timerInitEnemies.lock = true;
-            timerInitEnemies.seconds = time(NULL); 
-            return true;
-        }
+        timerInitEnemies.lock = true;
+        timerInitEnemies.start = timerInitEnemies.stop; 
+        return true;
+    }
 
     return true;
 }

@@ -28,10 +28,8 @@ void insertFront(List *ls, Shot shot)
     first->speed = shot.speed;
     
     if(ls->first == NULL) { // si c'est la premiere insertion de la liste
-        printf("1\n");
         first->previous = NULL;
     } else {
-        printf("2\n");
         ls->first->previous = first;
     }
     first->next = ls->first;

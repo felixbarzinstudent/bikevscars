@@ -5,13 +5,14 @@
 #include "./navigation.h"
 #include "./../graphic/bike.h"
 #include "./../graphic/enemy.h"
-#include "./../linked-list/shot-list.h"
-#include "./../movement/bike-movement.h"
-#include "./../utils/calculus.h"
-#include "./../utils/text-tools.h"
 #include "./../graphic/enemy.h"
 #include "./../linked-list/enemy-list.h"
+#include "./../linked-list/shot-list.h"
+#include "./../movement/bike-movement.h"
 #include "./../records/save.h"
+#include "./../utils/calculus.h"
+#include "./../utils/text-tools.h"
+#include "./../utils/timerTools.h"
 
 /* définititon des variables*/
 bool isInitGame = false;
@@ -20,6 +21,7 @@ EnemyList* enemyList;
 int _totalPoints = 0;
 
 /* définititon des fonctions */
+void doCheckpoint();
 void vDisplayGame();
 void detectCollision();
 void drawBike();
@@ -32,6 +34,7 @@ void shoot();
 void drawEnemies();
 void drawShots();
 void countPoints();
+void makeItHarder();
 
 void windowGame() {
     initGame();
@@ -65,7 +68,7 @@ void detectCollision() {
     if(_bike.life >= 1) { // quand le vélo n'a plus de vie, les ennemis s'arretent
         Enemy* currentEnemy = enemyList->first;
         while (currentEnemy != NULL) {
-            if (currentEnemy->position.y < -1) 
+            if (currentEnemy->position.y < -2) 
                 deleteEnemy(enemyList, currentEnemy);
 
             detectCollisionBike(_bike, currentEnemy);
@@ -232,10 +235,28 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
     }
 }
 
+void doCheckpoint() {
+    saveCheckpoint(_totalPoints, _bike.life);
+    makeItHarder();
+}
+
+/*
+* Cette fonction augmente la difficulté du jeu après chaque checkpoint
+*/
+void makeItHarder() {
+    printf("makeitharder\n");
+    enemySpeedMax += 0.000015;
+    enemySpeedMin += 0.00001;
+    timeBetweenEnemyPop -= 0.35;
+
+    if(timeBetweenEnemyPop < 0.5)
+        timeBetweenEnemyPop = 0.5;
+}
+
 void countPoints() {
     _totalPoints++;
-    if(_totalPoints % 10 == 0) {
-
+    if(_totalPoints != 0 && _totalPoints % 10 == 0) {
+        doCheckpoint();
     }
 }
 

@@ -1,15 +1,16 @@
 /*
 * Ce fichier contient des classes qui maintiennent des timers
 */
-#include <time.h>
 #include <stdbool.h>
-
+#include <sys/time.h>
 typedef struct Timer {
-    time_t seconds;
-    time_t secondsLater;
     bool lock;
+    struct timeval start;
+    struct timeval stop;
 } Timer;
 
+extern Timer timerInitEnemies;
+extern Timer timerInvincibility;
 /*
 * Cette fonction initialise un timer qui renverra true pendant
 * la durée passée en paramètre. Renvoit faux ensuite.
@@ -20,6 +21,5 @@ typedef struct Timer {
 * @Param {duration} durée du timer
 * Pré-condition: duration > 0
 */
-bool timerInvincibilityFunc(int duration);
-
-bool timerInitEnemiesFunc(int duration);
+bool timerInvincibilityFunc(double duration);
+bool timerInitEnemiesFunc(double duration);

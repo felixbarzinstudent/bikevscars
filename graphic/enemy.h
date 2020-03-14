@@ -2,6 +2,10 @@
 #define enemy_H
 #include "./../linked-list/enemy-list.h"
 
+extern double timeBetweenEnemyPop;
+extern float enemySpeedMax;
+extern float enemySpeedMin;
+
 void createEnemies(EnemyList* list);
 
 //TODO

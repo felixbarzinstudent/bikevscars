@@ -6,6 +6,7 @@
         "bike-movement.h": "c",
         "enemy.h": "c",
         "navigation.h": "c",
-        "shot-list.h": "c"
+        "shot-list.h": "c",
+        "timertools.h": "c"
     }
 }
