@@ -8,6 +8,7 @@
         "navigation.h": "c",
         "shot-list.h": "c",
         "timertools.h": "c",
-        "enemy-struct.h": "c"
+        "enemy-struct.h": "c",
+        "stdio.h": "c"
     }
 }

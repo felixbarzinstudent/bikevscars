@@ -7,15 +7,19 @@
 char _textCollision[18] = "";
 
 void writeOnWindow(float x, float y, char text[], int size) {
+    glDisable(GL_TEXTURE_2D);
+    glLoadIdentity();
+    glPushMatrix();
     glColor3f(1,1,1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glLoadIdentity();
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
+    //glClear(GL_COLOR_BUFFER_BIT);
+    // glMatrixMode( GL_MODELVIEW );
+    // glLoadIdentity();
     glRasterPos2f(x, y);// Positionne le texte
     for ( int i = 0; i < size; ++i ) {
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
     }
+    glPopMatrix();
+    glEnable(GL_TEXTURE_2D);
 }
 
 void concatArrayOfString(char* string1, char* string2, int sizeString2, char* outPut) {

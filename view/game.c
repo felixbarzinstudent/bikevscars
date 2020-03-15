@@ -183,14 +183,14 @@ void drawEnemiesShots() {
         
         if(enemyShotList->first != NULL) {
             glPushMatrix();
-            enemyShotList->first->position.y -= enemyShotList->first->speed;
-            glTranslatef(enemyShotList->first->position.x, enemyShotList->first->position.y, enemyShotList->first->position.z);
-            glBegin(GL_POLYGON);
-                glVertex2f(-0.05, -0.1);
-                glVertex2f(-0.05, 0.1);
-                glVertex2f(0.05, 0.1);
-                glVertex2f(0.05, -0.1);
-            glEnd();
+                enemyShotList->first->position.y -= enemyShotList->first->speed;
+                glTranslatef(enemyShotList->first->position.x, enemyShotList->first->position.y, enemyShotList->first->position.z);
+                glBegin(GL_POLYGON);
+                    glVertex2f(-0.05, -0.1);
+                    glVertex2f(-0.05, 0.1);
+                    glVertex2f(0.05, 0.1);
+                    glVertex2f(0.05, -0.1);
+                glEnd();
             glPopMatrix();
         } else {
             exit(EXIT_FAILURE);
@@ -200,14 +200,14 @@ void drawEnemiesShots() {
             Shot* current = enemyShotList->first->next;
             while(current != NULL) {
                 glPushMatrix(); 
-                current->position.y -= current->speed;
-                glTranslatef(current->position.x, current->position.y, current->position.z);
-                glBegin(GL_POLYGON);
-                    glVertex2f(-0.05, -0.1);
-                    glVertex2f(-0.05, 0.1);
-                    glVertex2f(0.05, 0.1);
-                    glVertex2f(0.05, -0.1);
-                glEnd();
+                    current->position.y -= current->speed;
+                    glTranslatef(current->position.x, current->position.y, current->position.z);
+                    glBegin(GL_POLYGON);
+                        glVertex2f(-0.05, -0.1);
+                        glVertex2f(-0.05, 0.1);
+                        glVertex2f(0.05, 0.1);
+                        glVertex2f(0.05, -0.1);
+                    glEnd();
                 glPopMatrix(); 
                 current = current->next;
             }
