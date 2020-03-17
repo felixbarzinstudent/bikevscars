@@ -55,7 +55,7 @@ void vDisplay_endgame() {
     char text [] = "Press ENTER to restart | ESC to go back to the menu";
     glClear(GL_COLOR_BUFFER_BIT);
         glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
-        writeOnWindow(-1, 0.9, text, strlen(text));
+        writeOnWindow(-1, 0.9, text, strlen(text), 1, 1, 1);
         glLoadIdentity();
         glPushMatrix();// sauvegarde l'état actuel de la matrice
             glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);

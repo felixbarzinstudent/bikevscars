@@ -13,7 +13,7 @@
 /*
 * Point d’entrée sur la fenêtre du menu.
 */
-void windowMenu(GLuint texture);
+void windowMenu();
 /*
 * Cette fonction initialise les contrôles pour la page de menu
 */

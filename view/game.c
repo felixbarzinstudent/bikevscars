@@ -15,6 +15,9 @@
 #include "./../utils/text-tools.h"
 #include "./../utils/timerTools.h"
 #include "./../structs/enemy-struct.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "./../lib/stb_image.h"
+
 
 /* définititon des variables*/
 bool isInitGame = false;
@@ -22,6 +25,7 @@ List* shotList;
 EnemyList* enemyList;
 EnemyShotList* enemyShotList;
 int _totalPoints = 0;
+GLuint textureCar;
 
 /* définititon des fonctions */
 void doCheckpoint();
@@ -56,14 +60,14 @@ void vDisplayGame() {
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
-    displayLife(&_bike);
-    displayScore(_totalPoints);
+    //displayLife(&_bike);
+    //displayScore(_totalPoints);
     glLoadIdentity();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
         glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
         drawBike();
-        displayBikePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
-        displayCollision(-1, 0, _textCollision);
+        //displayBikePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
+        //displayCollision(-1, 0, _textCollision);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots();
     drawEnemies();
@@ -89,51 +93,46 @@ void detectCollision() {
 }
 
 void drawEnemies() {
-    glColor3f(0.0, 1.0, 0.0);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, textureCar);
+
     int enemiesCount = lengthEnemyList(enemyList);
     if(enemiesCount > 0) {
         
         if(enemyList->first != NULL) {
-            if(enemyList->first->isAlive == true)
-                glColor3f(0.0, 1.0, 0.0);
-            else
-                glColor4f(0.0, 1.0, 0.0, 0.1);
             glPushMatrix();
-            enemyList->first->position.y -= enemyList->first->speed;
-            glTranslatef(enemyList->first->position.x, enemyList->first->position.y, enemyList->first->position.z);
-            glBegin(GL_POLYGON);
-                glVertex2f(-0.1, -0.2);
-                glVertex2f(-0.1, 0.2);
-                glVertex2f(0.1, 0.2);
-                glVertex2f(0.1, -0.2);
-            glEnd();
+            glLoadIdentity();
+                enemyList->first->position.y -= enemyList->first->speed;
+                glTranslatef(enemyList->first->position.x, enemyList->first->position.y, enemyList->first->position.z);
+                glBegin(GL_QUADS);
+                    glTexCoord2f(1, 0); glVertex2f(-0.1, -0.2);
+                    glTexCoord2f(1, 1); glVertex2f(-0.1, 0.2);
+                    glTexCoord2f(0, 1); glVertex2f(0.1, 0.2);
+                    glTexCoord2f(0, 0); glVertex2f(0.1, -0.2);
+                glEnd();
             glPopMatrix();
         } else {
-            exit(EXIT_FAILURE);
+            printf("exit failure ?\n");
         }
-
         if(enemiesCount > 1) {
             Enemy* current = enemyList->first->next;
             while(current != NULL) {
-                if(current->isAlive == true)
-                    glColor3f(0.0, 1.0, 0.0);
-                else
-                    glColor4f(0.0, 1.0, 0.0, 0.1);
-                glPushMatrix(); 
+            glPushMatrix(); 
                 current->position.y -= current->speed;
                 glTranslatef(current->position.x, current->position.y, current->position.z);
-                glBegin(GL_POLYGON);
-                    glVertex2f(-0.1, -0.2);
-                    glVertex2f(-0.1, 0.2);
-                    glVertex2f(0.1, 0.2);
-                    glVertex2f(0.1, -0.2);
+                glBegin(GL_QUADS);
+                    glTexCoord2f(1, 0); glVertex2f(-0.1, -0.2);
+                    glTexCoord2f(1, 1); glVertex2f(-0.1, 0.2);
+                    glTexCoord2f(0, 1); glVertex2f(0.1, 0.2);
+                    glTexCoord2f(0, 0); glVertex2f(0.1, -0.2);
                 glEnd();
-                glPopMatrix(); 
+            glPopMatrix(); 
                 current = current->next;
             }
 
         }
     }
+    glDisable(GL_TEXTURE_2D);
 }
 
 void drawShots() {
@@ -143,14 +142,14 @@ void drawShots() {
         
         if(shotList->first != NULL) {
             glPushMatrix();
-            shotList->first->position.y += shotList->first->speed;
-            glTranslatef(shotList->first->position.x, shotList->first->position.y, shotList->first->position.z);
-            glBegin(GL_POLYGON);
-                glVertex2f(-0.05, -0.1);
-                glVertex2f(-0.05, 0.1);
-                glVertex2f(0.05, 0.1);
-                glVertex2f(0.05, -0.1);
-            glEnd();
+                shotList->first->position.y += shotList->first->speed;
+                glTranslatef(shotList->first->position.x, shotList->first->position.y, shotList->first->position.z);
+                glBegin(GL_POLYGON);
+                    glVertex2f(-0.05, -0.1);
+                    glVertex2f(-0.05, 0.1);
+                    glVertex2f(0.05, 0.1);
+                    glVertex2f(0.05, -0.1);
+                glEnd();
             glPopMatrix();
         } else {
             exit(EXIT_FAILURE);
@@ -160,14 +159,14 @@ void drawShots() {
             Shot* current = shotList->first->next;
             while(current != NULL) {
                 glPushMatrix(); 
-                current->position.y += current->speed;
-                glTranslatef(current->position.x, current->position.y, current->position.z);
-                glBegin(GL_POLYGON);
-                    glVertex2f(-0.05, -0.1);
-                    glVertex2f(-0.05, 0.1);
-                    glVertex2f(0.05, 0.1);
-                    glVertex2f(0.05, -0.1);
-                glEnd();
+                    current->position.y += current->speed;
+                    glTranslatef(current->position.x, current->position.y, current->position.z);
+                    glBegin(GL_POLYGON);
+                        glVertex2f(-0.05, -0.1);
+                        glVertex2f(-0.05, 0.1);
+                        glVertex2f(0.05, 0.1);
+                        glVertex2f(0.05, -0.1);
+                    glEnd();
                 glPopMatrix(); 
                 current = current->next;
             }
@@ -359,11 +358,14 @@ void countPoints() {
 void initGame(){
     if(!isInitGame) {
         // set clear color to black
-        glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        //glClearColor(0.0, 0.0, 0.0, 0.0);
 
         // set fill color to white
         glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+        glClearColor(0.0,0.0,0.0,0.0);
         //set up standard orthogonal view with clipping
         //box as cube of side 2 centered at origin
         //This is the default view and these statements could be removed
@@ -376,6 +378,23 @@ void initGame(){
         shotList = newList();
         enemyList = newEnemyList();
         enemyShotList = newEnemyShotList();
+
+
+
+        //TODO : mettre ca dans un fichier a part
+        int x, y, n;
+        unsigned char *data = stbi_load("./resources/taxialpha.png", &x, &y, &n, 4);
+        GLuint glId;
+        glGenTextures(1, &glId);
+        glBindTexture(GL_TEXTURE_2D, glId);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);  // (Actually, this one is the default)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        textureCar = glId;
     }
 }
 

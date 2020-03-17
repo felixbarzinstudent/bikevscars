@@ -16,7 +16,7 @@ extern char _textCollision[18];
 * @Param {size} taille de la chaîne de caractère
 * Pré-condition: size == taille de text[]
 */
-void writeOnWindow(float x, float y, char text[], int size);
+void writeOnWindow(float x, float y, char text[], int size, int red, int green, int blue);
 /*
 * Cette fonction affiche la vie restante du vélo
 * @Param {bike} objet dont la vie doit être affichée

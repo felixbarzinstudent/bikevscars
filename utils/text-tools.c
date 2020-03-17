@@ -6,18 +6,18 @@
 
 char _textCollision[18] = "";
 
-void writeOnWindow(float x, float y, char text[], int size) {
+void writeOnWindow(float x, float y, char text[], int size, int red, int green, int blue) {
     glDisable(GL_TEXTURE_2D);
     glLoadIdentity();
     glPushMatrix();
-    glColor3f(1,1,1);
-    //glClear(GL_COLOR_BUFFER_BIT);
-    // glMatrixMode( GL_MODELVIEW );
-    // glLoadIdentity();
-    glRasterPos2f(x, y);// Positionne le texte
-    for ( int i = 0; i < size; ++i ) {
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
-    }
+        glColor3f(red, green, blue);
+        //glClear(GL_COLOR_BUFFER_BIT);
+        // glMatrixMode( GL_MODELVIEW );
+        // glLoadIdentity();
+        glRasterPos2f(x, y);// Positionne le texte
+        for ( int i = 0; i < size; ++i ) {
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
+        }
     glPopMatrix();
     glEnable(GL_TEXTURE_2D);
 }
@@ -27,6 +27,7 @@ void concatArrayOfString(char* string1, char* string2, int sizeString2, char* ou
 }
 
 void displayLife(Bike* bike) {
+    glDisable(GL_TEXTURE_2D);
 	int size = 6;
 	char lifeText [] = "Life: ";
 	char lifeArray[size];
@@ -40,10 +41,12 @@ void displayLife(Bike* bike) {
 	char outPut[100];
 
 	concatArrayOfString(lifeText, lifeArray, size, outPut);
-	writeOnWindow(-1, 0.9, lifeText, 15);
+	writeOnWindow(-1, 0.9, lifeText, 15, 1, 1, 1);
+    glEnable(GL_TEXTURE_2D);
 }
 
 void displayBikePositionX(int x, int y, char text[], int windowWidth, int windowHeight) {
+    glDisable(GL_TEXTURE_2D);
     glColor3f(1,1,1);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -61,10 +64,11 @@ void displayBikePositionX(int x, int y, char text[], int windowWidth, int window
         glMatrixMode( GL_PROJECTION );
     glPopMatrix();
     glMatrixMode( GL_MODELVIEW );
+    glEnable(GL_TEXTURE_2D);
 }
 
-void displayCollision(int x, int y, char text[])
-{
+void displayCollision(int x, int y, char text[]) {
+    glDisable(GL_TEXTURE_2D);
     glPushMatrix();
     glColor3f(1,1,1);
     glMatrixMode(GL_PROJECTION);
@@ -83,9 +87,11 @@ void displayCollision(int x, int y, char text[])
     glPopMatrix();
     glMatrixMode( GL_MODELVIEW );
     glPopMatrix();
+    glEnable(GL_TEXTURE_2D);
 }
 
 void displayScore(int total) {
+    glDisable(GL_TEXTURE_2D);
 	//int size = 8;
 	//char lifeText [] = "Points: ";
     char buf[12];
@@ -98,4 +104,5 @@ void displayScore(int total) {
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buf[i]);
     }
 	//writeOnWindow(0.6, 0.9, buf, 15);
+    glEnable(GL_TEXTURE_2D);
 }

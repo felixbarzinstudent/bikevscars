@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <string.h>
 
-GLuint texture;
+GLuint textureRoad;
 void init();
 GLuint loadBMP_custom(const char * imagepath);
+
 void vDisplayMain() {
     int id = getMainCurrentWindow();
     glutInitWindowSize(WIDTH_STARTMENU, HEIGHT_STARTMENU);
@@ -16,7 +17,7 @@ void vDisplayMain() {
     switch(id) {
         case 0:
             /* fenêtre du menu de départ */
-            windowMenu(texture);
+            windowMenu(textureRoad);
         break;
         case 1:
             /* fenêtre du jeu */
@@ -37,7 +38,7 @@ int main(int argc, char** argv){
 
     //initialize mode and open a windows in upper left corner of screen
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); //GLUT_DOUBLE pour activer le double buffering et GLUT_RGBA pour activer le mode couleur 32 bits
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(WIDTH, HEIGHT);
     glutInitWindowPosition(XWINDOWPOSITION, YWINDOWPOSITION);
     glutCreateWindow("Bike VS Cars");
@@ -49,9 +50,7 @@ int main(int argc, char** argv){
 }
 
 void init() {
-    glEnable(GL_TEXTURE_2D);
-    glDepthFunc(GL_NEVER);  
-    texture = loadBMP_custom("./resources/road.bmp");
+    textureRoad = loadBMP_custom("./resources/road.bmp");
 }
 
 GLuint loadBMP_custom(const char * imagepath) {
