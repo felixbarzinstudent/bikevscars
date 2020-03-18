@@ -26,6 +26,8 @@ EnemyList* enemyList;
 EnemyShotList* enemyShotList;
 int _totalPoints = 0;
 GLuint textureCar;
+float abasey0 = 0.0;
+float abasey1 = 1.0;
 
 /* définititon des fonctions */
 void doCheckpoint();
@@ -46,8 +48,10 @@ void makeItHarder();
 void enemyShoot(Bike bike, Enemy* enemy);
 void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike);
 void endOfGame(int isLowLife);
-
-void windowGame() {
+void drawRoad();
+GLuint texture;
+void windowGame(GLuint tex) {
+    texture = tex;
     initGame();
     createEnemies(enemyList);
     glutDisplayFunc(vDisplayGame);
@@ -59,10 +63,10 @@ void windowGame() {
 void vDisplayGame() {
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
     //displayLife(&_bike);
     //displayScore(_totalPoints);
     glLoadIdentity();
+    drawRoad();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
         glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
         drawBike();
@@ -94,6 +98,8 @@ void detectCollision() {
 
 void drawEnemies() {
     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D, textureCar);
 
     int enemiesCount = lengthEnemyList(enemyList);
@@ -102,13 +108,20 @@ void drawEnemies() {
         if(enemyList->first != NULL) {
             glPushMatrix();
             glLoadIdentity();
+
+            if(enemyList->first->isAlive)
+                glColor4f(1.0, 1.0, 0.1, 1);
+            else {
+                glColor4f(1.0, 1.0, 0.1, 0.1);
+            }
+
                 enemyList->first->position.y -= enemyList->first->speed;
                 glTranslatef(enemyList->first->position.x, enemyList->first->position.y, enemyList->first->position.z);
                 glBegin(GL_QUADS);
-                    glTexCoord2f(1, 0); glVertex2f(-0.1, -0.2);
-                    glTexCoord2f(1, 1); glVertex2f(-0.1, 0.2);
-                    glTexCoord2f(0, 1); glVertex2f(0.1, 0.2);
-                    glTexCoord2f(0, 0); glVertex2f(0.1, -0.2);
+                    glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
+                    glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
+                    glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
+                    glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
                 glEnd();
             glPopMatrix();
         } else {
@@ -118,13 +131,18 @@ void drawEnemies() {
             Enemy* current = enemyList->first->next;
             while(current != NULL) {
             glPushMatrix(); 
+                if(current->isAlive)
+                    glColor4f(1.0, 1.0, 0.1, 1);
+                else {
+                    glColor4f(1.0, 1.0, 0.1, 0.1);
+                }
                 current->position.y -= current->speed;
                 glTranslatef(current->position.x, current->position.y, current->position.z);
                 glBegin(GL_QUADS);
-                    glTexCoord2f(1, 0); glVertex2f(-0.1, -0.2);
-                    glTexCoord2f(1, 1); glVertex2f(-0.1, 0.2);
-                    glTexCoord2f(0, 1); glVertex2f(0.1, 0.2);
-                    glTexCoord2f(0, 0); glVertex2f(0.1, -0.2);
+                    glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
+                    glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
+                    glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
+                    glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
                 glEnd();
             glPopMatrix(); 
                 current = current->next;
@@ -132,6 +150,7 @@ void drawEnemies() {
 
         }
     }
+    glDisable(GL_BLEND);
     glDisable(GL_TEXTURE_2D);
 }
 
@@ -357,28 +376,12 @@ void countPoints() {
 
 void initGame(){
     if(!isInitGame) {
-        // set clear color to black
-        glClear(GL_COLOR_BUFFER_BIT);
-        //glClearColor(0.0, 0.0, 0.0, 0.0);
-
-        // set fill color to white
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        //glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
-        glClearColor(0.0,0.0,0.0,0.0);
-        //set up standard orthogonal view with clipping
-        //box as cube of side 2 centered at origin
-        //This is the default view and these statements could be removed
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-
         initBike();
         isInitGame = true;
         _totalPoints = 0;
         shotList = newList();
         enemyList = newEnemyList();
         enemyShotList = newEnemyShotList();
-
 
 
         //TODO : mettre ca dans un fichier a part
@@ -403,4 +406,19 @@ void clavierGame(unsigned char key, int x, int y) {
         // todo : shoot frequency (ex : pas plus de 3 tir/seconde)
         shoot(shotList);
     }
+}
+
+void drawRoad() {
+    //Clear Window
+    abasey0 += 0.0003;
+    abasey1 += 0.0003;
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glBegin(GL_QUADS);
+        glTexCoord2f(-0.9539f, abasey0); glVertex2f(-1.005, -1); // en bas a gauche
+        glTexCoord2f(-0.9539f, abasey1); glVertex2f(-1.005, 1); // au dessus à gauche
+        glTexCoord2f(0.0461f, abasey1); glVertex2f(1.096, 1); // au dessus à droite
+        glTexCoord2f(0.0461f, abasey0); glVertex2f(1.096, -1); // en bas à droite
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
 }

@@ -9,11 +9,8 @@
 GLuint textureRoad;
 void init();
 GLuint loadBMP_custom(const char * imagepath);
-
 void vDisplayMain() {
     int id = getMainCurrentWindow();
-    glutInitWindowSize(WIDTH_STARTMENU, HEIGHT_STARTMENU);
-    glutInitWindowPosition(XWINDOWPOSITION_STARTMENU, YWINDOWPOSITION_STARTMENU);
     switch(id) {
         case 0:
             /* fenêtre du menu de départ */
@@ -21,7 +18,7 @@ void vDisplayMain() {
         break;
         case 1:
             /* fenêtre du jeu */
-            windowGame();
+            windowGame(textureRoad);
         break;
         case 2:
             /* fenêtre de fin de jeu */
@@ -43,13 +40,14 @@ int main(int argc, char** argv){
     glutInitWindowPosition(XWINDOWPOSITION, YWINDOWPOSITION);
     glutCreateWindow("Bike VS Cars");
     init();
-    //glutDisplayFunc(vDisplayMain);
     glutIdleFunc(vDisplayMain);//activation du callback
 
     glutMainLoop();
 }
 
 void init() {
+    glutInitWindowSize(WIDTH_STARTMENU, HEIGHT_STARTMENU);
+    glutInitWindowPosition(XWINDOWPOSITION_STARTMENU, YWINDOWPOSITION_STARTMENU);
     textureRoad = loadBMP_custom("./resources/road.bmp");
 }
 

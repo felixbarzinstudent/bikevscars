@@ -8,8 +8,8 @@
 
 /* initialisation des variables */
 double timeBetweenEnemyPop = 3;
-float enemySpeedMax = 0.0005; //init
-float enemySpeedMin = 0.0005; //init
+float enemySpeedMax = 0.001; //init
+float enemySpeedMin = 0.001; //init
 
 void createEnemies(EnemyList* list) {
     if(list == NULL)
@@ -34,6 +34,6 @@ void shootEnemy (EnemyShotList* enemyShotList, Enemy* enemy) {
     shot.position.x = enemy->position.x;
     shot.position.y = enemy->position.y;
     shot.position.z = 0;
-    shot.speed = 0.001;
+    shot.speed = 0.002;
     insertEnemyShotFront(enemyShotList, shot);
 }
