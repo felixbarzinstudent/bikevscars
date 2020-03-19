@@ -17,7 +17,7 @@
 #include "./../structs/enemy-struct.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "./../lib/stb_image.h"
-
+#include "./../utils/image-loader.h"
 
 /* définititon des variables*/
 bool isInitGame = false;
@@ -26,6 +26,7 @@ EnemyList* enemyList;
 EnemyShotList* enemyShotList;
 int _totalPoints = 0;
 GLuint textureCar;
+GLuint textureBike;
 float abasey0 = 0.0;
 float abasey1 = 1.0;
 
@@ -50,6 +51,7 @@ void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike);
 void endOfGame(int isLowLife);
 void drawRoad();
 GLuint texture;
+
 void windowGame(GLuint tex) {
     texture = tex;
     initGame();
@@ -69,7 +71,7 @@ void vDisplayGame() {
     drawRoad();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
         glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
-        drawBike();
+        drawBike(textureBike);
         //displayBikePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
         //displayCollision(-1, 0, _textCollision);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
@@ -383,21 +385,8 @@ void initGame(){
         enemyList = newEnemyList();
         enemyShotList = newEnemyShotList();
 
-
-        //TODO : mettre ca dans un fichier a part
-        int x, y, n;
-        unsigned char *data = stbi_load("./resources/taxialpha.png", &x, &y, &n, 4);
-        GLuint glId;
-        glGenTextures(1, &glId);
-        glBindTexture(GL_TEXTURE_2D, glId);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);  // (Actually, this one is the default)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        textureCar = glId;
+        textureCar = loadTexture("./resources/taxialpha.png");
+        textureBike = loadTexture("./resources/bike.png");
     }
 }
 

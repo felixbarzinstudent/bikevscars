@@ -1,10 +1,9 @@
 #include "bike.h"
 #include <time.h>
 #include <../GL/glut.h>
-#include "./../utils/timerTools.h"
-// #include <math.h>
-#include "./../movement/bike-movement.h"
 #include "./../linked-list/shot-list.h"
+#include "./../movement/bike-movement.h"
+#include "./../utils/timerTools.h"
 
 /* initialisation des variables */
 const double invicibilityDuration = 4;
@@ -21,23 +20,31 @@ void initBike() {
     _bike.invincibilityDuration = invicibilityDuration;
 }
 
-void drawBike(){
+void drawBike(GLuint texture){
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glPushMatrix();
     if(_bike.state == 1) { // 1 == invincible
-        glColor4f(1.0, 0.0, 0.0, 0.1);
+        //glColor4f(1.0, 0.0, 0.0, 0.1);
         if(!timerInvincibilityFunc(_bike.invincibilityDuration)) { 
             _bike.state = 0; // annule l'invincibilité
         }
 
     } else
-        glColor4f(1.0, 0.0, 0.0, 1.0);
+        glColor4f(1.0, 1.0, 0.1, 1);
 
-    glBegin(GL_POLYGON);
-        glVertex2f(-0.1, -0.2);
-        glVertex2f(-0.1, 0.2);
-        glVertex2f(0.1, 0.2);
-        glVertex2f(0.1, -0.2);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
+        glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
+        glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
+        glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
     glEnd();
     
+    glPopMatrix();
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
 }
 
 bool lock = false;

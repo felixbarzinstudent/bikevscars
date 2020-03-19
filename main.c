@@ -51,6 +51,7 @@ void init() {
     textureRoad = loadBMP_custom("./resources/road.bmp");
 }
 
+//TODO : bouger ca dans le fichier image-loader
 GLuint loadBMP_custom(const char * imagepath) {
     // Data read from the header of the BMP file
     unsigned char header[54]; // Each BMP file begins by a 54-bytes header
