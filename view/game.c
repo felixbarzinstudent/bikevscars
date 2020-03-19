@@ -50,6 +50,7 @@ void enemyShoot(Bike bike, Enemy* enemy);
 void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike);
 void endOfGame(int isLowLife);
 void drawRoad();
+void drawTopBoard();
 GLuint texture;
 
 void windowGame(GLuint tex) {
@@ -65,8 +66,6 @@ void windowGame(GLuint tex) {
 void vDisplayGame() {
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
-    //displayLife(&_bike);
-    //displayScore(_totalPoints);
     glLoadIdentity();
     drawRoad();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
@@ -77,6 +76,7 @@ void vDisplayGame() {
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots();
     drawEnemies();
+    drawTopBoard();
     drawEnemiesShots();
     glutPostRedisplay();
     glutSwapBuffers(); // permute buffers
@@ -157,7 +157,8 @@ void drawEnemies() {
 }
 
 void drawShots() {
-    glColor4f(1.0, 1.0, 1.0, 0.1);
+    glColor3f(1.0, 1.0, 0.1);
+
     int shotsCount = length(shotList);
     if(shotsCount > 0) {
         
@@ -243,6 +244,8 @@ void enemyShoot(Bike bike, Enemy* enemy) {
         (bike.position.x <= (enemy->position.x + 0.2))
         &&
         (bike.position.x > (enemy->position.x - 0.2))
+        &&
+        (bike.position.y < (enemy->position.y + 0.2))
     ) {
         if (!timerEnemiesShootFunc(enemy, 1.75)) {
             shootEnemy(enemyShotList, enemy);
@@ -410,4 +413,22 @@ void drawRoad() {
         glTexCoord2f(0.0461f, abasey0); glVertex2f(1.096, -1); // en bas à droite
     glEnd();
     glDisable(GL_TEXTURE_2D);
+}
+
+void drawTopBoard() {
+    glBegin(GL_QUADS);
+        glColor3f(0.4, 0.4, 0.4);
+        glVertex2f(-1, 0.9);
+        glVertex2f(-1, 1);
+        glVertex2f(1, 1);
+        glVertex2f(1, 0.9);
+    glEnd();
+    glBegin(GL_QUADS);
+        glColor3f(1.0, 1.0, 1.0);
+        glVertex2f(-1, 0.897);
+        glVertex2f(-1, 0.9);
+        glVertex2f(1, 0.9);
+        glVertex2f(1, 0.897);
+    glEnd();
+    displayTopBoardText(&_bike, _totalPoints);
 }

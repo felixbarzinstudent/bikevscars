@@ -15,7 +15,7 @@ void initBike() {
     _bike.position.x = 0;
     _bike.position.y = 0;
     _bike.position.z = 0;
-    _bike.life = 2;
+    _bike.life = 3;
     _bike.state = 0; // 0 == vulnérable et 1 == invincible
     _bike.invincibilityDuration = invicibilityDuration;
 }

@@ -18,10 +18,11 @@ extern char _textCollision[18];
 */
 void writeOnWindow(float x, float y, char text[], int size, int red, int green, int blue);
 /*
-* Cette fonction affiche la vie restante du vélo
+* Cette fonction affiche la vie restante du vélo et le score
 * @Param {bike} objet dont la vie doit être affichée
+* @Param {total} le score total
 */
-void displayLife(Bike* bike);
+void displayTopBoardText(Bike* bike, int total);
 /*
 * Cette fonction affiche le texte des collisions
 * @Param {x} position en X sur la fenêtre

@@ -7,29 +7,21 @@
 char _textCollision[18] = "";
 
 void writeOnWindow(float x, float y, char text[], int size, int red, int green, int blue) {
-    glDisable(GL_TEXTURE_2D);
-    glLoadIdentity();
-    glPushMatrix();
         glColor3f(red, green, blue);
-        //glClear(GL_COLOR_BUFFER_BIT);
-        // glMatrixMode( GL_MODELVIEW );
-        // glLoadIdentity();
         glRasterPos2f(x, y);// Positionne le texte
         for ( int i = 0; i < size; ++i ) {
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
         }
-    glPopMatrix();
-    glEnable(GL_TEXTURE_2D);
 }
 
 void concatArrayOfString(char* string1, char* string2, int sizeString2, char* outPut) {
 	 strncat(string1, string2, sizeString2);
 }
 
-void displayLife(Bike* bike) {
-    glDisable(GL_TEXTURE_2D);
-	int size = 6;
-	char lifeText [] = "Life: ";
+void displayTopBoardText(Bike* bike, int total) {
+	//vies
+    int size = 6;
+	char lifeText [] = "Vies: ";
 	char lifeArray[size];
 	for(int i = 0; i < ((bike->life) * 2); i++){
 		if (i%2 == 0) {
@@ -41,8 +33,12 @@ void displayLife(Bike* bike) {
 	char outPut[100];
 
 	concatArrayOfString(lifeText, lifeArray, size, outPut);
-	writeOnWindow(-1, 0.9, lifeText, 15, 1, 1, 1);
-    glEnable(GL_TEXTURE_2D);
+	writeOnWindow(-1, 0.93, lifeText, 12, 1, 1, 1);
+    
+    //score
+    char buf[12];
+    snprintf(buf, 12, "Points: %d", total);
+    writeOnWindow(0.6, 0.93, buf, 10, 1, 1, 1);
 }
 
 void displayBikePositionX(int x, int y, char text[], int windowWidth, int windowHeight) {
@@ -87,22 +83,5 @@ void displayCollision(int x, int y, char text[]) {
     glPopMatrix();
     glMatrixMode( GL_MODELVIEW );
     glPopMatrix();
-    glEnable(GL_TEXTURE_2D);
-}
-
-void displayScore(int total) {
-    glDisable(GL_TEXTURE_2D);
-	//int size = 8;
-	//char lifeText [] = "Points: ";
-    char buf[12];
-
-    snprintf(buf, 12, "Points: %d", total);
-    glColor3f(1,1,1);
-    glRasterPos2f(0.6, 0.9);
-    for ( int i = 0; i < 11; ++i )
-    {
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buf[i]);
-    }
-	//writeOnWindow(0.6, 0.9, buf, 15);
     glEnable(GL_TEXTURE_2D);
 }
