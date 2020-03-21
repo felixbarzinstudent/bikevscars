@@ -14,26 +14,29 @@ void writeOnWindow(float x, float y, char text[], int size, int red, int green, 
         }
 }
 
-void concatArrayOfString(char* string1, char* string2, int sizeString2, char* outPut) {
+void concatArrayOfString(char* string1, char* string2, int sizeString2) {
 	 strncat(string1, string2, sizeString2);
 }
 
 void displayTopBoardText(Bike* bike, int total) {
 	//vies
-    int size = 6;
-	char lifeText [] = "Vies: ";
-	char lifeArray[size];
-	for(int i = 0; i < ((bike->life) * 2); i++){
-		if (i%2 == 0) {
-			lifeArray[i] = '|';
-		} else {
-			lifeArray[i] = ' ';
-		}
-	}
-	char outPut[100];
+    if(bike->life >= 1) {
+        int size = bike->life * 2;
+        char lifeArray[size];
+        char lifeText [] = "Vies: ";
+        for(int i = 0; i < (size * 2); i++){
+            if (i%2 == 0) {
+                lifeArray[i] = '|';
+            } else {
+                lifeArray[i] = ' ';
+            }
+        }
 
-	concatArrayOfString(lifeText, lifeArray, size, outPut);
-	writeOnWindow(-1, 0.93, lifeText, 12, 1, 1, 1);
+        concatArrayOfString(lifeText, lifeArray, size);
+        writeOnWindow(-1, 0.93, lifeText, 12, 1, 1, 1);
+    } else {
+        writeOnWindow(-1, 0.93, "GAME OVER", 9, 1, 1, 1);
+    }
     
     //score
     char buf[12];

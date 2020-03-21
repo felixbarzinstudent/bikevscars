@@ -398,6 +398,11 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
     }
 }
 
+/*
+* Cette fonction permet de détecter si un des tirs des ennemis touche le vélo
+* @Param {enemyShotList} liste des tirs effectués par les ennemis
+* @Param {bike} le vélo est la cible des ennemis
+*/
 void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
     if(bike.life >= 1) {
         if (enemyShotList == NULL)
@@ -416,9 +421,12 @@ void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
                     (current->position.x > bike.position.x - 0.2)
                     ) {
                         printf("Le vélo va être touché par un tir ennemi\n");
-                        deleteEnemyShot(enemyShotList, current); 
                         int isLowLife = lifeLoss(&_bike); // TODO : make void ?
                         printf("Le vélo est touché par un tir ennemi\n");
+                        
+                        if(isLowLife != 1)
+                            deleteEnemyShot(enemyShotList, current); 
+
                         endOfGame(isLowLife);
                     
                 } else if(current->position.y < -1) { 

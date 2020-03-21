@@ -9,6 +9,7 @@
 
 /* définititon des variables*/
 int numberWindowStartMenu;
+int activeOptionEndGame = 1;
 
 /* définititon des fonctions */
 
@@ -17,6 +18,7 @@ void vClavierSpecial_endgame(int key, int x, int y);
 void vDisplay_endgame();
 void drawBike_endgame();
 void initEndGame();
+void displayEndMenu();
 
 void windowEndGame() {
     glutDisplayFunc(vDisplay_endgame);
@@ -24,16 +26,20 @@ void windowEndGame() {
     glutKeyboardFunc(vClavier_endgame); // enter
 }
 
-// DO NOTHING : sur la fenetre de fin les touches spéciales ne doivent pas pouvoir être utilisable
 void vClavierSpecial_endgame(int key, int x, int y) 
 {
 	switch (key){
         case GLUT_KEY_UP:
-        // TODO : change current selected window
+            activeOptionEndGame -= 1;
+            if(activeOptionEndGame < 1)
+                activeOptionEndGame = 2;
             break;
 
         case GLUT_KEY_DOWN:
-        break;
+            activeOptionEndGame += 1;
+            if(activeOptionEndGame > 2)
+                activeOptionEndGame = 1;
+            break;
 
         default:
         break;
@@ -41,32 +47,19 @@ void vClavierSpecial_endgame(int key, int x, int y)
 }
 
 void vClavier_endgame(unsigned char key, int x, int y) {
-    if (key == 13) 
-        setMainCurrentWindow(1);
-    else if (key == 27)
-        setMainCurrentWindow(0);
-
+    if (key == 13) {
+        if (activeOptionEndGame == 1)
+            setMainCurrentWindow(1); // todo changer le hardcode 1 -> jeu
+        else if (activeOptionEndGame == 2)
+            setMainCurrentWindow(0); 
+    }
 }
 /*
 * Affiche la scene finale du jeu mais sans les commandes pour déplacer le vélo
 * Les nouvelles commandes permettent de recommencer une partie ou de revenir au menu de départ
 */
 void vDisplay_endgame() {
-    char text [] = "Press ENTER to restart | ESC to go back to the menu";
-    glClear(GL_COLOR_BUFFER_BIT);
-        glMatrixMode(GL_MODELVIEW); // le mode GL_MODELVIEW permet de faire des transformations sur les objets de la scène
-        writeOnWindow(-1, 0.9, text, strlen(text), 1, 1, 1);
-        glLoadIdentity();
-        glPushMatrix();// sauvegarde l'état actuel de la matrice
-            glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
-            drawBike_endgame();
-        glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
-        glPushMatrix();
-            //glTranslatef(_enemy.position.x, _enemy.position.y, _enemy.position.z);
-            //drawEnemy();
-        glPopMatrix();
-        glutPostRedisplay();
-        glutSwapBuffers(); // permute buffers
+        displayEndMenu();
 }
 
 void drawBike_endgame(){
@@ -78,4 +71,19 @@ void drawBike_endgame(){
         glVertex2f(0.1, 0.2);
         glVertex2f(0.1, -0.2);
     glEnd();
+}
+
+void displayEndMenu() {
+    char option1 [] = "Recommencer";
+    char option2 [] = "Quitter";
+    
+    if(activeOptionEndGame == 1)
+        writeOnWindow(-0.2, 0.1, option1, strlen(option1), 0, 0, 0);
+    else
+        writeOnWindow(-0.2, 0.1, option1, strlen(option1), 1, 1, 1);
+
+    if(activeOptionEndGame == 2)
+        writeOnWindow(-0.2, 0.0, option2, strlen(option2), 0, 0, 0);
+    else
+        writeOnWindow(-0.2, 0.0, option2, strlen(option2), 1, 1, 1);
 }
