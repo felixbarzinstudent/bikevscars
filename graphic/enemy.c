@@ -7,20 +7,20 @@
 #include "./../utils/timerTools.h"
 
 /* initialisation des variables */
-double timeBetweenEnemyPop = 3;
-float enemySpeedMax = 0.001; //init
-float enemySpeedMin = 0.001; //init
+double _timeBetweenEnemyPop = 3;
+float _enemySpeedMax = 0.001; //init
+float _enemySpeedMin = 0.001; //init
 
 void createEnemies(EnemyList* list) {
     if(list == NULL)
         exit(EXIT_FAILURE);
 
-    if(!timerInitEnemiesFunc(timeBetweenEnemyPop)) { // crée un ennemi toutes les x secondes
+    if(!timerInitEnemiesFunc(_timeBetweenEnemyPop)) { // crée un ennemi toutes les x secondes
         Enemy enemy;
         enemy.position.x = floatRandom(-0.85, 0.85);
         enemy.position.y = 1;
         enemy.position.z = 0;
-        enemy.speed = floatRandom(enemySpeedMin, enemySpeedMax);
+        enemy.speed = floatRandom(_enemySpeedMin, _enemySpeedMax);
         enemy.isAlive = true;
         insertEnemyFront(list, enemy);
     }
@@ -36,4 +36,10 @@ void shootEnemy (EnemyShotList* enemyShotList, Enemy* enemy) {
     shot.position.z = 0;
     shot.speed = 0.002;
     insertEnemyShotFront(enemyShotList, shot);
+}
+
+void initEnemyFactory() {
+    _enemySpeedMax = 0.001;
+    _enemySpeedMin = 0.001;
+    _timeBetweenEnemyPop = 3;
 }

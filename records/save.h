@@ -15,7 +15,17 @@ void getTop(int* tab);
 /*
 * Enregistre les points et la vie dans le fichier des checkpoints.
 * Ce fichier sera lu pour reprendre une partie à partir de ce palier.
-*Post-condition : les données doivent être écrites dans le fichier
+* Post-condition : les données doivent être écrites dans le fichier
 */
 void saveCheckpoint(int points, int life);
+/*
+* Récupere dans le fichier checkpoint le nombre de vie restante lors du dernier passage de palier
+* Post-condition : la valeure retournée doit être plus grande que zero
+*/
+int getLifeFromLastCheckpoint();
+/*
+* Récupère dans le fichier checkpoint le nombre de point lors du passage au checkpoint
+* Post-condition : le modulo du total des points doit être égal à 0
+*/
+int getPointsFromLastCheckpoint();
 #endif

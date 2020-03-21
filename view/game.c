@@ -292,7 +292,7 @@ void detectCollisionBike(Bike bike, Enemy* enemy) {
     if(
         enemy->isAlive == true
         &&
-        (bike.position.y + 0.2 >= enemy->position.y -0.2)
+        (bike.position.y + 0.2 >= enemy->position.y -0.125)
         &&
         (bike.position.y - 0.2 <= enemy->position.y + 0.2)
         &&
@@ -448,12 +448,12 @@ void doCheckpoint() {
 */
 void makeItHarder() {
     printf("makeitharder\n");
-    enemySpeedMax += 0.000015;
-    enemySpeedMin += 0.00001;
-    timeBetweenEnemyPop -= 0.35;
+    _enemySpeedMax += 0.000015;
+    _enemySpeedMin += 0.00001;
+    _timeBetweenEnemyPop -= 0.35;
 
-    if(timeBetweenEnemyPop < 0.5)
-        timeBetweenEnemyPop = 0.5;
+    if(_timeBetweenEnemyPop < 0.5)
+        _timeBetweenEnemyPop = 0.5;
 }
 
 void countPoints() {
@@ -465,9 +465,19 @@ void countPoints() {
 
 void initGame(){
     if(!isInitGame) {
+        initEnemyFactory();
         initBike();
-        isInitGame = true;
-        _totalPoints = 0;
+        if(_startMenuActiveOption == 1) {
+            _startMenuActiveOption = 0; //réinit param
+
+            _bike.life = getLifeFromLastCheckpoint();
+            _totalPoints = getPointsFromLastCheckpoint();
+            for (int i = 0; i < (_totalPoints / 10); i++) {
+                makeItHarder();
+            }
+        } else {
+            _totalPoints = 0;
+        }
         _isAlreadyObstacle = false;
         shotList = newList();
         enemyList = newEnemyList();
@@ -480,6 +490,8 @@ void initGame(){
         texturePolice3 = loadTexture("./resources/police3.png");
         textureWave = loadTexture("./resources/wave.png");
         textureLightBeam = loadTexture("./resources/lightbeam.png");
+        
+        isInitGame = true;
     }
 }
 

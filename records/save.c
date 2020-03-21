@@ -11,7 +11,7 @@ void saveHighscores(int score) {
 	fichier = fopen("/home/felix/Desktop/repos/learnglut/records/highscores.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
 		for (int i = 0 ; i < numberOfHighscoresToDisplay; i++) {
-		    fscanf(fichier,"%d\n",tab+i);
+		    fscanf(fichier, "%d\n", tab+i);
         }
 
 		fclose(fichier);
@@ -25,7 +25,7 @@ void saveHighscores(int score) {
 	if (fichier != NULL) { // Verifier que le fichier est ouvert
 		// Ecriture
         for (int i = 0; i < numberOfHighscoresToDisplay; i++){
-		    fprintf(fichier,"%d\n",tab[i]);
+		    fprintf(fichier, "%d\n", tab[i]);
 	    }
 		// Fermeture du fichier
 		fclose(fichier);
@@ -56,4 +56,42 @@ void saveCheckpoint(int points, int life) {
 		// Fermeture du fichier
 		fclose(fichier);
 	}
+}
+
+int getLifeFromLastCheckpoint() {
+	int tab[2];
+	FILE *fichier;
+	
+	fichier = fopen("/home/felix/Desktop/repos/learnglut/records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	if (fichier != NULL) {
+		for (int i = 0 ; i < 2; i++) {
+		    	fscanf(fichier, "%d\n", tab+i);
+        }
+
+		fclose(fichier);
+	} 
+
+	if(tab[1] <= 0)
+		exit(EXIT_FAILURE);
+
+	return tab[1];
+}
+
+int getPointsFromLastCheckpoint() {
+	int tab[2];
+	FILE *fichier;
+	
+	fichier = fopen("/home/felix/Desktop/repos/learnglut/records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	if (fichier != NULL) {
+		for (int i = 0 ; i < 2; i++) {
+		    fscanf(fichier, "%d\n", tab+i);
+        }
+
+		fclose(fichier);
+	} 
+
+	if(tab[0] % 10 != 0)
+		exit(EXIT_FAILURE);
+
+	return tab[0];
 }

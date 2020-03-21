@@ -49,7 +49,11 @@ void vClavierSpecial_startmenu(int key, int x, int y)
 
 void vClavier_startmenu(unsigned char key, int x, int y) {
     if (key == 13) {
-        if (activeOption == 2)
+        if (activeOption == 1) {
+            setMainCurrentWindow(1);
+            _startMenuActiveOption = 1;
+        }
+        else if (activeOption == 2)
             setMainCurrentWindow(1); // todo changer le hardcode 1 -> jeu
     }
 }
