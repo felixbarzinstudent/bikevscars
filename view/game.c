@@ -31,6 +31,8 @@ GLuint textureBike;
 GLuint texturePolice1;
 GLuint texturePolice2;
 GLuint texturePolice3;
+GLuint textureWave;
+GLuint textureLightBeam;
 float abasey0 = 0.0;
 float abasey1 = 1.0;
 float roadSpeed = 0.0003;
@@ -76,7 +78,7 @@ void vDisplayGame() {
     glLoadIdentity();
     drawRoad();
     glPushMatrix();// sauvegarde l'état actuel de la matrice
-        glTranslatef(_bike.position.x, _bike.position.y, _bike.position.z);
+        glTranslatef(_bike.position.x, _bike.position.y, 0);
         drawBike(textureBike);
         //displayBikePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
         //displayCollision(-1, 0, _textCollision);
@@ -84,8 +86,8 @@ void vDisplayGame() {
     drawShots();
     drawEnemies();
     drawObstacle(roadSpeed, texturePolice1, texturePolice2, texturePolice3);
-    drawTopBoard();
     drawEnemiesShots();
+    drawTopBoard();
     glutPostRedisplay();
     glutSwapBuffers(); // permute buffers
 }
@@ -129,7 +131,7 @@ void drawEnemies() {
             }
 
                 enemyList->first->position.y -= enemyList->first->speed;
-                glTranslatef(enemyList->first->position.x, enemyList->first->position.y, enemyList->first->position.z);
+                glTranslatef(enemyList->first->position.x, enemyList->first->position.y, 0);
                 glBegin(GL_QUADS);
                     glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
                     glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
@@ -150,7 +152,7 @@ void drawEnemies() {
                     glColor4f(1.0, 1.0, 0.1, 0.1);
                 }
                 current->position.y -= current->speed;
-                glTranslatef(current->position.x, current->position.y, current->position.z);
+                glTranslatef(current->position.x, current->position.y, 0);
                 glBegin(GL_QUADS);
                     glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
                     glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
@@ -168,7 +170,12 @@ void drawEnemies() {
 }
 
 void drawShots() {
-    glColor3f(1.0, 1.0, 0.1);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBindTexture(GL_TEXTURE_2D, textureWave);
+
+    glColor4f(0.5, 0.4, 0.4, 0.5);
 
     int shotsCount = length(shotList);
     if(shotsCount > 0) {
@@ -176,12 +183,12 @@ void drawShots() {
         if(shotList->first != NULL) {
             glPushMatrix();
                 shotList->first->position.y += shotList->first->speed;
-                glTranslatef(shotList->first->position.x, shotList->first->position.y, shotList->first->position.z);
-                glBegin(GL_POLYGON);
-                    glVertex2f(-0.05, -0.1);
-                    glVertex2f(-0.05, 0.1);
-                    glVertex2f(0.05, 0.1);
-                    glVertex2f(0.05, -0.1);
+                glTranslatef(shotList->first->position.x, shotList->first->position.y, 0);
+                glBegin(GL_QUADS);
+                    glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
+                    glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
+                    glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
+                    glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
                 glEnd();
             glPopMatrix();
         } else {
@@ -193,12 +200,12 @@ void drawShots() {
             while(current != NULL) {
                 glPushMatrix(); 
                     current->position.y += current->speed;
-                    glTranslatef(current->position.x, current->position.y, current->position.z);
-                    glBegin(GL_POLYGON);
-                        glVertex2f(-0.05, -0.1);
-                        glVertex2f(-0.05, 0.1);
-                        glVertex2f(0.05, 0.1);
-                        glVertex2f(0.05, -0.1);
+                    glTranslatef(current->position.x, current->position.y, 0);
+                    glBegin(GL_QUADS);
+                        glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
+                        glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
+                        glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
+                        glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
                     glEnd();
                 glPopMatrix(); 
                 current = current->next;
@@ -206,22 +213,29 @@ void drawShots() {
 
         }
     }
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void drawEnemiesShots() {
-    glColor4f(1.0, 1.0, 1.0, 0.1);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBindTexture(GL_TEXTURE_2D, textureLightBeam);
+
+    glColor4f(1.0, 1.0, 1.0, 1);
     int shotsCount = lengthEnemyShotList(enemyShotList);
     if(shotsCount > 0) {
         
         if(enemyShotList->first != NULL) {
             glPushMatrix();
                 enemyShotList->first->position.y -= enemyShotList->first->speed;
-                glTranslatef(enemyShotList->first->position.x, enemyShotList->first->position.y, enemyShotList->first->position.z);
-                glBegin(GL_POLYGON);
-                    glVertex2f(-0.05, -0.1);
-                    glVertex2f(-0.05, 0.1);
-                    glVertex2f(0.05, 0.1);
-                    glVertex2f(0.05, -0.1);
+                glTranslatef(enemyShotList->first->position.x, enemyShotList->first->position.y, 0);
+                glBegin(GL_QUADS);
+                    glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
+                    glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
+                    glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
+                    glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
                 glEnd();
             glPopMatrix();
         } else {
@@ -233,12 +247,12 @@ void drawEnemiesShots() {
             while(current != NULL) {
                 glPushMatrix(); 
                     current->position.y -= current->speed;
-                    glTranslatef(current->position.x, current->position.y, current->position.z);
-                    glBegin(GL_POLYGON);
-                        glVertex2f(-0.05, -0.1);
-                        glVertex2f(-0.05, 0.1);
-                        glVertex2f(0.05, 0.1);
-                        glVertex2f(0.05, -0.1);
+                    glTranslatef(current->position.x, current->position.y, 0);
+                    glBegin(GL_QUADS);
+                        glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
+                        glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
+                        glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
+                        glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
                     glEnd();
                 glPopMatrix(); 
                 current = current->next;
@@ -246,6 +260,8 @@ void drawEnemiesShots() {
 
         }
     }
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
 }
 
 /*
@@ -383,31 +399,33 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
 }
 
 void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
-    if (enemyShotList == NULL)
-        exit(EXIT_FAILURE);
+    if(bike.life >= 1) {
+        if (enemyShotList == NULL)
+            exit(EXIT_FAILURE);
 
-    if (enemyShotList->size > 0) {
-        Shot* current = enemyShotList->first;
-        while(current != NULL) {
-            if (
-                (current->position.y >= bike.position.y - 0.2)
-                &&
-                (current->position.y <= bike.position.y + 0.2)
-                &&
-                (current->position.x <= bike.position.x + 0.2)
-                &&
-                (current->position.x > bike.position.x - 0.2)
-                ) {
-                    printf("Le vélo va être touché par un tir ennemi\n");
-                    deleteEnemyShot(enemyShotList, current); 
-                    int isLowLife = lifeLoss(&_bike); // TODO : make void ?
-                    printf("Le vélo est touché par un tir ennemi\n");
-                    endOfGame(isLowLife);
-                 
-            } else if(current->position.y < -1) { 
-                deleteEnemyShot(enemyShotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
-            } 
-            current = current->next;
+        if (enemyShotList->size > 0) {
+            Shot* current = enemyShotList->first;
+            while(current != NULL) {
+                if (
+                    (current->position.y >= bike.position.y - 0.2)
+                    &&
+                    (current->position.y <= bike.position.y + 0.2)
+                    &&
+                    (current->position.x <= bike.position.x + 0.2)
+                    &&
+                    (current->position.x > bike.position.x - 0.2)
+                    ) {
+                        printf("Le vélo va être touché par un tir ennemi\n");
+                        deleteEnemyShot(enemyShotList, current); 
+                        int isLowLife = lifeLoss(&_bike); // TODO : make void ?
+                        printf("Le vélo est touché par un tir ennemi\n");
+                        endOfGame(isLowLife);
+                    
+                } else if(current->position.y < -1) { 
+                    deleteEnemyShot(enemyShotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
+                } 
+                current = current->next;
+            }
         }
     }
 }
@@ -452,6 +470,8 @@ void initGame(){
         texturePolice1 = loadTexture("./resources/police1.png");
         texturePolice2 = loadTexture("./resources/police2.png");
         texturePolice3 = loadTexture("./resources/police3.png");
+        textureWave = loadTexture("./resources/wave.png");
+        textureLightBeam = loadTexture("./resources/lightbeam.png");
     }
 }
 

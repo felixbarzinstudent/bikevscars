@@ -27,7 +27,7 @@ void drawBike(GLuint texture){
     glBindTexture(GL_TEXTURE_2D, texture);
     glPushMatrix();
         if(_bike.state == 1) { // 1 == invincible
-            //glColor4f(1.0, 0.0, 0.0, 0.1);
+            glColor4f(1.0, 1.0, 0.1, 0.1);
             if(!timerInvincibilityFunc(_bike.invincibilityDuration)) { 
                 _bike.state = 0; // annule l'invincibilité
             }
@@ -84,7 +84,7 @@ void shoot(List *shotList) {
 
     Shot shot;
     shot.position.x = _bike.position.x;
-    shot.position.y = _bike.position.y;
+    shot.position.y = (_bike.position.y + 0.2);
     shot.position.z = 0;
     shot.speed = 0.001;
     insertFront(shotList, shot);

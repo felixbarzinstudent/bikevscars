@@ -32,7 +32,7 @@ void shootEnemy (EnemyShotList* enemyShotList, Enemy* enemy) {
 
     Shot shot;
     shot.position.x = enemy->position.x;
-    shot.position.y = enemy->position.y;
+    shot.position.y = (enemy->position.y - 0.2);
     shot.position.z = 0;
     shot.speed = 0.002;
     insertEnemyShotFront(enemyShotList, shot);
