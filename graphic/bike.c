@@ -82,10 +82,10 @@ void shoot(List *shotList) {
     if (shotList == NULL)
         exit(EXIT_FAILURE);
 
-    Shot shot;
-    shot.position.x = _bike.position.x;
-    shot.position.y = (_bike.position.y + 0.2);
-    shot.position.z = 0;
-    shot.speed = 0.001;
+    Shot* shot = malloc(sizeof(Shot));
+    shot->position.x = _bike.position.x;
+    shot->position.y = (_bike.position.y + 0.2);
+    shot->position.z = 0;
+    shot->speed = 0.001;
     insertFront(shotList, shot);
 }

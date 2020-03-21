@@ -23,7 +23,7 @@ EnemyList* newEnemyList();
 * Pré-condition : list != NULL
 * Post-condition: list correspond à la list initiale à laquelle un noeud a été ajouté au début; sa taille est incrémentée de 1
 */
-void insertEnemyFront(EnemyList* list, Enemy enemy);
+void insertEnemyFront(EnemyList* list, Enemy* enemy);
 
 /*
 * Cette fonction permet de récupérer la taille de la liste

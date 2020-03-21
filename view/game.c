@@ -80,8 +80,6 @@ void vDisplayGame() {
     glPushMatrix();// sauvegarde l'état actuel de la matrice
         glTranslatef(_bike.position.x, _bike.position.y, 0);
         drawBike(textureBike);
-        //displayBikePositionX(0, 0, _xposRecord, WIDTH, HEIGHT);
-        //displayCollision(-1, 0, _textCollision);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots();
     drawEnemies();
@@ -277,7 +275,7 @@ void enemyShoot(Bike bike, Enemy* enemy) {
         &&
         (bike.position.y < (enemy->position.y + 0.2))
     ) {
-        if (!timerEnemiesShootFunc(enemy, 1.75)) {
+        if (!timerEnemiesShootFunc(enemy, 1.5)) {
             shootEnemy(enemyShotList, enemy);
         }
     }

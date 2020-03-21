@@ -27,7 +27,7 @@ List* newList();
 * Pré-condition : ls != NULL
 * Post-condition: ls correspond à la liste initiale à laquelle un noeud a été ajouté au début, contenant l'élément nb; sa taille est incrémentée de 1
 */
-void insertFront(List* ls, Shot shot);
+void insertFront(List* ls, Shot* shot);
 
 /*
 * Cette fonction permet de récupérer la taille de la liste

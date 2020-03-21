@@ -82,14 +82,14 @@ void vClavier_startmenu(unsigned char key, int x, int y) {
             else if (activeOption == 3)
                 activeMenu = 2;
         }
-    } else if (activeMenu == 2) {
+    } else if (activeMenu == 2) { // Menu difficulté
         if (key == 13) {
             if (activeOptionMenuConfigurer == 1) {
                 _difficulty = 1;
             } else if (activeOptionMenuConfigurer == 2) {
                 _difficulty = 3;
             } else if (activeOptionMenuConfigurer == 3) {
-                _difficulty = 5;
+                _difficulty = 10;
             } 
 
             activeMenu = 1;

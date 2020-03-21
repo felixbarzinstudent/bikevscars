@@ -23,7 +23,7 @@ EnemyShotList* newEnemyShotList();
 /*
 * Cette fonction permet d'insérer un nouvel élement au début de la liste
 */
-void insertEnemyShotFront(EnemyShotList* ls, Shot shot);
+void insertEnemyShotFront(EnemyShotList* ls, Shot* shot);
 
 /*
 * Cette fonction permet de récupérer la taille de la liste

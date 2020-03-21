@@ -51,7 +51,7 @@ void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2,
         glPushMatrix();
             glColor4f(1.0, 1.0, 1.0, 1);
             _obstacle.position.y -= (roadSpeed + 0.0003);
-            glTranslatef(_obstacle.position.x, _obstacle.position.y, _obstacle.position.z);
+            glTranslatef(_obstacle.position.x, _obstacle.position.y, 0);
             glBegin(GL_QUADS);
                 glTexCoord2f(1, 1); glVertex2f(-0.2, -0.1);//en bas a gauche
                 glTexCoord2f(0, 1); glVertex2f(-0.2, 0.1);// au dessus a gauche

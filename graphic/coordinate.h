@@ -8,7 +8,7 @@
 typedef struct Coordinate {
     float x;
     float y;
-    float z;
+    int z;
 } Coordinate;
 
 #endif

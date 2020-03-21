@@ -16,21 +16,28 @@ EnemyList *newEnemyList()
 
 //PRE: ls != NULL
 //POST: ls correspond à la liste initiale à laquelle un noeud a été ajouté au début, contenant l'élément nb; sa taille est incrémentée de 1
-void insertEnemyFront(EnemyList *ls, Enemy enemy)
+void insertEnemyFront(EnemyList *ls, Enemy* enemy)
 {
     Enemy *first = malloc(sizeof(Enemy));
-    first->position.x = enemy.position.x;
-    first->position.y = enemy.position.y;
-    first->speed = enemy.speed;
-    first->isAlive = enemy.isAlive;
+    first->position.x = enemy->position.x;
+    first->position.y = enemy->position.y;
+    first->position.z = 0;
+
+    first->speed = enemy->speed;
+    first->isAlive = enemy->isAlive;
 
     if(ls->first == NULL) { // si c'est la premiere insertion de la liste
         first->previous = NULL;
+        first->next = NULL;
+        ls->first = first;
     } else {
+        Enemy* lsFirstTemp = malloc(sizeof(Enemy));
+        lsFirstTemp = ls->first;
         ls->first->previous = first;
+        first->next = lsFirstTemp;
+        first->previous = NULL;
+        ls->first = first;
     }
-    first->next = ls->first;
-    ls->first = first;
 
     ls->size += 1;
 }

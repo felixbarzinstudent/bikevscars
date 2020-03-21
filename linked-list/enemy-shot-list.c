@@ -20,20 +20,27 @@ EnemyShotList *newEnemyShotList()
 
 //PRE: ls != NULL
 //POST: ls correspond à la liste initiale à laquelle un noeud a été ajouté au début, contenant l'élément nb; sa taille est incrémentée de 1
-void insertEnemyShotFront(EnemyShotList *ls, Shot shot)
+void insertEnemyShotFront(EnemyShotList *ls, Shot* shot)
 {
     Shot *first = malloc(sizeof(Shot));
-    first->position.x = shot.position.x;
-    first->position.y = shot.position.y;
-    first->speed = shot.speed;
+    first->position.x = shot->position.x;
+    first->position.y = shot->position.y;
+    first->position.z = 0;
+
+    first->speed = shot->speed;
     
     if(ls->first == NULL) { // si c'est la premiere insertion de la liste
         first->previous = NULL;
+        first->next = NULL;
+        ls->first = first;
     } else {
+        Shot* lsFirstTemp = malloc(sizeof(Shot));
+        lsFirstTemp = ls->first;
         ls->first->previous = first;
+        first->next = lsFirstTemp;
+        first->previous = NULL;
+        ls->first = first;
     }
-    first->next = ls->first;
-    ls->first = first;
 
     ls->size += 1;
 }
