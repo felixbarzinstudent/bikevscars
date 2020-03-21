@@ -28,4 +28,5 @@ extern Timer timerInvincibility;
 bool timerInvincibilityFunc(double duration);
 bool timerInitEnemiesFunc(double duration);
 bool timerEnemiesShootFunc(Enemy* enemy, double duration);
+bool timerInitObstaclesFunc(double duration);
 #endif

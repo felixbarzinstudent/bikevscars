@@ -10,6 +10,6 @@ struct Enemy {
     float speed;
     Enemy *next;
     Enemy *previous;
-    TimerTest coolDownShoot;
+    TimerTest coolDownShoot; // empeche les ennemis d'enchainer les tirs trop vite
 };
 #endif

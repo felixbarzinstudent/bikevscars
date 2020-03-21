@@ -17,7 +17,7 @@ void createEnemies(EnemyList* list) {
 
     if(!timerInitEnemiesFunc(timeBetweenEnemyPop)) { // crée un ennemi toutes les x secondes
         Enemy enemy;
-        enemy.position.x = floatRandom(-0.70, 0.70);
+        enemy.position.x = floatRandom(-0.85, 0.85);
         enemy.position.y = 1;
         enemy.position.z = 0;
         enemy.speed = floatRandom(enemySpeedMin, enemySpeedMax);

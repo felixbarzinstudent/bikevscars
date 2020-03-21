@@ -77,3 +77,28 @@ bool timerEnemiesShootFunc(Enemy* enemy, double duration) {
 
     return true;
 }
+
+Timer timerInitObstacle;
+bool timerInitObstaclesFunc(double duration) {
+    if (duration < 0)
+        exit(EXIT_FAILURE);
+
+    gettimeofday(&timerInitObstacle.stop, NULL);
+    if(timerInitObstacle.start.tv_usec > 0) {
+        double seconds = (double)(timerInitObstacle.stop.tv_usec - timerInitObstacle.start.tv_usec) / 1000000 + (double)(timerInitObstacle.stop.tv_sec - timerInitObstacle.start.tv_sec);
+        if(seconds >= duration){
+            timerInitObstacle.lock = false;//reset
+            timerInitObstacle.start.tv_usec = 0;//reset
+            //printf("Finished in %f sec\n", seconds); 
+            return false;
+        }
+    }    
+
+    if (!timerInitObstacle.lock) { 
+        timerInitObstacle.lock = true;
+        timerInitObstacle.start = timerInitObstacle.stop; 
+        return true;
+    }
+
+    return true;
+}

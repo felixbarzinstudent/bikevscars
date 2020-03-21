@@ -26,22 +26,21 @@ void drawBike(GLuint texture){
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D, texture);
     glPushMatrix();
-    if(_bike.state == 1) { // 1 == invincible
-        //glColor4f(1.0, 0.0, 0.0, 0.1);
-        if(!timerInvincibilityFunc(_bike.invincibilityDuration)) { 
-            _bike.state = 0; // annule l'invincibilité
-        }
+        if(_bike.state == 1) { // 1 == invincible
+            //glColor4f(1.0, 0.0, 0.0, 0.1);
+            if(!timerInvincibilityFunc(_bike.invincibilityDuration)) { 
+                _bike.state = 0; // annule l'invincibilité
+            }
 
-    } else
-        glColor4f(1.0, 1.0, 0.1, 1);
+        } else
+            glColor4f(1.0, 1.0, 0.1, 1);
 
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
-        glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
-        glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
-        glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
-    glEnd();
-    
+        glBegin(GL_QUADS);
+            glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
+            glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
+            glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
+            glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
+        glEnd();
     glPopMatrix();
     glDisable(GL_BLEND);
     glDisable(GL_TEXTURE_2D);

@@ -5,7 +5,7 @@
 #include "./navigation.h"
 #include "./../graphic/bike.h"
 #include "./../graphic/enemy.h"
-#include "./../graphic/enemy.h"
+#include "./../graphic/obstacle.h"
 #include "./../linked-list/enemy-list.h"
 #include "./../linked-list/enemy-shot-list.h"
 #include "./../linked-list/shot-list.h"
@@ -25,10 +25,15 @@ List* shotList;
 EnemyList* enemyList;
 EnemyShotList* enemyShotList;
 int _totalPoints = 0;
+GLuint texture; //road
 GLuint textureCar;
 GLuint textureBike;
+GLuint texturePolice1;
+GLuint texturePolice2;
+GLuint texturePolice3;
 float abasey0 = 0.0;
 float abasey1 = 1.0;
+float roadSpeed = 0.0003;
 
 /* définititon des fonctions */
 void doCheckpoint();
@@ -51,12 +56,14 @@ void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike);
 void endOfGame(int isLowLife);
 void drawRoad();
 void drawTopBoard();
-GLuint texture;
+void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2, GLuint texturePolice3);
+void detectCollisionObstacle(Bike _bike, Enemy* currentEnemy, Obstacle _obstacle);
 
 void windowGame(GLuint tex) {
     texture = tex;
     initGame();
     createEnemies(enemyList);
+    createObstacle();
     glutDisplayFunc(vDisplayGame);
     detectCollision();
     glutSpecialFunc(keyboardownBike);
@@ -76,6 +83,7 @@ void vDisplayGame() {
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots();
     drawEnemies();
+    drawObstacle(roadSpeed, texturePolice1, texturePolice2, texturePolice3);
     drawTopBoard();
     drawEnemiesShots();
     glutPostRedisplay();
@@ -86,13 +94,16 @@ void detectCollision() {
     if(_bike.life >= 1) { // quand le vélo n'a plus de vie, les ennemis s'arretent
         Enemy* currentEnemy = enemyList->first;
         while (currentEnemy != NULL) {
-            if (currentEnemy->position.y < -1) 
-                deleteEnemy(enemyList, currentEnemy);
+            if(_bike.life >= 1) { // refaire le test pour voir si le vélo est en vie au cas ou il serait mort en cour de route par un obstacle par exemple
+                if (currentEnemy->position.y < -1) 
+                    deleteEnemy(enemyList, currentEnemy);
 
-            detectCollisionBike(_bike, currentEnemy);
-            enemyShoot(_bike, currentEnemy);
-            detectCollisionShot(shotList, currentEnemy);
-            detectCollisionEnemiesShots(enemyShotList, _bike);
+                detectCollisionBike(_bike, currentEnemy); // collision entre vélo et ennemi
+                enemyShoot(_bike, currentEnemy); 
+                detectCollisionShot(shotList, currentEnemy); // collision entre un tir du vélo et un ennemi ou un obstacle
+                detectCollisionEnemiesShots(enemyShotList, _bike); // collision entre un tir ennemi et le vélo
+                detectCollisionObstacle(_bike, currentEnemy, _obstacle); // collision entre vélo, ennemi ET obstacle
+            }
             currentEnemy = currentEnemy->next;
         }
     }
@@ -237,6 +248,9 @@ void drawEnemiesShots() {
     }
 }
 
+/*
+* L'ennemi tire sur le vélo
+*/
 void enemyShoot(Bike bike, Enemy* enemy) {
     if (
         enemy->isAlive == true
@@ -270,12 +284,44 @@ void detectCollisionBike(Bike bike, Enemy* enemy) {
         &&
         (bike.position.x > (enemy->position.x - 0.2))
     ){
-        strcpy(_textCollision, "Collision : true");
+        printf("Le vélo est touché par une voiture\n");
         int isLowLife = lifeLoss(&_bike); // TODO : make void ?
         endOfGame(isLowLife);
-    } else 
-        strcpy(_textCollision, "Collision : false");
+    } 
+}
 
+/*
+* Cette fonction permet de détecter si un élément du jeu (vélo, enemi) entre en collision avec l'obstacle
+*/
+void detectCollisionObstacle(Bike bike, Enemy* enemy, Obstacle obstacle) {
+    if(_isAlreadyObstacle) { //si il y a déja un obstacle sur la route 
+        //vélo
+        if(
+        (bike.position.y + 0.175 >= obstacle.position.y -0.1)
+        &&
+        (bike.position.y - 0.2 <= obstacle.position.y + 0.1)
+        &&
+        (bike.position.x <= (obstacle.position.x + 0.3))
+        &&
+        (bike.position.x > (obstacle.position.x - 0.3))
+        ){
+            printf("Le vélo est touché par un obstacle\n");
+            int isLowLife = lifeLoss(&_bike); // TODO : make void ?
+            endOfGame(isLowLife);
+        } 
+        //ennemi
+        if(
+            (enemy->position.x > (obstacle.position.x - 0.4))
+            &&
+            (enemy->position.x < (obstacle.position.x + 0.4))
+            &&
+            (enemy->position.y < (obstacle.position.y + 0.3))
+            &&
+            (enemy->position.y > (obstacle.position.y))
+            ) {
+                enemy->isAlive = false;
+        }
+    }
 }
 
 void endOfGame(int isLowLife) {
@@ -288,7 +334,7 @@ void endOfGame(int isLowLife) {
 }
 
 /*
-* Cette fonction permet de détecter si un des tirs du vélo touche un ennemi
+* Cette fonction permet de détecter si un des tirs du vélo touche un ennemi ou un obstacle
 * @Param {shotList} liste des tirs effectués par le vélo
 * @Param {enemy} l'ennemi dont on vérifie s'il est touché ou non
 * Pré-condition: shotList != NULL et enemy != NULL
@@ -303,14 +349,14 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
     if (shotList->size > 0) {
         Shot* current = shotList->first;
         while(current != NULL) {
-            if (
-                (current->position.y >= enemy->position.y - 0.2)
+            if ( //shot VS enemy
+                ((current->position.y >= enemy->position.y - 0.2) 
                 &&
                 (current->position.y <= enemy->position.y + 0.2)
                 &&
                 (current->position.x <= enemy->position.x + 0.2)
                 &&
-                (current->position.x > enemy->position.x - 0.2)
+                (current->position.x > enemy->position.x - 0.2))
                 ) {
                     if(enemy->isAlive == true) {
                         delete(shotList, current); 
@@ -318,6 +364,16 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
                     }
                  
                     enemy->isAlive = false; 
+            } else if( //shot VS obstacle
+                ((current->position.x > (_obstacle.position.x - 0.4)) 
+                &&
+                (current->position.x < (_obstacle.position.x + 0.4))
+                &&
+                (current->position.y < (_obstacle.position.y + 0.15))
+                &&
+                (current->position.y > (_obstacle.position.y - 0.15)))
+            ) {
+                delete(shotList, current); 
             } else if(current->position.y > 1) { 
                 delete(shotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
             } 
@@ -342,8 +398,10 @@ void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
                 &&
                 (current->position.x > bike.position.x - 0.2)
                 ) {
+                    printf("Le vélo va être touché par un tir ennemi\n");
                     deleteEnemyShot(enemyShotList, current); 
                     int isLowLife = lifeLoss(&_bike); // TODO : make void ?
+                    printf("Le vélo est touché par un tir ennemi\n");
                     endOfGame(isLowLife);
                  
             } else if(current->position.y < -1) { 
@@ -384,12 +442,16 @@ void initGame(){
         initBike();
         isInitGame = true;
         _totalPoints = 0;
+        _isAlreadyObstacle = false;
         shotList = newList();
         enemyList = newEnemyList();
         enemyShotList = newEnemyShotList();
 
         textureCar = loadTexture("./resources/taxialpha.png");
         textureBike = loadTexture("./resources/bike.png");
+        texturePolice1 = loadTexture("./resources/police1.png");
+        texturePolice2 = loadTexture("./resources/police2.png");
+        texturePolice3 = loadTexture("./resources/police3.png");
     }
 }
 
@@ -402,8 +464,8 @@ void clavierGame(unsigned char key, int x, int y) {
 
 void drawRoad() {
     //Clear Window
-    abasey0 += 0.0003;
-    abasey1 += 0.0003;
+    abasey0 += roadSpeed;
+    abasey1 += roadSpeed;
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture);
     glBegin(GL_QUADS);
