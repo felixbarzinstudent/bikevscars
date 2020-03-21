@@ -6,6 +6,7 @@
 /* déclaration des variables */
 int _mainCurrentWindow;
 int _startMenuActiveOption;
+int _difficulty;
 
 /*déclaration des fonctions */
 

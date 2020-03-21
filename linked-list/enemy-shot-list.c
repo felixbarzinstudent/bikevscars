@@ -95,7 +95,7 @@ void deleteEnemyShot(EnemyShotList *ls, Shot* shot) {
                     tempCurrentNext = current->next;
                     tempCurrentPrevious = current->previous;
 
-                    if (current->previous != NULL && current->previous->next != NULL)
+                    if (current->previous->speed > 0 && current->previous != NULL && current->previous->next != NULL)
                         current->previous->next = tempCurrentNext;
                     else
                         current->previous = tempCurrentNext; // TODO : PAS SUR DU TOUT DE CA

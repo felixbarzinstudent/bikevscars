@@ -448,9 +448,9 @@ void doCheckpoint() {
 */
 void makeItHarder() {
     printf("makeitharder\n");
-    _enemySpeedMax += 0.000015;
-    _enemySpeedMin += 0.00001;
-    _timeBetweenEnemyPop -= 0.35;
+    _enemySpeedMax += (0.000015 * _difficulty);
+    _enemySpeedMin += (0.00001 * _difficulty);
+    _timeBetweenEnemyPop -= (0.35 * _difficulty);
 
     if(_timeBetweenEnemyPop < 0.5)
         _timeBetweenEnemyPop = 0.5;
@@ -467,7 +467,7 @@ void initGame(){
     if(!isInitGame) {
         initEnemyFactory();
         initBike();
-        if(_startMenuActiveOption == 1) {
+        if(_startMenuActiveOption == 1) {// reprendre depuis le dernier checkpoint (-> menu)
             _startMenuActiveOption = 0; //réinit param
 
             _bike.life = getLifeFromLastCheckpoint();
@@ -478,6 +478,11 @@ void initGame(){
         } else {
             _totalPoints = 0;
         }
+
+        if(_difficulty != 1) {
+            makeItHarder();
+        }
+
         _isAlreadyObstacle = false;
         shotList = newList();
         enemyList = newEnemyList();

@@ -13,11 +13,15 @@ float basey0 = 0.0;
 float basey1 = 1.0;
 
 int activeOption = 2;
+int activeOptionMenuConfigurer = 1;
+
+int activeMenu = 1;
 
 void vClavier_startmenu(unsigned char key, int x, int y);
 void vClavierSpecial_startmenu(int key, int x, int y);
 void vDisplay_startmenu();
 void displayStartMenu();
+void displayStartMenuConfigurer();
 
 GLuint texture;
 void windowMenu(GLuint tex) {
@@ -29,32 +33,67 @@ void windowMenu(GLuint tex) {
 
 void vClavierSpecial_startmenu(int key, int x, int y) 
 {
-	switch (key){
-        case GLUT_KEY_UP:
-            activeOption -= 1;
-            if(activeOption < 1)
-                activeOption = 6;
-            break;
+    if(activeMenu == 1) { // menu de base
+        switch (key){
+            case GLUT_KEY_UP:
+                activeOption -= 1;
+                if(activeOption < 1)
+                    activeOption = 6;
+                break;
 
-        case GLUT_KEY_DOWN:
-            activeOption += 1;
-            if(activeOption > 6)
-                activeOption = 1;
-            break;
+            case GLUT_KEY_DOWN:
+                activeOption += 1;
+                if(activeOption > 6)
+                    activeOption = 1;
+                break;
 
-        default:
-        break;
+            default:
+            break;
+        }
+    } else if (activeMenu == 2) {
+        switch (key){
+            case GLUT_KEY_UP:
+                activeOptionMenuConfigurer -= 1;
+                if(activeOptionMenuConfigurer < 1)
+                    activeOptionMenuConfigurer = 4;
+                break;
+
+            case GLUT_KEY_DOWN:
+                activeOptionMenuConfigurer += 1;
+                if(activeOptionMenuConfigurer > 4)
+                    activeOptionMenuConfigurer = 1;
+                break;
+
+            default:
+            break;
+        }
     }
 }
 
 void vClavier_startmenu(unsigned char key, int x, int y) {
-    if (key == 13) {
-        if (activeOption == 1) {
-            setMainCurrentWindow(1);
-            _startMenuActiveOption = 1;
+    if (activeMenu == 1) { // Menu de base
+        if (key == 13) {
+            if (activeOption == 1) {
+                setMainCurrentWindow(1);
+                _startMenuActiveOption = 1; // pour dire a la page de jeu qu'on veut reprendre au dernier checkpoint
+            }
+            else if (activeOption == 2)
+                setMainCurrentWindow(1); // todo changer le hardcode 1 -> jeu
+            else if (activeOption == 3)
+                activeMenu = 2;
         }
-        else if (activeOption == 2)
-            setMainCurrentWindow(1); // todo changer le hardcode 1 -> jeu
+    } else if (activeMenu == 2) {
+        if (key == 13) {
+            if (activeOptionMenuConfigurer == 1) {
+                _difficulty = 1;
+            } else if (activeOptionMenuConfigurer == 2) {
+                _difficulty = 3;
+            } else if (activeOptionMenuConfigurer == 3) {
+                _difficulty = 5;
+            } 
+
+            activeMenu = 1;
+        }
     }
 }
 
@@ -74,7 +113,12 @@ void vDisplay_startmenu() {
         glEnd();
         glDisable(GL_TEXTURE_2D);
     glPopMatrix();
-    displayStartMenu();
+    
+    if(activeMenu == 1)
+        displayStartMenu();
+    if(activeMenu == 2)
+        displayStartMenuConfigurer();
+
     glutPostRedisplay();
     glutSwapBuffers(); 
 
@@ -120,3 +164,35 @@ void displayStartMenu() {
         writeOnWindow(-0.5, 0.0, option6, strlen(option6), 1, 1, 1);
 }
 
+void displayStartMenuConfigurer() {
+    char option1 [] = "Normal";
+    char option2 [] = "Hardcore";
+    char option3 [] = "Impossible";
+    char option4 [] = "Retour";
+    
+        writeOnWindow(-0.5, 0.5, option1, strlen(option1), 0, 0, 0); 
+        writeOnWindow(-0.5, 0.4, option2, strlen(option2), 0, 0, 0); 
+        writeOnWindow(-0.5, 0.3, option3, strlen(option3), 0, 0, 0); 
+        writeOnWindow(-0.5, 0.0, option4, strlen(option4), 0, 0, 0); 
+
+
+    if(activeOptionMenuConfigurer == 1) {
+        writeOnWindow(-0.5, 0.5, option1, strlen(option1), 1, 1, 1);
+        return;
+    }
+
+    if(activeOptionMenuConfigurer == 2) {
+        writeOnWindow(-0.5, 0.4, option2, strlen(option2), 1, 1, 1);
+        return;
+    }
+
+    if(activeOptionMenuConfigurer == 3) {
+        writeOnWindow(-0.5, 0.3, option3, strlen(option3), 1, 1, 1);
+        return;
+    }
+
+    if(activeOptionMenuConfigurer == 4) {
+        writeOnWindow(-0.5, 0.1, option4, strlen(option4), 1, 1, 1);
+        return;
+    }
+}
