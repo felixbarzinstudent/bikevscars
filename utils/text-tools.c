@@ -9,7 +9,7 @@ char _textCollision[18] = "";
 void writeOnWindow(float x, float y, char text[], int size, float red, float green, float blue) {
     glColor3f(red, green, blue);
     glRasterPos2f(x, y);// Positionne le texte
-    for ( int i = 0; i < size; ++i ) {
+    for (int i = 0; i < size; ++i) {
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
     }
 }
@@ -39,7 +39,9 @@ void displayTopBoardText(Bike* bike, int total) {
     }
     
     //score
-    char buf[12];
-    snprintf(buf, 12, "Points: %d", total);
-    writeOnWindow(0.6, 0.93, buf, 10, 1, 1, 1);
+    char buf[5];
+    char linePoints[12] = "Points : ";
+    sprintf(buf, "%i", total);
+    strcat(linePoints, buf);
+    writeOnWindow(0.6, 0.93, linePoints, strlen(linePoints), 1, 1, 1);
 }
