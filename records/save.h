@@ -28,4 +28,6 @@ int getLifeFromLastCheckpoint();
 * Post-condition : le modulo du total des points doit être égal à 0
 */
 int getPointsFromLastCheckpoint();
+
+void getHighscores(int highscores[], int number);
 #endif

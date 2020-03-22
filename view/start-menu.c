@@ -1,10 +1,11 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <string.h>
+#include "./navigation.h"
 #include "./start-menu.h"
 #include "./../graphic/bike.h"
 #include "./../utils/text-tools.h"
-#include "./navigation.h"
+#include "./../records/save.h"
 
 /* définititon des variables*/
 
@@ -24,6 +25,7 @@ void displayStartMenu();
 void displayStartMenuConfigurer();
 void displayStartMenuRules();
 void displayStartMenuRulesPoints();
+void displayStartMenuHighscores();
 
 GLuint texture;
 void windowMenu(GLuint tex) {
@@ -85,6 +87,8 @@ void vClavier_startmenu(unsigned char key, int x, int y) {
                 activeMenu = 2;
             else if (activeOption == 4)
                 activeMenu = 3;
+            else if (activeOption == 5)
+                activeMenu = 5;
         }
     } else if (activeMenu == 2) { // Menu difficulté
         if (key == 13) {
@@ -98,9 +102,11 @@ void vClavier_startmenu(unsigned char key, int x, int y) {
 
             activeMenu = 1;
         }
-    } else if (activeMenu == 3) {
+    } else if (activeMenu == 3) { // Menu regles page 1
         activeMenu = 4;
-    } else if (activeMenu == 4) {
+    } else if (activeMenu == 4) { // Menu regles page 2
+        activeMenu = 1;
+    } else if (activeMenu == 5) { // Menu highscores
         activeMenu = 1;
     }
 }
@@ -130,6 +136,8 @@ void vDisplay_startmenu() {
         displayStartMenuRules();
     if(activeMenu == 4)
         displayStartMenuRulesPoints();
+    if(activeMenu == 5)
+        displayStartMenuHighscores();
 
     glutPostRedisplay();
     glutSwapBuffers(); 
@@ -230,9 +238,10 @@ void displayStartMenuRules() {
     char line13 [] = "les voitures";
     char line14 [] = "ESC :";
     char line14a [] = "quitter la partie";
+    char line14b [] = "Le jeu sauvegarde automatiquement a chaque checkpoint";
     char line15 [] = "Points [PRESS ENTER]";
 
-    writeOnWindow(0.0, -0.85, line15, strlen(line15), 0, 0, 0); 
+    writeOnWindow(0.0, -0.95, line15, strlen(line15), 0, 0, 0); 
     writeOnWindow(-0.92, -0.30, line10, strlen(line10), 1, 1, 1); 
     writeOnWindow(-0.92, -0.40, line11, strlen(line11), 1, 1, 1); 
     writeOnWindow(-0.92, -0.50, line12, strlen(line12), 1, 1, 1); 
@@ -255,6 +264,7 @@ void displayStartMenuRules() {
     writeOnWindow(-0.55, -0.50, line12a, strlen(line12a), 0.99, 0.99, 0.99); 
     writeOnWindow(-0.55, -0.60, line13, strlen(line13), 0.99, 0.99, 0.99); 
     writeOnWindow(-0.55, -0.70, line14a, strlen(line14a), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.92, -0.80, line14b, strlen(line14b), 0.99, 0.99, 0.99); 
     writeOnWindow(-0.55, -0.70, "", strlen(""), 0.59, 0.59, 0.59); 
 
 }
@@ -282,4 +292,33 @@ void displayStartMenuRulesPoints() {
     writeOnWindow(-0.75, -0.20, line5, strlen(line5), 1, 1, 1); 
     writeOnWindow(0.49, -0.20, line5a, strlen(line5a), 1, 1, 1); 
     writeOnWindow(-0.55, -0.70, "", strlen(""), 0.59, 0.59, 0.59); 
+}
+
+void displayStartMenuHighscores() {
+    int highscores[5];
+    getHighscores(highscores, 5);
+
+    char line1[] = "HIGH-SCORES";
+    char lineRetour[] = "Retour [PRESS ENTER]";
+    writeOnWindow(-0.3, 0.3, line1, strlen(line1), 1, 1, 0.1);
+    writeOnWindow(-0.4, -0.5, lineRetour, strlen(lineRetour), 0, 0, 0.0);
+
+    char points[12];
+    char endLinePoints[9] = " points\0";
+    char rank[4];
+    char endLineRank[3] = ".\0";
+    float counter = 0; 
+    for(int i = 0; i < 5; i++) {
+
+        sprintf(points, "%i", highscores[i]);
+        strcat(points, endLinePoints);
+
+        sprintf(rank, "%i", (i+1));
+        strcat(rank, endLineRank);
+
+        writeOnWindow(-0.26, (0.1 - counter), rank, 4, 1, 1, 1);
+        writeOnWindow(-0.17, (0.1 - counter), points, 12, 1, 1, 1);
+        counter += 0.1;
+    }
+    writeOnWindow(-0.55, -0.70, "", strlen(""), 1, 1, 1);  
 }

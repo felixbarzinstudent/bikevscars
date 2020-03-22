@@ -95,3 +95,16 @@ int getPointsFromLastCheckpoint() {
 
 	return tab[0];
 }
+
+void getHighscores(int highscores[], int number) {
+	FILE *fichier;
+	
+	fichier = fopen("/home/felix/Desktop/repos/learnglut/records/highscores.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	if (fichier != NULL) {
+		for (int i = 0 ; i < number; i++) {
+		    fscanf(fichier, "%d\n", highscores+i);
+        }
+
+		fclose(fichier);
+	} 
+}
