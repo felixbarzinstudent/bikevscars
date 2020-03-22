@@ -502,6 +502,10 @@ void clavierGame(unsigned char key, int x, int y) {
     if (key == 32) {
         // todo : shoot frequency (ex : pas plus de 3 tir/seconde)
         shoot(shotList);
+    } else if (key == 27) {
+        setMainCurrentWindow(2);
+        isInitGame = false; // pour que le jeu puisse se réinitialiser
+        _bike.state = 0; // reinitialise l'etat du vélo 
     }
 }
 
