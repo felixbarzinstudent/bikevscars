@@ -27,6 +27,8 @@ void insertFront(List *ls, Shot* shot)
     first->position.y = shot->position.y;
     first->position.z = 0;
     first->speed = shot->speed;
+    first->type = shot->type;
+    
     if(ls->first == NULL) { // si c'est la premiere insertion de la liste
         first->previous = NULL;
         first->next = NULL;

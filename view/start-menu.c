@@ -270,7 +270,7 @@ void displayStartMenuRules() {
     char line11a [] = "tirer une onde sonore tueuse de voiture";
     char line12 [] = "F";
     char line12a [] = "utiliser des bulles de savon pour emprisonner";
-    char line13 [] = "les voitures";
+    char line13 [] = "les obstacles";
     char line14 [] = "ESC :";
     char line14a [] = "quitter la partie";
     char line14b [] = "Le jeu sauvegarde automatiquement a chaque checkpoint";

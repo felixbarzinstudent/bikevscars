@@ -23,6 +23,8 @@ void createObstacle() {
                 _obstacle.position.x = floatRandom(-0.80, 0.80);
                 _obstacle.position.y = 1;
                 _obstacle.position.z = 0;
+                _obstacle.isBubbled = false;
+                _obstacle.isAlive = true;
                 _isAlreadyObstacle = true;
                 printf("obstacle created \n");
             }
@@ -30,7 +32,7 @@ void createObstacle() {
     }
 }
 int counterTexture = 0;
-void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2, GLuint texturePolice3) {
+void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2, GLuint texturePolice3, GLuint textureBubble) {
     counterTexture++;
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -50,14 +52,39 @@ void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2,
     if (_isAlreadyObstacle) {
         glPushMatrix();
             glColor4f(1.0, 1.0, 1.0, 1);
-            _obstacle.position.y -= (roadSpeed + 0.0003);
-            glTranslatef(_obstacle.position.x, _obstacle.position.y, 0);
-            glBegin(GL_QUADS);
-                glTexCoord2f(1, 1); glVertex2f(-0.2, -0.1);//en bas a gauche
-                glTexCoord2f(0, 1); glVertex2f(-0.2, 0.1);// au dessus a gauche
-                glTexCoord2f(0, 0); glVertex2f(0.2, 0.1);//au dessus à droite
-                glTexCoord2f(1, 0); glVertex2f(0.2, -0.1);//en bas a droite
-            glEnd();
+
+            if(_obstacle.isAlive)
+                _obstacle.position.y -= (roadSpeed + 0.0003);
+            else
+                _obstacle.position.y = -1.2;
+
+            if (_obstacle.isBubbled) {
+                glColor4f(1.0, 1.0, 1.0, 0.25);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+                glTranslatef(_obstacle.position.x, _obstacle.position.y, 0);
+                glBegin(GL_QUADS);
+                    glTexCoord2f(1, 1); glVertex2f(-0.2, -0.1);//en bas a gauche
+                    glTexCoord2f(0, 1); glVertex2f(-0.2, 0.1);// au dessus a gauche
+                    glTexCoord2f(0, 0); glVertex2f(0.2, 0.1);//au dessus à droite
+                    glTexCoord2f(1, 0); glVertex2f(0.2, -0.1);//en bas a droite
+                glEnd();
+                glBindTexture(GL_TEXTURE_2D, textureBubble);
+                glBegin(GL_QUADS);
+                    glTexCoord2f(1, 1); glVertex2f(-0.2, -0.2);//en bas a gauche
+                    glTexCoord2f(0, 1); glVertex2f(-0.2, 0.2);// au dessus a gauche
+                    glTexCoord2f(0, 0); glVertex2f(0.2, 0.2);//au dessus à droite
+                    glTexCoord2f(1, 0); glVertex2f(0.2, -0.2);//en bas a droite
+                glEnd();
+            } else {
+                glTranslatef(_obstacle.position.x, _obstacle.position.y, 0);
+                glBegin(GL_QUADS);
+                    glTexCoord2f(1, 1); glVertex2f(-0.2, -0.1);//en bas a gauche
+                    glTexCoord2f(0, 1); glVertex2f(-0.2, 0.1);// au dessus a gauche
+                    glTexCoord2f(0, 0); glVertex2f(0.2, 0.1);//au dessus à droite
+                    glTexCoord2f(1, 0); glVertex2f(0.2, -0.1);//en bas a droite
+                glEnd();
+            }
+
         glPopMatrix();
         if(_obstacle.position.y < -1.2)
             _isAlreadyObstacle = false;

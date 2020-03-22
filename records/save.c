@@ -92,10 +92,10 @@ int getPointsFromLastCheckpoint() {
 		fclose(fichier);
 	} 
 
-	if(tab[0] % 10 != 0)
+	if((tab[0] / 10 * 10) % 10 != 0)
 		exit(EXIT_FAILURE);
 
-	return tab[0];
+	return (tab[0] / 10 * 10);
 }
 
 void getHighscores(int highscores[], int number) {

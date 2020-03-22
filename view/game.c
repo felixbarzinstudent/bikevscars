@@ -25,6 +25,7 @@ List* shotList;
 EnemyList* enemyList;
 EnemyShotList* enemyShotList;
 int _totalPoints = 0;
+int previousRecordedPoints = 0;
 GLuint texture; //road
 GLuint textureCar;
 GLuint textureBike;
@@ -33,6 +34,7 @@ GLuint texturePolice2;
 GLuint texturePolice3;
 GLuint textureWave;
 GLuint textureLightBeam;
+GLuint textureBubble;
 float abasey0 = 0.0;
 float abasey1 = 1.0;
 float roadSpeed = 0.0003;
@@ -49,16 +51,14 @@ void keyboardownBike();
 void clavierGame(unsigned char key, int x, int y);
 void shoot();
 void drawEnemies();
-void drawShots();
 void drawEnemiesShots();
-void countPoints();
+void countPoints(int points);
 void makeItHarder();
 void enemyShoot(Bike bike, Enemy* enemy);
 void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike);
 void endOfGame(int isLowLife);
 void drawRoad();
 void drawTopBoard();
-void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2, GLuint texturePolice3);
 void detectCollisionObstacle(Bike _bike, Enemy* currentEnemy, Obstacle _obstacle);
 
 void windowGame(GLuint tex) {
@@ -81,9 +81,9 @@ void vDisplayGame() {
         glTranslatef(_bike.position.x, _bike.position.y, 0);
         drawBike(textureBike);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
-    drawShots();
+    drawShots(textureWave, textureBubble, shotList);
     drawEnemies();
-    drawObstacle(roadSpeed, texturePolice1, texturePolice2, texturePolice3);
+    drawObstacle(roadSpeed, texturePolice1, texturePolice2, texturePolice3, textureBubble);
     drawEnemiesShots();
     drawTopBoard();
     glutPostRedisplay();
@@ -158,54 +158,6 @@ void drawEnemies() {
                     glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
                 glEnd();
             glPopMatrix(); 
-                current = current->next;
-            }
-
-        }
-    }
-    glDisable(GL_BLEND);
-    glDisable(GL_TEXTURE_2D);
-}
-
-void drawShots() {
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBindTexture(GL_TEXTURE_2D, textureWave);
-
-    glColor4f(0.5, 0.4, 0.4, 0.5);
-
-    int shotsCount = length(shotList);
-    if(shotsCount > 0) {
-        
-        if(shotList->first != NULL) {
-            glPushMatrix();
-                shotList->first->position.y += shotList->first->speed;
-                glTranslatef(shotList->first->position.x, shotList->first->position.y, 0);
-                glBegin(GL_QUADS);
-                    glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
-                    glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
-                    glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
-                    glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
-                glEnd();
-            glPopMatrix();
-        } else {
-            exit(EXIT_FAILURE);
-        }
-
-        if(shotsCount > 1) {
-            Shot* current = shotList->first->next;
-            while(current != NULL) {
-                glPushMatrix(); 
-                    current->position.y += current->speed;
-                    glTranslatef(current->position.x, current->position.y, 0);
-                    glBegin(GL_QUADS);
-                        glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
-                        glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
-                        glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
-                        glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
-                    glEnd();
-                glPopMatrix(); 
                 current = current->next;
             }
 
@@ -308,7 +260,7 @@ void detectCollisionBike(Bike bike, Enemy* enemy) {
 * Cette fonction permet de détecter si un élément du jeu (vélo, enemi) entre en collision avec l'obstacle
 */
 void detectCollisionObstacle(Bike bike, Enemy* enemy, Obstacle obstacle) {
-    if(_isAlreadyObstacle) { //si il y a déja un obstacle sur la route 
+    if(_isAlreadyObstacle && !obstacle.isBubbled) { //si il y a déja un obstacle sur la route 
         //vélo
         if(
         (bike.position.y + 0.175 >= obstacle.position.y -0.1)
@@ -372,12 +324,14 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
                 &&
                 (current->position.x > enemy->position.x - 0.2))
                 ) {
-                    if(enemy->isAlive == true) {
-                        delete(shotList, current); 
-                        countPoints();
+                    if(current->type == _sonicWaveShot) {
+                        if(enemy->isAlive == true) {
+                            delete(shotList, current); 
+                            countPoints(1);
+                        }
+                    
+                        enemy->isAlive = false; 
                     }
-                 
-                    enemy->isAlive = false; 
             } else if( //shot VS obstacle
                 ((current->position.x > (_obstacle.position.x - 0.4)) 
                 &&
@@ -387,6 +341,15 @@ void detectCollisionShot(List* shotList, Enemy* enemy) {
                 &&
                 (current->position.y > (_obstacle.position.y - 0.15)))
             ) {
+                if(_obstacle.isBubbled && current->type == _sonicWaveShot) {
+                    // max de point
+                    countPoints(3);
+                    _obstacle.isAlive = false;
+                }
+                if(!_obstacle.isBubbled && current->type == _bubbleShot) {
+                    _obstacle.isBubbled = true;
+                }
+
                 delete(shotList, current); 
             } else if(current->position.y > 1) { 
                 delete(shotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
@@ -454,9 +417,10 @@ void makeItHarder() {
         _timeBetweenEnemyPop = 0.5;
 }
 
-void countPoints() {
-    _totalPoints++;
-    if(_totalPoints != 0 && _totalPoints % 10 == 0) {
+void countPoints(int points) {
+    _totalPoints += points;
+    if(_totalPoints != 0 && _totalPoints > 10 && (_totalPoints - previousRecordedPoints) >= 10) {
+        previousRecordedPoints = (_totalPoints / 10 * 10);
         doCheckpoint();
     }
 }
@@ -465,11 +429,13 @@ void initGame(){
     if(!isInitGame) {
         initEnemyFactory();
         initBike();
+        previousRecordedPoints = 0;
         if(_startMenuActiveOption == 1) {// reprendre depuis le dernier checkpoint (-> menu)
             _startMenuActiveOption = 0; //réinit param
 
             _bike.life = getLifeFromLastCheckpoint();
             _totalPoints = getPointsFromLastCheckpoint();
+            previousRecordedPoints = _totalPoints;
             for (int i = 0; i < (_totalPoints / 10); i++) {
                 makeItHarder();
             }
@@ -480,7 +446,6 @@ void initGame(){
         if(_difficulty != 1) {
             makeItHarder();
         }
-
         _isAlreadyObstacle = false;
         shotList = newList();
         enemyList = newEnemyList();
@@ -493,19 +458,26 @@ void initGame(){
         texturePolice3 = loadTexture("./resources/police3.png");
         textureWave = loadTexture("./resources/wave.png");
         textureLightBeam = loadTexture("./resources/lightbeam.png");
+        textureBubble = loadTexture("./resources/bubble.png");
         
         isInitGame = true;
     }
 }
 
 void clavierGame(unsigned char key, int x, int y) {
-    if (key == 32) {
-        // todo : shoot frequency (ex : pas plus de 3 tir/seconde)
-        shoot(shotList);
-    } else if (key == 27) {
-        setMainCurrentWindow(2);
-        isInitGame = false; // pour que le jeu puisse se réinitialiser
-        _bike.state = 0; // reinitialise l'etat du vélo 
+    switch(key) {
+        case 27 : // ESC
+            setMainCurrentWindow(2);
+            isInitGame = false; // pour que le jeu puisse se réinitialiser
+            _bike.state = 0; // reinitialise l'etat du vélo 
+            break;
+        case 32 : // espace
+            // todo : shoot frequency (ex : pas plus de 3 tir/seconde)
+            shoot(shotList, _sonicWaveShot);
+            break;
+        case 102 :// F
+            shoot(shotList, _bubbleShot);
+            break;
     }
 }
 

@@ -7,6 +7,7 @@ struct Shot
 {
     struct Coordinate position;
     float speed;
+    int type;
     Shot *next;
     Shot *previous;
 };

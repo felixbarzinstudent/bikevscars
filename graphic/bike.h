@@ -1,5 +1,6 @@
 #ifndef BIKE_H
 #define BIKE_H
+#include <../GL/glut.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -7,6 +8,9 @@
 #include "./../linked-list/shot-list.h"
 
 /* declaration des variables */
+extern const int _sonicWaveShot;
+extern const int _bubbleShot;
+
 
 /* définition des structures */
 
@@ -47,8 +51,17 @@ void lifeGain(Bike* bike);
 * Cette fonction initialise un tir (vitesse de la munition, position... ) et l'insert dans la liste passée
 * en paramètre
 * @Param {shotList}
+* @Param {type} spécifie le type de tir qui est demandé (sonicwave ou bubble)
 * Pré-condition: shotList != NULL
 */
-void shoot(List* shotList);
+void shoot(List* shotList, int type);
+
+/*
+* Dessine les tirs du vélo
+* @Param {textureWave} texture du tir normal
+* @Param {textureBubble} texture du tir bulle
+* @Param {shotList} liste des tirs du vélo
+*/
+void drawShots(GLuint textureWave, GLuint textureBubble, List *shotList);
 
 #endif

@@ -5,6 +5,8 @@
 
 typedef struct Obstacle {
     struct Coordinate position;
+    bool isBubbled;
+    bool isAlive;
 } Obstacle;
 
 extern struct Obstacle _obstacle;
@@ -21,8 +23,9 @@ void createObstacle();
 * @Param {texturePolice1} Texture de la voiture de police ayant le gyrophare rouge allumé
 * @Param {texturePolice2} Texture de la voiture de police ayant le gyrophare central allumé
 * @Param {texturePolice3} Texture de la voiture de police ayant le gyrophare bleu allumé
+* @Param {textureBubble} Texture de la bulle qui va enrober la voiture de police
 * Post-condition : une voiture doit etre dessiné en travers de la route
 */
-void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2, GLuint texturePolice3);
+void drawObstacle(float roadSpeed, GLuint texturePolice1, GLuint texturePolice2, GLuint texturePolice3, GLuint textureBubble);
 
 #endif
