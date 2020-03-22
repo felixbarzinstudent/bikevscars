@@ -22,6 +22,8 @@ void vClavierSpecial_startmenu(int key, int x, int y);
 void vDisplay_startmenu();
 void displayStartMenu();
 void displayStartMenuConfigurer();
+void displayStartMenuRules();
+void displayStartMenuRulesPoints();
 
 GLuint texture;
 void windowMenu(GLuint tex) {
@@ -81,6 +83,8 @@ void vClavier_startmenu(unsigned char key, int x, int y) {
                 setMainCurrentWindow(1); // todo changer le hardcode 1 -> jeu
             else if (activeOption == 3)
                 activeMenu = 2;
+            else if (activeOption == 4)
+                activeMenu = 3;
         }
     } else if (activeMenu == 2) { // Menu difficulté
         if (key == 13) {
@@ -94,6 +98,10 @@ void vClavier_startmenu(unsigned char key, int x, int y) {
 
             activeMenu = 1;
         }
+    } else if (activeMenu == 3) {
+        activeMenu = 4;
+    } else if (activeMenu == 4) {
+        activeMenu = 1;
     }
 }
 
@@ -118,6 +126,10 @@ void vDisplay_startmenu() {
         displayStartMenu();
     if(activeMenu == 2)
         displayStartMenuConfigurer();
+    if(activeMenu == 3)
+        displayStartMenuRules();
+    if(activeMenu == 4)
+        displayStartMenuRulesPoints();
 
     glutPostRedisplay();
     glutSwapBuffers(); 
@@ -173,7 +185,7 @@ void displayStartMenuConfigurer() {
         writeOnWindow(-0.5, 0.5, option1, strlen(option1), 0, 0, 0); 
         writeOnWindow(-0.5, 0.4, option2, strlen(option2), 0, 0, 0); 
         writeOnWindow(-0.5, 0.3, option3, strlen(option3), 0, 0, 0); 
-        writeOnWindow(-0.5, 0.0, option4, strlen(option4), 0, 0, 0); 
+        writeOnWindow(-0.5, 0.1, option4, strlen(option4), 0, 0, 0); 
 
 
     if(activeOptionMenuConfigurer == 1) {
@@ -195,4 +207,79 @@ void displayStartMenuConfigurer() {
         writeOnWindow(-0.5, 0.1, option4, strlen(option4), 1, 1, 1);
         return;
     }
+}
+
+void displayStartMenuRules() {
+    char line1 [] = "En l'an 2021, dans un monde dystopique dans lequel les";
+    char line2 [] = "voitures ce sont alliees pour detruire tous les vehicules";
+    char line3 [] = "non-polluants, seul un velo ose resister envers et contre";
+    char line4 [] = "tout pour mettre fin a cette oppression.";
+    char line5 [] = "Guider le velo pour l'aider a resister, et detruire un max";
+    char line6 [] = "de voiture ! Ces voitures sans scrupules vont essayer";
+    char line7 [] = "d'ecraser les chats qui traversent la route.";
+    char line8 [] = "Il faut les sauver ! ";
+    char line8a [] = "Ces satanes voitures tirent sur tout ce qui bouge...";
+    char line8b [] = "La police tentera de vous arreter en vous faisant obstacle";
+    char line9 [] = "Commandes :";
+    char line10 [] = "Fleches :";
+    char line10a [] = "deplacer le velo";
+    char line11 [] = "ESPACE :";
+    char line11a [] = "tirer une onde sonore tueuse de voiture";
+    char line12 [] = "F";
+    char line12a [] = "utiliser des bulles de savon pour emprisonner";
+    char line13 [] = "les voitures";
+    char line14 [] = "ESC :";
+    char line14a [] = "quitter la partie";
+    char line15 [] = "Points [PRESS ENTER]";
+
+    writeOnWindow(0.0, -0.85, line15, strlen(line15), 0, 0, 0); 
+    writeOnWindow(-0.92, -0.30, line10, strlen(line10), 1, 1, 1); 
+    writeOnWindow(-0.92, -0.40, line11, strlen(line11), 1, 1, 1); 
+    writeOnWindow(-0.92, -0.50, line12, strlen(line12), 1, 1, 1); 
+    writeOnWindow(-0.92, -0.70, line14, strlen(line14), 1, 1, 1); 
+
+    writeOnWindow(-0.92, 0.94, line1, strlen(line1), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.92, 0.84, line2, strlen(line2), 0.98, 0.98, 0.98); 
+    writeOnWindow(-0.92, 0.74, line3, strlen(line3), 0.97, 0.97, 0.97); 
+    writeOnWindow(-0.92, 0.64, line4, strlen(line4), 0.96, 0.96, 0.96); 
+    writeOnWindow(-0.92, 0.52, line5, strlen(line5), 0.95, 0.95, 0.95); 
+    writeOnWindow(-0.92, 0.42, line6, strlen(line6), 0.96, 0.96, 0.96); 
+    writeOnWindow(-0.92, 0.32, line7, strlen(line7), 0.97, 0.97, 0.97); 
+    writeOnWindow(-0.92, 0.22, line8, strlen(line8), 0.98, 0.98, 0.98); 
+    writeOnWindow(-0.92, 0.10, line8a, strlen(line8a), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.92, 0.00, line8b, strlen(line8b), 0.99, 0.99, 0.99); 
+    
+    writeOnWindow(-0.92, -0.15, line9, strlen(line9), 0.1, 0.1, 0.1); 
+    writeOnWindow(-0.55, -0.30, line10a, strlen(line10a), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.55, -0.40, line11a, strlen(line11a), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.55, -0.50, line12a, strlen(line12a), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.55, -0.60, line13, strlen(line13), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.55, -0.70, line14a, strlen(line14a), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.55, -0.70, "", strlen(""), 0.59, 0.59, 0.59); 
+
+}
+
+void displayStartMenuRulesPoints() {
+    char line1 [] = "Points :";
+    char line2 [] = "Voiture detruite :";
+    char line2a [] = "+1";
+    char line3 [] = "Voiture detruite dans une bulle :";
+    char line3a [] = "+2";
+    char line4 [] = "Chat sauver :";
+    char line4a [] = "+3";
+    char line5 [] = "Chat tuer ou ecraser par une voiture :";
+    char line5a [] = "-5";
+    char line6 [] = "Retour au menu [PRESS ENTER]";
+
+    writeOnWindow(-0.75, -0.85, line6, strlen(line6), 0, 0, 0); 
+    writeOnWindow(-0.75, 0.30, line1, strlen(line1), 0.1, 0.1, 0.1); 
+    writeOnWindow(-0.75, 0.10, line2, strlen(line2), 1, 1, 1); 
+    writeOnWindow(0.49, 0.10, line2a, strlen(line2a), 1, 1, 1); 
+    writeOnWindow(-0.75, 0.00, line3, strlen(line3), 1, 1, 1); 
+    writeOnWindow(0.49, 0.00, line3a, strlen(line3a), 1, 1, 1); 
+    writeOnWindow(-0.75, -0.10, line4, strlen(line4), 1, 1, 1); 
+    writeOnWindow(0.49, -0.10, line4a, strlen(line4a), 1, 1, 1); 
+    writeOnWindow(-0.75, -0.20, line5, strlen(line5), 1, 1, 1); 
+    writeOnWindow(0.49, -0.20, line5a, strlen(line5a), 1, 1, 1); 
+    writeOnWindow(-0.55, -0.70, "", strlen(""), 0.59, 0.59, 0.59); 
 }
