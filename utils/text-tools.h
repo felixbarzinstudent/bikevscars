@@ -21,8 +21,9 @@ void writeOnWindow(float x, float y, char text[], int size, float red, float gre
 * Cette fonction affiche la vie restante du vélo et le score
 * @Param {bike} objet dont la vie doit être affichée
 * @Param {total} le score total
+* @Param {secondsSaved} temps déja parcouru récupéré d'une sauvegarde
 */
-void displayTopBoardText(Bike* bike, int total);
+void displayTopBoardText(Bike* bike, int total, int secondsSaved);
 
 /*
 * Cette fonction affiche le score

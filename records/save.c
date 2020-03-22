@@ -45,7 +45,7 @@ void getTop(int* tab) {
     }
 }
 
-void saveCheckpoint(int points, int life) {
+void saveCheckpoint(int points, int life, double seconds) {
 	FILE *fichier;
 	fichier = fopen("./records/checkpoint.txt","w");// Ouverture du fichier en écriture grâce à "w"
 	
@@ -53,18 +53,19 @@ void saveCheckpoint(int points, int life) {
 		// Ecriture
 		fprintf(fichier,"%i\n",points);
 		fprintf(fichier,"%i\n",life);
+		fprintf(fichier, "%i\n",(int) seconds);
 		// Fermeture du fichier
 		fclose(fichier);
 	}
 }
 
 int getLifeFromLastCheckpoint() {
-	int tab[2];
+	int tab[3];
 	FILE *fichier;
 	
 	fichier = fopen("./records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
-		for (int i = 0 ; i < 2; i++) {
+		for (int i = 0 ; i < 3; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
         }
 
@@ -80,12 +81,12 @@ int getLifeFromLastCheckpoint() {
 }
 
 int getPointsFromLastCheckpoint() {
-	int tab[2];
+	int tab[3];
 	FILE *fichier;
 	
 	fichier = fopen("./records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
-		for (int i = 0 ; i < 2; i++) {
+		for (int i = 0 ; i < 3; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
         }
 
@@ -96,6 +97,23 @@ int getPointsFromLastCheckpoint() {
 		exit(EXIT_FAILURE);
 
 	return (tab[0] / 10 * 10);
+}
+
+int getTimeFromLastCheckpoint() {
+	int tab[3];
+	FILE *fichier;
+	
+	fichier = fopen("./records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	if (fichier != NULL) {
+		for (int i = 0 ; i < 3; i++) {
+		    fscanf(fichier, "%d\n", tab+i);
+        }
+
+		fclose(fichier);
+	} 
+
+	return tab[2];
+
 }
 
 void getHighscores(int highscores[], int number) {

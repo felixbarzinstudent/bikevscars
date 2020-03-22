@@ -3,6 +3,7 @@
 #include <string.h>
 #include "./text-tools.h"
 #include "./../graphic/bike.h"
+#include "./../utils/timerTools.h"
 
 char _textCollision[18] = "";
 
@@ -18,7 +19,7 @@ void concatArrayOfString(char* string1, char* string2, int sizeString2) {
 	strncat(string1, string2, sizeString2);
 }
 
-void displayTopBoardText(Bike* bike, int total) {
+void displayTopBoardText(Bike* bike, int total, int secondsSaved) {
 	//vies
     if(bike->life >= 1) {
         int size = bike->life * 2;
@@ -44,4 +45,18 @@ void displayTopBoardText(Bike* bike, int total) {
     sprintf(buf, "%i", total);
     strcat(linePoints, buf);
     writeOnWindow(0.6, 0.93, linePoints, strlen(linePoints), 1, 1, 1);
+
+    //time
+    int seconds = (int) getTimeElapsed(secondsSaved);
+    char bufSeconds[10];
+    char lineSecondes[5] = " sec.";
+    sprintf(bufSeconds, "%i", seconds);
+    strcat(bufSeconds, lineSecondes);
+    
+    if (seconds < 10)
+        writeOnWindow(0.0, 0.93, bufSeconds, 6, 1, 1, 1);
+    else if (seconds < 100)
+        writeOnWindow(0.0, 0.93, bufSeconds, 7, 1, 1, 1);
+    else if (seconds < 1000)
+        writeOnWindow(0.0, 0.93, bufSeconds, 8, 1, 1, 1);
 }

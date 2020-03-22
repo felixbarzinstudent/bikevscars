@@ -17,7 +17,7 @@ void getTop(int* tab);
 * Ce fichier sera lu pour reprendre une partie à partir de ce palier.
 * Post-condition : les données doivent être écrites dans le fichier
 */
-void saveCheckpoint(int points, int life);
+void saveCheckpoint(int points, int life, double seconds);
 /*
 * Récupere dans le fichier checkpoint le nombre de vie restante lors du dernier passage de palier
 * Post-condition : la valeure retournée doit être plus grande que zero
@@ -30,4 +30,6 @@ int getLifeFromLastCheckpoint();
 int getPointsFromLastCheckpoint();
 
 void getHighscores(int highscores[], int number);
+
+int getTimeFromLastCheckpoint();
 #endif

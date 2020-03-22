@@ -102,3 +102,20 @@ bool timerInitObstaclesFunc(double duration) {
 
     return true;
 }
+
+Timer _timeTimeElapsed;
+double getTimeElapsed(int secondsSaved) {
+    gettimeofday(&_timeTimeElapsed.stop, NULL);
+
+    if(_timeTimeElapsed.start.tv_usec > 1) {
+        return (_timeTimeElapsed.stop.tv_sec - _timeTimeElapsed.start.tv_sec + secondsSaved);
+    }
+
+    if (!_timeTimeElapsed.lock) { 
+        _timeTimeElapsed.lock = true;
+        _timeTimeElapsed.start = _timeTimeElapsed.stop; 
+        return 0;
+    }
+
+    return 0;
+}

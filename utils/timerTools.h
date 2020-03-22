@@ -15,6 +15,7 @@ typedef struct Timer {
 
 extern Timer timerInitEnemies;
 extern Timer timerInvincibility;
+extern Timer _timeTimeElapsed;
 /*
 * Cette fonction initialise un timer qui renverra true pendant
 * la durée passée en paramètre. Renvoit faux ensuite.
@@ -29,4 +30,5 @@ bool timerInvincibilityFunc(double duration);
 bool timerInitEnemiesFunc(double duration);
 bool timerEnemiesShootFunc(Enemy* enemy, double duration);
 bool timerInitObstaclesFunc(double duration);
+double getTimeElapsed(int secondsSaved);
 #endif

@@ -25,6 +25,7 @@ List* shotList;
 EnemyList* enemyList;
 EnemyShotList* enemyShotList;
 int _totalPoints = 0;
+int secondsSaved = 0;
 int previousRecordedPoints = 0;
 GLuint texture; //road
 GLuint textureCar;
@@ -400,7 +401,7 @@ void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
 }
 
 void doCheckpoint() {
-    saveCheckpoint(_totalPoints, _bike.life);
+    saveCheckpoint(_totalPoints, _bike.life, getTimeElapsed(secondsSaved));
     makeItHarder();
 }
 
@@ -435,12 +436,15 @@ void initGame(){
 
             _bike.life = getLifeFromLastCheckpoint();
             _totalPoints = getPointsFromLastCheckpoint();
+            secondsSaved = getTimeFromLastCheckpoint();
+
             previousRecordedPoints = _totalPoints;
             for (int i = 0; i < (_totalPoints / 10); i++) {
                 makeItHarder();
             }
         } else {
             _totalPoints = 0;
+            secondsSaved = 0;
         }
 
         if(_difficulty != 1) {
@@ -450,6 +454,8 @@ void initGame(){
         shotList = newList();
         enemyList = newEnemyList();
         enemyShotList = newEnemyShotList();
+        _timeTimeElapsed.lock = false;
+        _timeTimeElapsed.start.tv_usec = 0;
 
         textureCar = loadTexture("./resources/taxialpha.png");
         textureBike = loadTexture("./resources/bike.png");
@@ -511,5 +517,5 @@ void drawTopBoard() {
         glVertex2f(1, 0.9);
         glVertex2f(1, 0.897);
     glEnd();
-    displayTopBoardText(&_bike, _totalPoints);
+    displayTopBoardText(&_bike, _totalPoints, secondsSaved);
 }
