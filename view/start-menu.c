@@ -8,16 +8,27 @@
 #include "./../records/save.h"
 
 /* définititon des variables*/
+float basey0 = 0.0; // scrolling infini de la route
+float basey1 = 1.0; // scrolling infini de la route
+
+int activeOption = 2; // garde une trace de l'option active dans le menu principal
+int activeOptionMenuConfigurer = 1; // garde une trace de l'option active dans le menu de configuration
+
+int activeMenu = 1; // identifie dans quel menu nous sommes
+
+const int startMenu = 1;
+const int menuConfigurer = 2;
+const int menuReglePage1 = 3;
+const int menuReglePage2 = 4;
+const int menuHighScore = 5;
+
+const int gameWindow = 1;
+
+const int difficultyNormal = 1;
+const int difficultyHardcore = 3;
+const int difficultyImpossible = 10;
 
 /* définititon des fonctions */
-float basey0 = 0.0;
-float basey1 = 1.0;
-
-int activeOption = 2;
-int activeOptionMenuConfigurer = 1;
-
-int activeMenu = 1;
-
 void vClavier_startmenu(unsigned char key, int x, int y);
 void vClavierSpecial_startmenu(int key, int x, int y);
 void vDisplay_startmenu();
@@ -26,6 +37,8 @@ void displayStartMenuConfigurer();
 void displayStartMenuRules();
 void displayStartMenuRulesPoints();
 void displayStartMenuHighscores();
+void upAndDownStartMenu(int key);
+void upAndDownConfigurerMenu(int key);
 
 GLuint texture;
 void windowMenu(GLuint tex) {
@@ -38,76 +51,99 @@ void windowMenu(GLuint tex) {
 void vClavierSpecial_startmenu(int key, int x, int y) 
 {
     if(activeMenu == 1) { // menu de base
-        switch (key){
-            case GLUT_KEY_UP:
-                activeOption -= 1;
-                if(activeOption < 1)
-                    activeOption = 6;
-                break;
-
-            case GLUT_KEY_DOWN:
-                activeOption += 1;
-                if(activeOption > 6)
-                    activeOption = 1;
-                break;
-
-            default:
-            break;
-        }
+        upAndDownStartMenu(key);
     } else if (activeMenu == 2) {
-        switch (key){
-            case GLUT_KEY_UP:
-                activeOptionMenuConfigurer -= 1;
-                if(activeOptionMenuConfigurer < 1)
-                    activeOptionMenuConfigurer = 4;
-                break;
+        upAndDownConfigurerMenu(key);
+    }
+}
 
-            case GLUT_KEY_DOWN:
-                activeOptionMenuConfigurer += 1;
-                if(activeOptionMenuConfigurer > 4)
-                    activeOptionMenuConfigurer = 1;
-                break;
-
-            default:
+void upAndDownStartMenu(int key) {
+    switch (key){
+        case GLUT_KEY_UP:
+            activeOption -= 1;
+            if(activeOption < 1)
+                activeOption = 6;
             break;
-        }
+
+        case GLUT_KEY_DOWN:
+            activeOption += 1;
+            if(activeOption > 6)
+                activeOption = 1;
+            break;
+
+        default:
+        break;
+    }
+}
+
+void upAndDownConfigurerMenu(int key) {
+    switch (key){
+        case GLUT_KEY_UP:
+            activeOptionMenuConfigurer -= 1;
+            if(activeOptionMenuConfigurer < 1)
+                activeOptionMenuConfigurer = 4;
+            break;
+
+        case GLUT_KEY_DOWN:
+            activeOptionMenuConfigurer += 1;
+            if(activeOptionMenuConfigurer > 4)
+                activeOptionMenuConfigurer = 1;
+            break;
+
+        default:
+        break;
     }
 }
 
 void vClavier_startmenu(unsigned char key, int x, int y) {
-    if (activeMenu == 1) { // Menu de base
-        if (key == 13) {
-            if (activeOption == 1) {
-                setMainCurrentWindow(1);
-                _startMenuActiveOption = 1; // pour dire a la page de jeu qu'on veut reprendre au dernier checkpoint
-            }
-            else if (activeOption == 2)
-                setMainCurrentWindow(1); // todo changer le hardcode 1 -> jeu
-            else if (activeOption == 3)
-                activeMenu = 2;
-            else if (activeOption == 4)
-                activeMenu = 3;
-            else if (activeOption == 5)
-                activeMenu = 5;
+    if (key == 13) {
+        switch(activeMenu) {
+            case 1 : // startMenu
+                switch(activeOption) {
+                    case 1:
+                        setMainCurrentWindow(gameWindow);
+                        _startMenuActiveOption = 1; // pour dire a la page de jeu qu'on veut reprendre au dernier checkpoint
+                        break;
+                    case 2:
+                        setMainCurrentWindow(gameWindow);
+                        break;
+                    case 3:
+                        activeMenu = menuConfigurer;
+                        break;
+                    case 4:
+                        activeMenu = menuReglePage1;
+                        break;
+                    case 5:
+                        activeMenu = menuHighScore;
+                        break;
+                    case 6:
+                    default:
+                        exit(0);
+                        break;
+                }
+                break;
+            case 2 : //menuConfigurer
+                switch(activeOptionMenuConfigurer) {
+                    case 1:
+                        _difficulty = difficultyNormal;
+                        break;
+                    case 2:
+                        _difficulty = difficultyHardcore;
+                        break;
+                    case 3:
+                        _difficulty = difficultyImpossible;
+                        break;
+                }
+                activeMenu = startMenu;
+                break;
+            case 3 ://menuReglePage1
+                activeMenu = menuReglePage2;
+                break;
+            case 4 : //menuReglePage2
+            case 5 : //menuHighScore
+                activeMenu = startMenu;
+                break;
         }
-    } else if (activeMenu == 2) { // Menu difficulté
-        if (key == 13) {
-            if (activeOptionMenuConfigurer == 1) {
-                _difficulty = 1;
-            } else if (activeOptionMenuConfigurer == 2) {
-                _difficulty = 3;
-            } else if (activeOptionMenuConfigurer == 3) {
-                _difficulty = 10;
-            } 
-
-            activeMenu = 1;
-        }
-    } else if (activeMenu == 3) { // Menu regles page 1
-        activeMenu = 4;
-    } else if (activeMenu == 4) { // Menu regles page 2
-        activeMenu = 1;
-    } else if (activeMenu == 5) { // Menu highscores
-        activeMenu = 1;
     }
 }
 
@@ -128,20 +164,19 @@ void vDisplay_startmenu() {
         glDisable(GL_TEXTURE_2D);
     glPopMatrix();
     
-    if(activeMenu == 1)
+    if(activeMenu == startMenu)
         displayStartMenu();
-    if(activeMenu == 2)
+    if(activeMenu == menuConfigurer)
         displayStartMenuConfigurer();
-    if(activeMenu == 3)
+    if(activeMenu == menuReglePage1)
         displayStartMenuRules();
-    if(activeMenu == 4)
+    if(activeMenu == menuReglePage2)
         displayStartMenuRulesPoints();
-    if(activeMenu == 5)
+    if(activeMenu == menuHighScore)
         displayStartMenuHighscores();
 
     glutPostRedisplay();
     glutSwapBuffers(); 
-
 }
 
 void displayStartMenu() {

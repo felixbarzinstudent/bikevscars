@@ -16,7 +16,6 @@ int activeOptionEndGame = 1;
 void vClavier_endgame(unsigned char key, int x, int y);
 void vClavierSpecial_endgame(int key, int x, int y);
 void vDisplay_endgame();
-void drawBike_endgame();
 void initEndGame();
 void displayEndMenu();
 
@@ -59,18 +58,7 @@ void vClavier_endgame(unsigned char key, int x, int y) {
 * Les nouvelles commandes permettent de recommencer une partie ou de revenir au menu de départ
 */
 void vDisplay_endgame() {
-        displayEndMenu();
-}
-
-void drawBike_endgame(){
-    glColor4f(1.0, 0.0, 0.0, 1.0);
-
-    glBegin(GL_POLYGON);
-        glVertex2f(-0.1, -0.2);
-        glVertex2f(-0.1, 0.2);
-        glVertex2f(0.1, 0.2);
-        glVertex2f(0.1, -0.2);
-    glEnd();
+    displayEndMenu();
 }
 
 void displayEndMenu() {
@@ -78,12 +66,14 @@ void displayEndMenu() {
     char option2 [] = "Quitter";
     
     if(activeOptionEndGame == 1)
-        writeOnWindow(-0.2, 0.1, option1, strlen(option1), 0, 0, 0);
+        writeOnWindow(-0.2, 0.1, option1, strlen(option1), 0.0, 0.0, 0.0);
     else
-        writeOnWindow(-0.2, 0.1, option1, strlen(option1), 1, 1, 1);
+        writeOnWindow(-0.2, 0.1, option1, strlen(option1), 0.7, 0.7, 0.7);
 
     if(activeOptionEndGame == 2)
-        writeOnWindow(-0.2, 0.0, option2, strlen(option2), 0, 0, 0);
+        writeOnWindow(-0.2, 0.0, option2, strlen(option2), 0.1, 0.1, 0.1);
     else
-        writeOnWindow(-0.2, 0.0, option2, strlen(option2), 1, 1, 1);
+        writeOnWindow(-0.2, 0.0, option2, strlen(option2), 0.7, 0.7, 0.7);
+
+    glutPostRedisplay();
 }
