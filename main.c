@@ -31,6 +31,10 @@ void vDisplayMain() {
     glutSwapBuffers(); 
 }
 
+void resize() {
+    glutReshapeWindow(WIDTH, HEIGHT);
+}
+
 int main(int argc, char** argv){
 
     //initialize mode and open a windows in upper left corner of screen
@@ -41,7 +45,7 @@ int main(int argc, char** argv){
     glutCreateWindow("Bike VS Cars");
     init();
     glutIdleFunc(vDisplayMain);//activation du callback
-
+    glutReshapeFunc(resize);
     glutMainLoop();
 }
 
