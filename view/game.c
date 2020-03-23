@@ -289,7 +289,7 @@ void detectCollisionObstacle(Bike bike, Enemy* enemy, Obstacle obstacle) {
             &&
             (enemy->position.y < (obstacle.position.y + 0.3))
             &&
-            (enemy->position.y > (obstacle.position.y))
+            (enemy->position.y > (obstacle.position.y - 0.3))
             ) {
                 enemy->isAlive = false;
         }
