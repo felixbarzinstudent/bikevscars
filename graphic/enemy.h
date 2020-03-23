@@ -9,6 +9,7 @@
 extern double _timeBetweenEnemyPop;
 extern float _enemySpeedMax;
 extern float _enemySpeedMin;
+extern int _madMax;
 
 /* définition des fonctions */
 

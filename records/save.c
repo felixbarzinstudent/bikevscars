@@ -2,7 +2,12 @@
 #include <stdlib.h>
 #include "./save.h"
 
+/* déclaration des variables */
+
 const int numberOfHighscoresToDisplay = 5;
+
+/* déclaration des fonctions */
+void getTop(int* tab);
 
 void saveHighscores(int score) {
 	int tab[numberOfHighscoresToDisplay + 1];

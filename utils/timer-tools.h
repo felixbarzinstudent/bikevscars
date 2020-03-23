@@ -40,4 +40,8 @@ bool timerEnemiesShootFunc(Enemy* enemy, double duration);
 * @Param {secondsSaved} quand on reprend une partie en cours, le temps précédemment parcouru doit être comptabilisé
 */
 double getTimeElapsed(int secondsSaved);
+/*
+* Réinitialise les timers pour recommencer la partie
+*/
+void resetTimers();
 #endif

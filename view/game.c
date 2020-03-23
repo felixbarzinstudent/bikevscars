@@ -315,10 +315,13 @@ void doCheckpoint() {
 */
 void makeItHarder() {
     printf("makeitharder\n");
-    _enemySpeedMax += (0.000015 * _difficulty);
-    _enemySpeedMin += (0.00001 * _difficulty);
-    _timeBetweenEnemyPop -= (0.35 * _difficulty);
-
+    _enemySpeedMax += (0.00005 * _difficulty);
+    _enemySpeedMin += (0.000004 * _difficulty);
+    _timeBetweenEnemyPop -= (0.3 * _difficulty);
+    
+    if(_madMax > 3)
+        _madMax -= 1;
+    
     if(_timeBetweenEnemyPop < 0.5)
         _timeBetweenEnemyPop = 0.5;
 }
@@ -366,8 +369,8 @@ void initGame(){
         shotList = newList();
         enemyList = newEnemyList();
         enemyShotList = newEnemyShotList();
-        _timeTimeElapsed.lock = false;
-        _timeTimeElapsed.start.tv_usec = 0;
+        
+        resetTimers();
 
         textureCar = loadTexture("./resources/taxialpha.png");
         textureBike = loadTexture("./resources/bike.png");

@@ -19,7 +19,7 @@ void createObstacle() {
     if(!_isAlreadyObstacle) {
         if(!timerInitObstaclesFunc(minTimeBetweenObstacles)) { // crée un ennemi toutes les x secondes
         
-            // dans le but de ne pas créer un obstacle toute les 5 secondes précisément, j'ajoute un peu de random
+            // dans le but de ne pas créer un obstacle toute les 4 secondes précisément, j'ajoute un peu de random
             srand(time(NULL));
             int r = rand() % 9; //random int between 0 and 9
             if (r < 6) {

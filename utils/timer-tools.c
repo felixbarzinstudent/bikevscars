@@ -140,3 +140,20 @@ bool timerBikeCooldownFunc(double duration) {
 
     return true;
 }
+
+void resetTimers() {
+    timerInvincibility.lock = false;
+    timerInvincibility.start.tv_usec = 0;
+
+    timerInitEnemies.lock = false;
+    timerInitEnemies.start.tv_usec = 0;
+
+    timerInitObstacle.lock = false;
+    timerInitObstacle.start.tv_usec = 0;
+
+    _timeTimeElapsed.lock = false;
+    _timeTimeElapsed.start.tv_usec = 0;
+
+    timerBikeCooldown.lock = false;
+    timerBikeCooldown.start.tv_usec = 0;
+}

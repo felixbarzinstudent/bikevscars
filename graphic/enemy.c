@@ -1,5 +1,6 @@
 #include <string.h>
 #include <../GL/glut.h>
+#include "./bike.h"
 #include "./enemy.h"
 #include "./../linked-list/enemy-list.h"
 #include "./../linked-list/enemy-shot-list.h"
@@ -11,8 +12,12 @@
 double _timeBetweenEnemyPop = 3;
 float _enemySpeedMax = 0.001; //init
 float _enemySpeedMin = 0.001; //init
+int _madMax = 7; // au début, 1 voiture sur 20 va suivre le vélo sur l'axe des x
 
 /* définition des fonctions */
+
+void followBike(Enemy* enemy);
+bool isMad(int madMax);
 
 void createEnemies(EnemyList* list) {
     if(list == NULL)
@@ -25,6 +30,7 @@ void createEnemies(EnemyList* list) {
         enemy->position.z = 0;
         enemy->speed = floatRandom(_enemySpeedMin, _enemySpeedMax);
         enemy->isAlive = true;
+        enemy->isMad = isMad(_madMax);
         insertEnemyFront(list, enemy);
     }
 }
@@ -45,6 +51,7 @@ void initEnemyFactory() {
     _enemySpeedMax = 0.001;
     _enemySpeedMin = 0.001;
     _timeBetweenEnemyPop = 3;
+    _madMax = 7;
 }
 
 void drawEnemies(GLuint textureCar, EnemyList* enemyList) {
@@ -67,6 +74,9 @@ void drawEnemies(GLuint textureCar, EnemyList* enemyList) {
             }
 
                 enemyList->first->position.y -= enemyList->first->speed;
+
+                followBike(enemyList->first);
+
                 glTranslatef(enemyList->first->position.x, enemyList->first->position.y, 0);
                 glBegin(GL_QUADS);
                     glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
@@ -87,6 +97,9 @@ void drawEnemies(GLuint textureCar, EnemyList* enemyList) {
                     glColor4f(1.0, 1.0, 0.1, 0.1);
                 }
                 current->position.y -= current->speed;
+                
+                followBike(current);
+
                 glTranslatef(current->position.x, current->position.y, 0);
                 glBegin(GL_QUADS);
                     glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
@@ -149,4 +162,29 @@ void drawEnemiesShots(GLuint textureLightBeam, EnemyShotList* enemyShotList) {
     }
     glDisable(GL_BLEND);
     glDisable(GL_TEXTURE_2D);
+}
+
+/*
+* Cette fonction fait en sorte que l'ennemi suive le vélo sur l'axe des x
+* @Param {enemy} l'ennemi qui suit le vélo
+*/
+void followBike(Enemy* enemy) {
+    if (enemy->isMad && enemy->isAlive && enemy->position.y >= 0.15) {
+        if(enemy->position.x > _bike.position.x) {
+            enemy->position.x -= enemy->speed;
+        } else if (enemy->position.x < _bike.position.x) {
+            enemy->position.x += enemy->speed;
+        }
+    }
+}
+
+/*
+* Cette fonction renvoie true si l'entier aléatoire retourné = 0;
+*/
+bool isMad(int max) {
+    if((int)floatRandom(0, max) == 0) {
+        return true;
+    } 
+
+    return false;
 }

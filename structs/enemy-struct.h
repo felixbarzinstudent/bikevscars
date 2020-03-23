@@ -12,6 +12,7 @@ typedef struct Enemy Enemy;
 struct Enemy {
     struct Coordinate position;
     bool isAlive;
+    bool isMad; // si la voiture est mad, elle suivra le vélo sur l'axe des x
     float speed;
     Enemy *next;
     Enemy *previous;
