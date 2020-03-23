@@ -37,7 +37,7 @@ bool timerInitEnemiesFunc(double duration) {
     gettimeofday(&timerInitEnemies.stop, NULL);
     if(timerInitEnemies.start.tv_usec > 0) {
         double seconds = (double)(timerInitEnemies.stop.tv_usec - timerInitEnemies.start.tv_usec) / 1000000 + (double)(timerInitEnemies.stop.tv_sec - timerInitEnemies.start.tv_sec);
-        if(seconds >= duration){
+        if(seconds >= duration && seconds < 10){
             timerInitEnemies.lock = false;//reset
             timerInitEnemies.start.tv_usec = 0;//reset
             //printf("Finished in %f sec\n", seconds); 
@@ -61,7 +61,7 @@ bool timerEnemiesShootFunc(Enemy* enemy, double duration) {
     gettimeofday(&enemy->coolDownShoot.stop, NULL);
     if(enemy->coolDownShoot.start.tv_usec > 0) {
         double seconds = (double)(enemy->coolDownShoot.stop.tv_usec - enemy->coolDownShoot.start.tv_usec) / 1000000 + (double)(enemy->coolDownShoot.stop.tv_sec - enemy->coolDownShoot.start.tv_sec);
-        if(seconds >= duration){
+        if(seconds >= duration && seconds < 10){
             enemy->coolDownShoot.lock = false;//reset
             enemy->coolDownShoot.start.tv_usec = 0;//reset
             printf("Finished in %f sec\n", seconds); 

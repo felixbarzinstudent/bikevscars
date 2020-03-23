@@ -26,7 +26,8 @@ void insertEnemyShotFront(EnemyShotList *ls, Shot* shot)
     first->position.x = shot->position.x;
     first->position.y = shot->position.y;
     first->position.z = 0;
-
+    first->type = 1;
+    
     first->speed = shot->speed;
     
     if(ls->first == NULL) { // si c'est la premiere insertion de la liste

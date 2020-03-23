@@ -228,8 +228,12 @@ void enemyShoot(Bike bike, Enemy* enemy) {
         &&
         (bike.position.y < (enemy->position.y + 0.2))
     ) {
-        if (!timerEnemiesShootFunc(enemy, 1.5)) {
-            shootEnemy(enemyShotList, enemy);
+        if (!timerEnemiesShootFunc(enemy, 1.4)) {
+            if(enemy->position.x != 0 && enemy->position.y != 0) {
+                printf("Position of shooting ennemy : x : %lf\n", enemy->position.x);
+                printf("Position of shooting ennemy : y : %lf\n", enemy->position.y);
+                shootEnemy(enemyShotList, enemy);
+            }
         }
     }
 }
@@ -251,9 +255,11 @@ void detectCollisionBike(Bike bike, Enemy* enemy) {
         &&
         (bike.position.x > (enemy->position.x - 0.2))
     ){
-        printf("Le vélo est touché par une voiture\n");
-        int isLowLife = lifeLoss(&_bike); // TODO : make void ?
-        endOfGame(isLowLife);
+        //printf("Le vélo est touché par une voiture\n");
+        if(enemy->position.x != 0 && enemy->position.y != 0) {
+            int isLowLife = lifeLoss(&_bike); // TODO : make void ?
+            endOfGame(isLowLife);
+        }
     } 
 }
 
@@ -391,7 +397,7 @@ void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
 
                         endOfGame(isLowLife);
                     
-                } else if(current->position.y < -1) { 
+                } else if(current->position.y < -2) { 
                     deleteEnemyShot(enemyShotList, current); // supprime de la liste chainee les tirs qui sortent de l'écran
                 } 
                 current = current->next;
