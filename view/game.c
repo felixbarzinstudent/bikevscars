@@ -35,6 +35,11 @@ GLuint texturePolice3;
 GLuint textureWave;
 GLuint textureLightBeam;
 GLuint textureBubble;
+GLuint textureAudi;
+GLuint textureMiniTruck;
+GLuint textureMiniVan;
+GLuint textureViper;
+GLuint textureTaxi;
 int previousRecordedPoints = 0;
 int secondsSaved = 0;
 int _totalPoints = 0;
@@ -60,7 +65,7 @@ void enemyShoot(Bike bike, Enemy* enemy);
 void windowGame(GLuint tex) {
     texture = tex;
     initGame();
-    createEnemies(enemyList);
+    createEnemies(enemyList, textureCar, textureAudi, textureMiniTruck, textureMiniVan, textureViper, textureTaxi);
     createObstacle();
     glutDisplayFunc(vDisplayGame);
     detectCollision();
@@ -81,7 +86,7 @@ void vDisplayGame() {
         drawBike(textureBike);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots(textureWave, textureBubble, shotList);
-    drawEnemies(textureCar, enemyList);
+    drawEnemies(enemyList);
     drawObstacle(roadSpeed, texturePolice1, texturePolice2, texturePolice3, textureBubble);
     drawEnemiesShots(textureLightBeam, enemyShotList);
     drawTopBoard();
@@ -372,7 +377,7 @@ void initGame(){
         
         resetTimers();
 
-        textureCar = loadTexture("./resources/taxialpha.png");
+        textureTaxi = loadTexture("./resources/taxialpha.png");
         textureBike = loadTexture("./resources/bike.png");
         texturePolice1 = loadTexture("./resources/police1.png");
         texturePolice2 = loadTexture("./resources/police2.png");
@@ -380,7 +385,11 @@ void initGame(){
         textureWave = loadTexture("./resources/wave.png");
         textureLightBeam = loadTexture("./resources/lightbeam.png");
         textureBubble = loadTexture("./resources/bubble.png");
-        
+        textureAudi = loadTexture("./resources/Audi.png");
+        textureMiniTruck = loadTexture("./resources/Mini_truck.png");
+        textureMiniVan = loadTexture("./resources/Mini_van.png");
+        textureViper = loadTexture("./resources/Black_viper.png");
+        textureCar = loadTexture("./resources/Car.png");
         isInitGame = true;
     }
 }

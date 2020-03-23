@@ -16,8 +16,14 @@ extern int _madMax;
 /*
 * Cette fonction crée un ennemi pour l'ajouter dans la liste des ennemis
 * @Param {list} liste d'ennemis
+* @Param {textureCar} texture d'une voiture rouge
+* @Param {textureAudi} texture d'une audi rouge
+* @Param {textureMiniTruck} texture d'un pick up
+* @Param {textureMiniVan} texture d'un mini van
+* @Param {textureViper} texture d'une voiture de course
+* @Param {textureTaxi} texture d'un taxi
 */
-void createEnemies(EnemyList* list);
+void createEnemies(EnemyList* list, GLuint textureCar, GLuint textureAudi, GLuint textureMiniTruck, GLuint textureMiniVan, GLuint textureViper, GLuint textureTaxi);
 /*
 * Cette fonction initialise un tir ennemi
 */
@@ -28,10 +34,9 @@ void shootEnemy();
 void initEnemyFactory();
 /*
 * Cette fonction dessine les ennemis
-* @Param {texturecar} texture de l'ennemi
 * @Param {enemyList} liste d'ennemis qu'il faut dessiner
 */
-void drawEnemies(GLuint texturecar, EnemyList* enemyList);
+void drawEnemies(EnemyList* enemyList);
 /*
 * Cette fonction dessine les tirs des ennemis
 * @Param {textureLightBeam} texture du tir ennemi

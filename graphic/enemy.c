@@ -18,12 +18,14 @@ int _madMax = 7; // au début, 1 voiture sur 20 va suivre le vélo sur l'axe des
 
 void followBike(Enemy* enemy);
 bool isMad(int madMax);
+GLuint chooseTexture(GLuint textureCar, GLuint textureAudi, GLuint textureMiniTruck, GLuint textureMiniVan, GLuint textureViper, GLuint textureTaxi);
 
-void createEnemies(EnemyList* list) {
+void createEnemies(EnemyList* list, GLuint textureCar, GLuint textureAudi, GLuint textureMiniTruck, GLuint textureMiniVan, GLuint textureViper, GLuint textureTaxi) {
     if(list == NULL)
         exit(EXIT_FAILURE);
 
     if(!timerInitEnemiesFunc(_timeBetweenEnemyPop)) { // crée un ennemi toutes les 'x' secondes
+
         Enemy* enemy = malloc(sizeof(Enemy));
         enemy->position.x = floatRandom(-0.85, 0.85);
         enemy->position.y = 1;
@@ -31,6 +33,7 @@ void createEnemies(EnemyList* list) {
         enemy->speed = floatRandom(_enemySpeedMin, _enemySpeedMax);
         enemy->isAlive = true;
         enemy->isMad = isMad(_madMax);
+        enemy->textureId = chooseTexture(textureCar, textureAudi, textureMiniTruck, textureMiniVan, textureViper, textureTaxi);
         insertEnemyFront(list, enemy);
     }
 }
@@ -54,47 +57,84 @@ void initEnemyFactory() {
     _madMax = 7;
 }
 
-void drawEnemies(GLuint textureCar, EnemyList* enemyList) {
+/*
+* Cette fonction permet de donner un identifiant de texture
+* @Param {textureCar} texture d'une voiture rouge
+* @Param {textureAudi} texture d'une audi rouge
+* @Param {textureMiniTruck} texture d'un pick up
+* @Param {textureMiniVan} texture d'un mini van
+* @Param {textureViper} texture d'une voiture de course
+* @Param {textureTaxi} texture d'un taxi
+*/
+GLuint chooseTexture(GLuint textureCar, GLuint textureAudi, GLuint textureMiniTruck, GLuint textureMiniVan, GLuint textureViper, GLuint textureTaxi) {
+    int random = (int) floatRandom(0, 10);
+    switch(random) {
+        case 0 :
+            return textureCar;
+            break;
+        case 1 :
+            return textureAudi;
+            break;
+        case 2 :
+            return textureMiniTruck;
+            break;
+        case 3 :
+            return textureMiniVan;
+            break;
+        case 4 :
+            return textureViper;
+            break;
+        case 5 :
+            return textureTaxi;
+            break;
+        default:
+            return textureTaxi;
+                break;
+    }
+}
+
+void drawEnemies(EnemyList* enemyList) {
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBindTexture(GL_TEXTURE_2D, textureCar);
 
     int enemiesCount = lengthEnemyList(enemyList);
     if(enemiesCount > 0) {
         
         if(enemyList->first != NULL) {
+            glBindTexture(GL_TEXTURE_2D, enemyList->first->textureId);
             glPushMatrix();
             glLoadIdentity();
 
             if(enemyList->first->isAlive)
-                glColor4f(1.0, 1.0, 0.1, 1);
+                glColor4f(1.0, 1.0, 1.0, 1);
             else {
-                glColor4f(1.0, 1.0, 0.1, 0.1);
+                glColor4f(1.0, 1.0, 1.0, 0.1);
             }
 
-                enemyList->first->position.y -= enemyList->first->speed;
+            enemyList->first->position.y -= enemyList->first->speed;
 
-                followBike(enemyList->first);
+            followBike(enemyList->first);
 
-                glTranslatef(enemyList->first->position.x, enemyList->first->position.y, 0);
-                glBegin(GL_QUADS);
-                    glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
-                    glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
-                    glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
-                    glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
-                glEnd();
+            glTranslatef(enemyList->first->position.x, enemyList->first->position.y, 0);
+            glBegin(GL_QUADS);
+                glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
+                glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
+                glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
+                glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
+            glEnd();
             glPopMatrix();
         } 
         
         if(enemiesCount > 1) {
             Enemy* current = enemyList->first->next;
             while(current != NULL) {
+            glBindTexture(GL_TEXTURE_2D, current->textureId);
             glPushMatrix(); 
                 if(current->isAlive)
-                    glColor4f(1.0, 1.0, 0.1, 1);
+                    glColor4f(1.0, 1.0, 1.0, 1);
                 else {
-                    glColor4f(1.0, 1.0, 0.1, 0.1);
+                    glColor4f(1.0, 1.0, 1.0, 0.1);
                 }
                 current->position.y -= current->speed;
                 

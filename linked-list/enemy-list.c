@@ -22,6 +22,7 @@ void insertEnemyFront(EnemyList *ls, Enemy* enemy)
     first->position.y = enemy->position.y;
     first->position.z = 0;
     first->isMad = enemy->isMad;
+    first->textureId = enemy->textureId;
     
     first->speed = enemy->speed;
     first->isAlive = enemy->isAlive;

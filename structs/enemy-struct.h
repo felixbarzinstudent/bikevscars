@@ -5,6 +5,7 @@
 
 #ifndef ENEMYSTRUCT_H
 #define ENEMYSTRUCT_H
+#include <../GL/glut.h>
 #include "./timer-struct.h"
 #include "./../graphic/coordinate.h"
 
@@ -14,6 +15,7 @@ struct Enemy {
     bool isAlive;
     bool isMad; // si la voiture est mad, elle suivra le vélo sur l'axe des x
     float speed;
+    GLuint textureId;
     Enemy *next;
     Enemy *previous;
     TimerEnemy coolDownShoot; // empeche les ennemis d'enchainer les tirs trop vite
