@@ -17,7 +17,7 @@ extern Timer timerInitEnemies;
 extern Timer timerInvincibility;
 extern Timer _timeTimeElapsed;
 /*
-* Cette fonction initialise un timer qui renverra true pendant
+* Ces fonctions préfixé par "timer" et post fixé par "Func" initialisent un timer qui renverra true pendant
 * la durée passée en paramètre. Renvoit faux ensuite.
 * Détails : au lancement du timer, le temps est enregistré dans la propriété seconds du struct et l’accès à 
 *           cette initialisation n’est plus possible dès le deuxième passage dans cette fonction car le 
@@ -28,7 +28,13 @@ extern Timer _timeTimeElapsed;
 */
 bool timerInvincibilityFunc(double duration);
 bool timerInitEnemiesFunc(double duration);
-bool timerEnemiesShootFunc(Enemy* enemy, double duration);
 bool timerInitObstaclesFunc(double duration);
+bool timerBikeCooldownFunc(double duration);
+/* @Param {enemy} permet d'utiliser le timer interne de l'ennemi */
+bool timerEnemiesShootFunc(Enemy* enemy, double duration);
+/*
+* Cette fonction permet d'avoir le temps écoulé depuis le début de la partie
+* @Param {secondsSaved} quand on reprend une partie en cours, le temps précédemment parcouru doit être comptabilisé
+*/
 double getTimeElapsed(int secondsSaved);
 #endif

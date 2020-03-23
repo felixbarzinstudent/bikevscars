@@ -50,7 +50,6 @@ void detectCollisionShot(List* shotList, Enemy* enemy);
 void initGame();
 void keyboardownBike();
 void clavierGame(unsigned char key, int x, int y);
-void shoot();
 void drawEnemies();
 void drawEnemiesShots();
 void countPoints(int points);

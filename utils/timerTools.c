@@ -119,3 +119,27 @@ double getTimeElapsed(int secondsSaved) {
 
     return 0;
 }
+
+Timer timerBikeCooldown;
+bool timerBikeCooldownFunc(double duration) {
+    if (duration < 0)
+        exit(EXIT_FAILURE);
+
+    gettimeofday(&timerBikeCooldown.stop, NULL);
+    if(timerBikeCooldown.start.tv_usec > 0) {
+        double seconds = (double)(timerBikeCooldown.stop.tv_usec - timerBikeCooldown.start.tv_usec) / 1000000 + (double)(timerBikeCooldown.stop.tv_sec - timerBikeCooldown.start.tv_sec);
+        if(seconds >= duration){
+            timerBikeCooldown.lock = false;//reset
+            timerBikeCooldown.start.tv_usec = 0;//reset
+            return false;
+        }
+    }    
+
+    if (!timerBikeCooldown.lock) { 
+        timerBikeCooldown.lock = true;
+        timerBikeCooldown.start = timerBikeCooldown.stop; 
+        return true;
+    }
+
+    return true;
+}

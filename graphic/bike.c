@@ -9,6 +9,8 @@
 const double invicibilityDuration = 4;
 const int _sonicWaveShot = 1;
 const int _bubbleShot = 2;
+const double bikeCooldown = 0.75;
+int counterShoot = 0; // pour compter le nombre de tirs avant déclenchement du cooldown
 
 struct Bike _bike;
 
@@ -84,13 +86,24 @@ void shoot(List *shotList, int type) {
     if (shotList == NULL)
         exit(EXIT_FAILURE);
 
-    Shot* shot = malloc(sizeof(Shot));
-    shot->position.x = _bike.position.x;
-    shot->position.y = (_bike.position.y + 0.2);
-    shot->position.z = 0;
-    shot->speed = 0.001;
-    shot->type = type;
-    insertFront(shotList, shot);
+    if(counterShoot < 3) {
+        counterShoot ++;
+        Shot* shot = malloc(sizeof(Shot));
+        shot->position.x = _bike.position.x;
+        shot->position.y = (_bike.position.y + 0.2);
+        shot->position.z = 0;
+        shot->speed = 0.001;
+        shot->type = type;
+        insertFront(shotList, shot);
+        if(!timerBikeCooldownFunc(bikeCooldown)) { // si le vélo ne spam pas ses tirs, pas besoin de cooldown
+            counterShoot = 0;
+        }
+    } 
+    if(counterShoot >= 3) { // si le vélo spam ses tirs -> cooldown
+        if(!timerBikeCooldownFunc(bikeCooldown)) {
+            counterShoot = 0;
+        }
+    }
 }
 
 void drawShots(GLuint textureWave, GLuint textureBubble, List *shotList) {
