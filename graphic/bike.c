@@ -9,7 +9,7 @@
 const double bikeCooldown = 0.75;
 const double bikeStartPosition = -0.75;
 const double invicibilityDuration = 4;
-const float initialShotSpeed = 0.001;
+const float initialShotSpeed = 0.00176;
 const int _sonicWaveShot = 1;
 const int _bubbleShot = 2;
 const int bikeStateVulnerable = 0;

@@ -282,10 +282,7 @@ void displayStartMenuRules() {
     char line3 [] = "non-polluants, seul un velo ose resister envers et contre";
     char line4 [] = "tout pour mettre fin a cette oppression.";
     char line5 [] = "Guider le velo pour l'aider a resister, et detruire un max";
-    char line6 [] = "de voiture ! Ces voitures sans scrupules vont essayer";
-    char line7 [] = "d'ecraser les chats qui traversent la route.";
-    char line8 [] = "Il faut les sauver ! ";
-    char line8a [] = "Ces satanes voitures tirent sur tout ce qui bouge...";
+    char line6 [] = "de voiture ! Ces voitures sont sans scrupules.";
     char line8b [] = "La police tentera de vous arreter en vous faisant obstacle";
     char line9 [] = "Commandes :";
     char line10 [] = "Fleches :";
@@ -306,16 +303,13 @@ void displayStartMenuRules() {
     writeOnWindow(-0.92, -0.50, line12, strlen(line12), 1, 1, 1); 
     writeOnWindow(-0.92, -0.70, line14, strlen(line14), 1, 1, 1); 
 
-    writeOnWindow(-0.92, 0.94, line1, strlen(line1), 0.99, 0.99, 0.99); 
-    writeOnWindow(-0.92, 0.84, line2, strlen(line2), 0.98, 0.98, 0.98); 
-    writeOnWindow(-0.92, 0.74, line3, strlen(line3), 0.97, 0.97, 0.97); 
-    writeOnWindow(-0.92, 0.64, line4, strlen(line4), 0.96, 0.96, 0.96); 
-    writeOnWindow(-0.92, 0.52, line5, strlen(line5), 0.95, 0.95, 0.95); 
-    writeOnWindow(-0.92, 0.42, line6, strlen(line6), 0.96, 0.96, 0.96); 
-    writeOnWindow(-0.92, 0.32, line7, strlen(line7), 0.97, 0.97, 0.97); 
-    writeOnWindow(-0.92, 0.22, line8, strlen(line8), 0.98, 0.98, 0.98); 
-    writeOnWindow(-0.92, 0.10, line8a, strlen(line8a), 0.99, 0.99, 0.99); 
-    writeOnWindow(-0.92, 0.00, line8b, strlen(line8b), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.92, 0.84, line1, strlen(line1), 0.99, 0.99, 0.99); 
+    writeOnWindow(-0.92, 0.74, line2, strlen(line2), 0.98, 0.98, 0.98); 
+    writeOnWindow(-0.92, 0.64, line3, strlen(line3), 0.97, 0.97, 0.97); 
+    writeOnWindow(-0.92, 0.54, line4, strlen(line4), 0.96, 0.96, 0.96); 
+    writeOnWindow(-0.92, 0.40, line5, strlen(line5), 0.95, 0.95, 0.95); 
+    writeOnWindow(-0.92, 0.30, line6, strlen(line6), 0.96, 0.96, 0.96); 
+    writeOnWindow(-0.92, 0.16, line8b, strlen(line8b), 0.97, 0.97, 0.97); 
     
     writeOnWindow(-0.92, -0.15, line9, strlen(line9), 0.1, 0.1, 0.1); 
     writeOnWindow(-0.55, -0.30, line10a, strlen(line10a), 0.99, 0.99, 0.99); 
@@ -336,11 +330,7 @@ void displayStartMenuRulesPoints() {
     char line2 [] = "Voiture detruite :";
     char line2a [] = "+1";
     char line3 [] = "Voiture detruite dans une bulle :";
-    char line3a [] = "+2";
-    char line4 [] = "Chat sauver :";
-    char line4a [] = "+3";
-    char line5 [] = "Chat tuer ou ecraser par une voiture :";
-    char line5a [] = "-5";
+    char line3a [] = "+3";
     char line6 [] = "Retour au menu [PRESS ENTER]";
 
     writeOnWindow(-0.75, -0.85, line6, strlen(line6), 0, 0, 0); 
@@ -349,10 +339,6 @@ void displayStartMenuRulesPoints() {
     writeOnWindow(0.49, 0.10, line2a, strlen(line2a), 1, 1, 1); 
     writeOnWindow(-0.75, 0.00, line3, strlen(line3), 1, 1, 1); 
     writeOnWindow(0.49, 0.00, line3a, strlen(line3a), 1, 1, 1); 
-    writeOnWindow(-0.75, -0.10, line4, strlen(line4), 1, 1, 1); 
-    writeOnWindow(0.49, -0.10, line4a, strlen(line4a), 1, 1, 1); 
-    writeOnWindow(-0.75, -0.20, line5, strlen(line5), 1, 1, 1); 
-    writeOnWindow(0.49, -0.20, line5a, strlen(line5a), 1, 1, 1); 
     writeOnWindow(-0.55, -0.70, "", strlen(""), 0.59, 0.59, 0.59); 
 }
 

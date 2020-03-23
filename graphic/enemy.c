@@ -54,7 +54,7 @@ void initEnemyFactory() {
     _enemySpeedMax = 0.001;
     _enemySpeedMin = 0.001;
     _timeBetweenEnemyPop = 3;
-    _madMax = 7;
+    _madMax = 6;
 }
 
 /*
