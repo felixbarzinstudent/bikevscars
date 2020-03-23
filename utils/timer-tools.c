@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <../GL/glut.h>
-#include "timerTools.h"
+#include "timer-tools.h"
 #include "./../structs/enemy-struct.h"
 
 Timer timerInvincibility;

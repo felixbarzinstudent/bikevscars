@@ -4,7 +4,7 @@
 #include "./../linked-list/enemy-list.h"
 #include "./../linked-list/enemy-shot-list.h"
 #include "./../utils/calculus.h"
-#include "./../utils/timerTools.h"
+#include "./../utils/timer-tools.h"
 
 /* initialisation des variables */
 double _timeBetweenEnemyPop = 3;

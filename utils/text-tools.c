@@ -3,7 +3,7 @@
 #include <string.h>
 #include "./text-tools.h"
 #include "./../graphic/bike.h"
-#include "./../utils/timerTools.h"
+#include "./../utils/timer-tools.h"
 
 char _textCollision[18] = "";
 

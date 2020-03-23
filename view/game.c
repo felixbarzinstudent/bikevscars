@@ -13,7 +13,7 @@
 #include "./../records/save.h"
 #include "./../utils/calculus.h"
 #include "./../utils/text-tools.h"
-#include "./../utils/timerTools.h"
+#include "./../utils/timer-tools.h"
 #include "./../structs/enemy-struct.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "./../lib/stb_image.h"

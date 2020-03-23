@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "./obstacle.h"
 #include "./../utils/calculus.h"
-#include "./../utils/timerTools.h"
+#include "./../utils/timer-tools.h"
 #include <stdio.h>
 
 /* déclaration des variables */

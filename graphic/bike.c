@@ -3,7 +3,7 @@
 #include <../GL/glut.h>
 #include "./../linked-list/shot-list.h"
 #include "./../movement/bike-movement.h"
-#include "./../utils/timerTools.h"
+#include "./../utils/timer-tools.h"
 
 /* initialisation des variables */
 const double invicibilityDuration = 4;
