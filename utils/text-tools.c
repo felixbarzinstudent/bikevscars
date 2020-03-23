@@ -54,9 +54,9 @@ void displayTopBoardText(Bike* bike, int total, int secondsSaved) {
     strcat(bufSeconds, lineSecondes);
     
     if (seconds < 10)
-        writeOnWindow(0.0, 0.93, bufSeconds, 6, 1, 1, 1);
+        writeOnWindow(-0.11, 0.93, bufSeconds, 6, 1, 1, 1);
     else if (seconds < 100)
-        writeOnWindow(0.0, 0.93, bufSeconds, 7, 1, 1, 1);
+        writeOnWindow(-0.11, 0.93, bufSeconds, 7, 1, 1, 1);
     else if (seconds < 1000)
-        writeOnWindow(0.0, 0.93, bufSeconds, 8, 1, 1, 1);
+        writeOnWindow(-0.11, 0.93, bufSeconds, 8, 1, 1, 1);
 }
