@@ -1,26 +1,31 @@
-#include "bike.h"
 #include <time.h>
 #include <../GL/glut.h>
+#include "./bike.h"
 #include "./../linked-list/shot-list.h"
 #include "./../movement/bike-movement.h"
 #include "./../utils/timer-tools.h"
 
 /* initialisation des variables */
+const double bikeCooldown = 0.75;
+const double bikeStartPosition = -0.75;
 const double invicibilityDuration = 4;
+const float initialShotSpeed = 0.001;
 const int _sonicWaveShot = 1;
 const int _bubbleShot = 2;
-const double bikeCooldown = 0.75;
+const int bikeStateVulnerable = 0;
+const int bikeStateInvincible = 1;
+const int maxRafaleShoot = 3;
 int counterShoot = 0; // pour compter le nombre de tirs avant déclenchement du cooldown
-
 struct Bike _bike;
 
-//TODO : utiliser un enum pour le state
+/* définition des fonctions */
+
 void initBike() {
     _bike.position.x = 0;
-    _bike.position.y = -0.75;
+    _bike.position.y = bikeStartPosition;
     _bike.position.z = 0;
     _bike.life = 3;
-    _bike.state = 0; // 0 == vulnérable et 1 == invincible
+    _bike.state = bikeStateVulnerable;
     _bike.invincibilityDuration = invicibilityDuration;
 }
 
@@ -60,7 +65,7 @@ int lifeLoss(Bike* bike) {
 
     time_t secondsLater;
     secondsLater = time(NULL);
-    _bike.state = 1; // invincible
+    _bike.state = bikeStateInvincible;
 
     if(lock && (secondsLater - seconds) > invicibilityDuration){
         lock = false;
@@ -86,20 +91,20 @@ void shoot(List *shotList, int type) {
     if (shotList == NULL)
         exit(EXIT_FAILURE);
 
-    if(counterShoot < 3) {
+    if(counterShoot < maxRafaleShoot) {
         counterShoot ++;
         Shot* shot = malloc(sizeof(Shot));
         shot->position.x = _bike.position.x;
         shot->position.y = (_bike.position.y + 0.2);
         shot->position.z = 0;
-        shot->speed = 0.001;
+        shot->speed = initialShotSpeed;
         shot->type = type;
         insertFront(shotList, shot);
         if(!timerBikeCooldownFunc(bikeCooldown)) { // si le vélo ne spam pas ses tirs, pas besoin de cooldown
             counterShoot = 0;
         }
     } 
-    if(counterShoot >= 3) { // si le vélo spam ses tirs -> cooldown
+    if(counterShoot >= maxRafaleShoot) { // si le vélo spam ses tirs -> cooldown
         if(!timerBikeCooldownFunc(bikeCooldown)) {
             counterShoot = 0;
         }

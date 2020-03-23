@@ -1,3 +1,15 @@
+/*
+* Fichier contenant les fonctions et les variables nécéssaires à la création d'un obstacle.
+*
+* Un obstacle est représenté par une voiture de police placée en travers de la route. Elle ne 
+* se déplace pas mais si le vélo la touche il perd une vie. Si les ennemis la touche ils meurent.
+* L'obstacle apparait de manière aléatoire sur le haut de l'écran.
+* Le tir 'bubble' du vélo permet de rendre l'obstacle vulnérable aux tirs classiques. Les tirs
+* ennemis passent au travers de l'obstacle.
+*
+* Il ne peut y avoir qu'un obstacle à la fois sur l'écran de jeux.
+*/
+
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 #include <stdbool.h>

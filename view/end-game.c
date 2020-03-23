@@ -8,7 +8,7 @@
 #include "./../utils/text-tools.h"
 
 /* définititon des variables*/
-int numberWindowStartMenu;
+
 int activeOptionEndGame = 1;
 
 /* définititon des fonctions */
@@ -16,7 +16,6 @@ int activeOptionEndGame = 1;
 void vClavier_endgame(unsigned char key, int x, int y);
 void vClavierSpecial_endgame(int key, int x, int y);
 void vDisplay_endgame();
-void initEndGame();
 void displayEndMenu();
 
 void windowEndGame() {
@@ -25,6 +24,12 @@ void windowEndGame() {
     glutKeyboardFunc(vClavier_endgame); // enter
 }
 
+/*
+* Cette fonction initialise les controles des touches spéciales pour la page de fin de jeu
+* @Param {key} touche du clavier appuyée
+* @Param {x} position de la souris sur l'axe x
+* @Param {y} position de la souris sur l'axe y
+*/
 void vClavierSpecial_endgame(int key, int x, int y) 
 {
 	switch (key){
@@ -45,6 +50,12 @@ void vClavierSpecial_endgame(int key, int x, int y)
     }
 }
 
+/*
+* Cette fonction initialise les contrôles sur la page de fin du jeu
+* @Param {key} touche du clavier appuyée
+* @Param {x} position de la souris sur l'axe x
+* @Param {y} position de la souris sur l'axe y
+*/
 void vClavier_endgame(unsigned char key, int x, int y) {
     if (key == 13) {
         if (activeOptionEndGame == 1)
@@ -61,6 +72,9 @@ void vDisplay_endgame() {
     displayEndMenu();
 }
 
+/*
+* Affiche le menu de fin de partie
+*/
 void displayEndMenu() {
     char option1 [] = "Recommencer";
     char option2 [] = "Quitter";

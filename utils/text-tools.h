@@ -6,7 +6,7 @@
 #include <GL/glut.h>
 #include "./../graphic/bike.h"
 
-extern char _textCollision[18];
+/* définition des fonctions */
 
 /*
 * Cette fonction écrit un texte sur la fenêtre à une position donnée
@@ -24,9 +24,3 @@ void writeOnWindow(float x, float y, char text[], int size, float red, float gre
 * @Param {secondsSaved} temps déja parcouru récupéré d'une sauvegarde
 */
 void displayTopBoardText(Bike* bike, int total, int secondsSaved);
-
-/*
-* Cette fonction affiche le score
-* @Param {_totalPoints} nombre qu'il faut afficher
-*/
-void displayScore(int _totalPoints);

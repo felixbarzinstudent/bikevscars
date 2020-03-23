@@ -1,13 +1,15 @@
 /*
-* Implémentation d'une liste chainée
+* Implémentation d'une liste doublement chainée
 */
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include "./shot-list.h"
 #include "./../graphic/coordinate.h"
+
+/* définition des fonctions */
 
 List *newList()
 {
@@ -18,8 +20,6 @@ List *newList()
     return list;
 }
 
-//PRE: ls != NULL
-//POST: ls correspond à la liste initiale à laquelle un noeud a été ajouté au début, contenant l'élément nb; sa taille est incrémentée de 1
 void insertFront(List *ls, Shot* shot)
 {
     Shot *first = malloc(sizeof(Shot));

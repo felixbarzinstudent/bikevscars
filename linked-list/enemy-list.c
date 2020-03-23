@@ -1,9 +1,10 @@
-#include <stdio.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include "./enemy-list.h"
+
+/* définition des fonctions */
 
 EnemyList *newEnemyList()
 {
@@ -14,8 +15,6 @@ EnemyList *newEnemyList()
     return list;
 }
 
-//PRE: ls != NULL
-//POST: ls correspond à la liste initiale à laquelle un noeud a été ajouté au début, contenant l'élément nb; sa taille est incrémentée de 1
 void insertEnemyFront(EnemyList *ls, Enemy* enemy)
 {
     Enemy *first = malloc(sizeof(Enemy));
@@ -42,8 +41,6 @@ void insertEnemyFront(EnemyList *ls, Enemy* enemy)
     ls->size += 1;
 }
 
-//PRE: ls != NULL
-//POST: renvoie le number d'éléments de ls
 int lengthEnemyList(EnemyList *ls)
 {
     if (ls == NULL)

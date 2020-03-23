@@ -4,22 +4,15 @@
 * Import GL/glut.h pour utiliser les fonctionnalités de la librairie GLUT OpenGL
 */
 
+#include <../GL/glut.h>
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "bike-movement.h"
-#include <../GL/glut.h>
-#include <math.h>
+#include "./bike-movement.h"
 #include "./../graphic/bike.h"
 
-// /* initialisation des variables */
-char _xposRecord[12] = "Start"; // initialise la variable qui enregistre en temps réel la position de l'objet (dans le but de l'afficher à l'écran)
-
-void formatCoordinates(float coordinate) {
-    char posXString[12]; 
-    sprintf(posXString, "%.9f", coordinate); 
-    strcpy(_xposRecord, posXString);
-}
+/* définition des fonctions */
 
 float cantGoOut(float coordinate) {
     if(coordinate >= 0)
@@ -29,8 +22,8 @@ float cantGoOut(float coordinate) {
 }
 
 void keyboardownBike(int key, int x, int y) {
-    float move_unit = round(10*0.1)/10;// TODO : comment faire pour retirer l'imprécision du float ?
-    move_unit-=0.000000001;
+    float move_unit = round(10*0.1)/10;
+    move_unit -= 0.000000001;
     switch (key){
         case GLUT_KEY_RIGHT:
             _bike.position.x += move_unit;
@@ -54,7 +47,6 @@ void keyboardownBike(int key, int x, int y) {
     
     _bike.position.x = cantGoOut(_bike.position.x);
     _bike.position.y = cantGoOut(_bike.position.y);
-    formatCoordinates(_bike.position.x);
 
     glutPostRedisplay();
 }

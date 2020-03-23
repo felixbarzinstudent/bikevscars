@@ -12,21 +12,20 @@
 #include "./../movement/bike-movement.h"
 #include "./../records/save.h"
 #include "./../utils/calculus.h"
+#include "./../utils/image-loader.h"
 #include "./../utils/text-tools.h"
 #include "./../utils/timer-tools.h"
 #include "./../structs/enemy-struct.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "./../lib/stb_image.h"
-#include "./../utils/image-loader.h"
 
 /* définititon des variables*/
 bool isInitGame = false;
-List* shotList;
 EnemyList* enemyList;
 EnemyShotList* enemyShotList;
-int _totalPoints = 0;
-int secondsSaved = 0;
-int previousRecordedPoints = 0;
+float abasey0 = 0.0; //scrolling infini de la route
+float abasey1 = 1.0; //scrolling infini de la route
+float roadSpeed = 0.0003;
 GLuint texture; //road
 GLuint textureCar;
 GLuint textureBike;
@@ -36,30 +35,27 @@ GLuint texturePolice3;
 GLuint textureWave;
 GLuint textureLightBeam;
 GLuint textureBubble;
-float abasey0 = 0.0;
-float abasey1 = 1.0;
-float roadSpeed = 0.0003;
+int previousRecordedPoints = 0;
+int secondsSaved = 0;
+int _totalPoints = 0;
+List* shotList;
 
 /* définititon des fonctions */
-void doCheckpoint();
-void vDisplayGame();
-void detectCollision();
-void drawBike();
-void detectCollisionBike(Bike bike, Enemy* enemy);
-void detectCollisionShot(List* shotList, Enemy* enemy);
-void initGame();
-void keyboardownBike();
 void clavierGame(unsigned char key, int x, int y);
-void drawEnemies();
-void drawEnemiesShots();
 void countPoints(int points);
-void makeItHarder();
-void enemyShoot(Bike bike, Enemy* enemy);
+void detectCollision();
+void detectCollisionBike(Bike bike, Enemy* enemy);
 void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike);
-void endOfGame(int isLowLife);
+void detectCollisionObstacle(Bike _bike, Enemy* currentEnemy, Obstacle _obstacle);
+void detectCollisionShot(List* shotList, Enemy* enemy);
+void doCheckpoint();
 void drawRoad();
 void drawTopBoard();
-void detectCollisionObstacle(Bike _bike, Enemy* currentEnemy, Obstacle _obstacle);
+void endOfGame(int isLowLife);
+void initGame();
+void makeItHarder();
+void vDisplayGame();
+void enemyShoot(Bike bike, Enemy* enemy);
 
 void windowGame(GLuint tex) {
     texture = tex;
@@ -72,6 +68,9 @@ void windowGame(GLuint tex) {
     glutKeyboardFunc(clavierGame);
 }
 
+/*
+* Cette fonction affiche la page du jeu
+*/
 void vDisplayGame() {
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
@@ -82,14 +81,18 @@ void vDisplayGame() {
         drawBike(textureBike);
     glPopMatrix();// la matrice revient à l'état ou elle était au dernier glPushMatrix()
     drawShots(textureWave, textureBubble, shotList);
-    drawEnemies();
+    drawEnemies(textureCar, enemyList);
     drawObstacle(roadSpeed, texturePolice1, texturePolice2, texturePolice3, textureBubble);
-    drawEnemiesShots();
+    drawEnemiesShots(textureLightBeam, enemyShotList);
     drawTopBoard();
     glutPostRedisplay();
     glutSwapBuffers(); // permute buffers
 }
 
+/*
+* Cette fonction orchestre le déplacement des ennemis depuis le dessus de l'écran vers le bas et la vérification
+* des collisions
+*/
 void detectCollision() {
     if(_bike.life >= 1) { // quand le vélo n'a plus de vie, les ennemis s'arretent
         Enemy* currentEnemy = enemyList->first;
@@ -107,111 +110,6 @@ void detectCollision() {
             currentEnemy = currentEnemy->next;
         }
     }
-}
-
-void drawEnemies() {
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBindTexture(GL_TEXTURE_2D, textureCar);
-
-    int enemiesCount = lengthEnemyList(enemyList);
-    if(enemiesCount > 0) {
-        
-        if(enemyList->first != NULL) {
-            glPushMatrix();
-            glLoadIdentity();
-
-            if(enemyList->first->isAlive)
-                glColor4f(1.0, 1.0, 0.1, 1);
-            else {
-                glColor4f(1.0, 1.0, 0.1, 0.1);
-            }
-
-                enemyList->first->position.y -= enemyList->first->speed;
-                glTranslatef(enemyList->first->position.x, enemyList->first->position.y, 0);
-                glBegin(GL_QUADS);
-                    glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
-                    glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
-                    glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
-                    glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
-                glEnd();
-            glPopMatrix();
-        } else {
-            printf("exit failure ?\n");
-        }
-        if(enemiesCount > 1) {
-            Enemy* current = enemyList->first->next;
-            while(current != NULL) {
-            glPushMatrix(); 
-                if(current->isAlive)
-                    glColor4f(1.0, 1.0, 0.1, 1);
-                else {
-                    glColor4f(1.0, 1.0, 0.1, 0.1);
-                }
-                current->position.y -= current->speed;
-                glTranslatef(current->position.x, current->position.y, 0);
-                glBegin(GL_QUADS);
-                    glTexCoord2f(0, 1); glVertex2f(-0.1, -0.2);//en bas a gauche
-                    glTexCoord2f(0, 0); glVertex2f(-0.1, 0.2);// au dessus a gauche
-                    glTexCoord2f(1, 0); glVertex2f(0.1, 0.2);//au dessus à droite
-                    glTexCoord2f(1, 1); glVertex2f(0.1, -0.2);//en bas a droite
-                glEnd();
-            glPopMatrix(); 
-                current = current->next;
-            }
-
-        }
-    }
-    glDisable(GL_BLEND);
-    glDisable(GL_TEXTURE_2D);
-}
-
-void drawEnemiesShots() {
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBindTexture(GL_TEXTURE_2D, textureLightBeam);
-
-    glColor4f(1.0, 1.0, 1.0, 1);
-    int shotsCount = lengthEnemyShotList(enemyShotList);
-    if(shotsCount > 0) {
-        
-        if(enemyShotList->first != NULL) {
-            glPushMatrix();
-                enemyShotList->first->position.y -= enemyShotList->first->speed;
-                glTranslatef(enemyShotList->first->position.x, enemyShotList->first->position.y, 0);
-                glBegin(GL_QUADS);
-                    glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
-                    glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
-                    glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
-                    glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
-                glEnd();
-            glPopMatrix();
-        } else {
-            exit(EXIT_FAILURE);
-        }
-
-        if(shotsCount > 1) {
-            Shot* current = enemyShotList->first->next;
-            while(current != NULL) {
-                glPushMatrix(); 
-                    current->position.y -= current->speed;
-                    glTranslatef(current->position.x, current->position.y, 0);
-                    glBegin(GL_QUADS);
-                        glTexCoord2f(0, 1); glVertex2f(-0.05, -0.1);
-                        glTexCoord2f(0, 0); glVertex2f(-0.05, 0.1);
-                        glTexCoord2f(1, 0); glVertex2f(0.05, 0.1);
-                        glTexCoord2f(1, 1); glVertex2f(0.05, -0.1);
-                    glEnd();
-                glPopMatrix(); 
-                current = current->next;
-            }
-
-        }
-    }
-    glDisable(GL_BLEND);
-    glDisable(GL_TEXTURE_2D);
 }
 
 /*
@@ -254,7 +152,6 @@ void detectCollisionBike(Bike bike, Enemy* enemy) {
         &&
         (bike.position.x > (enemy->position.x - 0.2))
     ){
-        //printf("Le vélo est touché par une voiture\n");
         if(enemy->position.x != 0 && enemy->position.y != 0) {
             int isLowLife = lifeLoss(&_bike); // TODO : make void ?
             endOfGame(isLowLife);
@@ -277,8 +174,8 @@ void detectCollisionObstacle(Bike bike, Enemy* enemy, Obstacle obstacle) {
         &&
         (bike.position.x > (obstacle.position.x - 0.3))
         ){
-            printf("Le vélo est touché par un obstacle\n");
-            int isLowLife = lifeLoss(&_bike); // TODO : make void ?
+            //printf("Le vélo est touché par un obstacle\n");
+            int isLowLife = lifeLoss(&_bike);
             endOfGame(isLowLife);
         } 
         //ennemi
@@ -405,6 +302,9 @@ void detectCollisionEnemiesShots(EnemyShotList* enemyShotList, Bike bike) {
     }
 }
 
+/*
+* Cette fonction orchestre le passage d'un checkpoint
+*/
 void doCheckpoint() {
     saveCheckpoint(_totalPoints, _bike.life, getTimeElapsed(secondsSaved));
     makeItHarder();
@@ -423,6 +323,10 @@ void makeItHarder() {
         _timeBetweenEnemyPop = 0.5;
 }
 
+/*
+* Cette fonction compte les points après chaque ennemi éliminé
+* Post-condition : la variable qui contient le décompte les poitns doit avoir été incrémentée
+*/
 void countPoints(int points) {
     _totalPoints += points;
     if(_totalPoints != 0 && _totalPoints > 10 && (_totalPoints - previousRecordedPoints) >= 10) {
@@ -431,6 +335,9 @@ void countPoints(int points) {
     }
 }
 
+/*
+* Cette fonction est utile lors de la réinitialisation d'une partie
+*/
 void initGame(){
     if(!isInitGame) {
         initEnemyFactory();
@@ -475,6 +382,9 @@ void initGame(){
     }
 }
 
+/*
+* Cette fonction permet la gestion des touches normales appuyée sur le clavier (espace, ...)
+*/
 void clavierGame(unsigned char key, int x, int y) {
     switch(key) {
         case 27 : // ESC

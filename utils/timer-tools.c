@@ -1,8 +1,8 @@
+#include <../GL/glut.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <../GL/glut.h>
-#include "timer-tools.h"
+#include "./timer-tools.h"
 #include "./../structs/enemy-struct.h"
 
 Timer timerInvincibility;
@@ -16,7 +16,6 @@ bool timerInvincibilityFunc(double duration) {
         if(seconds >= duration){
             timerInvincibility.lock = false;//reset
             timerInvincibility.start.tv_usec = 0;//reset
-            //printf("Finished in %f sec\n", seconds); 
             return false;
         }
     }    
@@ -40,7 +39,6 @@ bool timerInitEnemiesFunc(double duration) {
         if(seconds >= duration && seconds < 10){
             timerInitEnemies.lock = false;//reset
             timerInitEnemies.start.tv_usec = 0;//reset
-            //printf("Finished in %f sec\n", seconds); 
             return false;
         }
     }    
@@ -89,7 +87,6 @@ bool timerInitObstaclesFunc(double duration) {
         if(seconds >= duration){
             timerInitObstacle.lock = false;//reset
             timerInitObstacle.start.tv_usec = 0;//reset
-            //printf("Finished in %f sec\n", seconds); 
             return false;
         }
     }    

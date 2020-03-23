@@ -16,6 +16,9 @@ typedef struct Timer {
 extern Timer timerInitEnemies;
 extern Timer timerInvincibility;
 extern Timer _timeTimeElapsed;
+
+/* définition des fonctions */
+
 /*
 * Ces fonctions préfixé par "timer" et post fixé par "Func" initialisent un timer qui renverra true pendant
 * la durée passée en paramètre. Renvoit faux ensuite.

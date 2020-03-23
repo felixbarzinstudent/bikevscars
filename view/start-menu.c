@@ -8,6 +8,7 @@
 #include "./../records/save.h"
 
 /* définititon des variables*/
+
 float basey0 = 0.0; // scrolling infini de la route
 float basey1 = 1.0; // scrolling infini de la route
 
@@ -28,7 +29,10 @@ const int difficultyNormal = 1;
 const int difficultyHardcore = 3;
 const int difficultyImpossible = 10;
 
+GLuint texture;
+
 /* définititon des fonctions */
+
 void vClavier_startmenu(unsigned char key, int x, int y);
 void vClavierSpecial_startmenu(int key, int x, int y);
 void vDisplay_startmenu();
@@ -40,7 +44,6 @@ void displayStartMenuHighscores();
 void upAndDownStartMenu(int key);
 void upAndDownConfigurerMenu(int key);
 
-GLuint texture;
 void windowMenu(GLuint tex) {
     texture = tex;
     glutDisplayFunc(vDisplay_startmenu);
@@ -48,6 +51,9 @@ void windowMenu(GLuint tex) {
     glutKeyboardFunc(vClavier_startmenu); // enter
 }
 
+/*
+* Cette fonction initialise les controles spéciaux pour la page de menu
+*/
 void vClavierSpecial_startmenu(int key, int x, int y) 
 {
     if(activeMenu == 1) { // menu de base
@@ -57,6 +63,9 @@ void vClavierSpecial_startmenu(int key, int x, int y)
     }
 }
 
+/*
+* Définition des commandes pour le menu
+*/
 void upAndDownStartMenu(int key) {
     switch (key){
         case GLUT_KEY_UP:
@@ -76,6 +85,9 @@ void upAndDownStartMenu(int key) {
     }
 }
 
+/*
+* Définition des commandes pour le menu de difficulté
+*/
 void upAndDownConfigurerMenu(int key) {
     switch (key){
         case GLUT_KEY_UP:
@@ -95,6 +107,9 @@ void upAndDownConfigurerMenu(int key) {
     }
 }
 
+/*
+* Cette fonction initialise les contrôles pour la page de menu
+*/
 void vClavier_startmenu(unsigned char key, int x, int y) {
     if (key == 13) {
         switch(activeMenu) {
@@ -147,6 +162,9 @@ void vClavier_startmenu(unsigned char key, int x, int y) {
     }
 }
 
+/*
+* Cette fonction permet l'affichage de la page
+*/
 void vDisplay_startmenu() {
     //Clear Window
     glClear(GL_COLOR_BUFFER_BIT);
@@ -219,6 +237,9 @@ void displayStartMenu() {
         writeOnWindow(-0.5, 0.0, option6, strlen(option6), 1, 1, 1);
 }
 
+/*
+* Affichage du menu de configuration de la difficulté
+*/
 void displayStartMenuConfigurer() {
     char option1 [] = "Normal";
     char option2 [] = "Hardcore";
@@ -252,6 +273,9 @@ void displayStartMenuConfigurer() {
     }
 }
 
+/*
+* Affichage des règles du jeu
+*/
 void displayStartMenuRules() {
     char line1 [] = "En l'an 2021, dans un monde dystopique dans lequel les";
     char line2 [] = "voitures ce sont alliees pour detruire tous les vehicules";
@@ -304,6 +328,9 @@ void displayStartMenuRules() {
 
 }
 
+/*
+* Affichage des regles (partie 2 - points)
+*/
 void displayStartMenuRulesPoints() {
     char line1 [] = "Points :";
     char line2 [] = "Voiture detruite :";
@@ -329,6 +356,9 @@ void displayStartMenuRulesPoints() {
     writeOnWindow(-0.55, -0.70, "", strlen(""), 0.59, 0.59, 0.59); 
 }
 
+/*
+* Affichage des meilleurs scores
+*/
 void displayStartMenuHighscores() {
     int highscores[5];
     getHighscores(highscores, 5);

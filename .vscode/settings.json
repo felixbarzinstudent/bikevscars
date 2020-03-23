@@ -9,6 +9,9 @@
         "shot-list.h": "c",
         "timer-tools.h": "c",
         "enemy-struct.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "enemy-shot-list.h": "c",
+        "start-menu.h": "c",
+        "end-game.h": "c"
     }
 }

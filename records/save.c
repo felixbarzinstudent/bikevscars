@@ -32,7 +32,11 @@ void saveHighscores(int score) {
 	}
 }
 
-// regarde les 5 meilleur score et le nouveau score, renvoi les 5 meilleures parmis les 6
+/*
+* Lire le fichier des meilleurs score et récupère les meilleus
+* Compare les 5 meilleurs score au nouveau score et renvoi les 5 meilleurs
+* Pré-condition : le fichier doit exister
+*/
 void getTop(int* tab) {
     for (int i = 0; i < numberOfHighscoresToDisplay + 1; i ++) {
         for (int j = 0; j < numberOfHighscoresToDisplay + 1 ; j++) {

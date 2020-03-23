@@ -1,13 +1,14 @@
 #ifndef BIKE_H
 #define BIKE_H
-#include <../GL/glut.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "coordinate.h"
+#include <../GL/glut.h>
+#include "./coordinate.h"
 #include "./../linked-list/shot-list.h"
 
 /* declaration des variables */
+
 extern const int _sonicWaveShot;
 extern const int _bubbleShot;
 
@@ -28,6 +29,8 @@ typedef struct Bike {
 
 extern struct Bike _bike;
 
+/* définition des fonctions */
+
 /*
 * Cette fonction initialise les propriétés du vélo
 */
@@ -40,12 +43,6 @@ void initBike();
 * Post-condition: /
 */
 int lifeLoss(Bike* bike);
-
-//TODO
-/*
-* Ajoute une vie au compteur de vie du vélo
-*/
-void lifeGain(Bike* bike);
 
 /*
 * Cette fonction initialise un tir (vitesse de la munition, position... ) et l'insert dans la liste passée
@@ -64,4 +61,9 @@ void shoot(List* shotList, int type);
 */
 void drawShots(GLuint textureWave, GLuint textureBubble, List *shotList);
 
+/*
+* Dessine le vélo
+* @Param {texture} texture du vélo
+*/
+void drawBike(GLuint texture);
 #endif

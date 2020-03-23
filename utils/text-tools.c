@@ -5,8 +5,6 @@
 #include "./../graphic/bike.h"
 #include "./../utils/timer-tools.h"
 
-char _textCollision[18] = "";
-
 void writeOnWindow(float x, float y, char text[], int size, float red, float green, float blue) {
     glColor3f(red, green, blue);
     glRasterPos2f(x, y);// Positionne le texte
@@ -15,6 +13,12 @@ void writeOnWindow(float x, float y, char text[], int size, float red, float gre
     }
 }
 
+/*
+* Concatene deux tableaux de caracteres
+* @Param {string1} tableau source
+* @Param {string2} tableau destination
+* @Param {sizeString2} taille du tableau destination
+*/
 void concatArrayOfString(char* string1, char* string2, int sizeString2) {
 	strncat(string1, string2, sizeString2);
 }

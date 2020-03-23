@@ -14,15 +14,3 @@
 * Point d’entrée sur la fenêtre du menu.
 */
 void windowMenu();
-/*
-* Cette fonction initialise les contrôles pour la page de menu
-*/
-void vClavier_startmenu(unsigned char key, int x, int y);
-/*
-* Cette fonction permet l'affichage de la page
-*/
-void vDisplay_startmenu();
-/*
-* Cette fonction initialise les controles spéciaux pour la page de menu
-*/
-void vClavierSpecial_startmenu(int key, int x, int y);

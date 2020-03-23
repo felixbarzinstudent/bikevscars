@@ -8,11 +8,6 @@
 */
 void saveHighscores(int score);
 /*
-* Lire le fichier des meilleurs score et récupère les meilleus
-* Pré-condition : le fichier doit exister
-*/
-void getTop(int* tab);
-/*
 * Enregistre les points et la vie dans le fichier des checkpoints.
 * Ce fichier sera lu pour reprendre une partie à partir de ce palier.
 * Post-condition : les données doivent être écrites dans le fichier
@@ -28,8 +23,12 @@ int getLifeFromLastCheckpoint();
 * Post-condition : le modulo du total des points doit être égal à 0
 */
 int getPointsFromLastCheckpoint();
-
+/*
+* Récupère un tableau de meilleurs score
+*/
 void getHighscores(int highscores[], int number);
-
+/*
+* Récupère le temps écoulé lors de l'enregistrement du dernier checkpoint
+*/
 int getTimeFromLastCheckpoint();
 #endif
