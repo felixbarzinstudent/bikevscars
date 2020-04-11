@@ -1,5 +1,5 @@
-appexe : movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timer-tools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o records/save.o linked-list/enemy-shot-list.o utils/image-loader.o graphic/obstacle.o main.o
-	gcc -g movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timer-tools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o records/save.o linked-list/enemy-shot-list.o utils/image-loader.o graphic/obstacle.o main.o -o appexe -lglut -lGLU -lGL -lm -ldl
+batailleEtoiles : movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timer-tools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o records/save.o linked-list/enemy-shot-list.o utils/image-loader.o graphic/obstacle.o main.o
+	gcc -Wall -std=c99 movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timer-tools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o records/save.o linked-list/enemy-shot-list.o utils/image-loader.o graphic/obstacle.o main.o -o batailleEtoiles -lglut -lGLU -lGL -lm -ldl
 movement/bike-movement.o: movement/bike-movement.c
 	gcc -g -c movement/bike-movement.c -o movement/bike-movement.o -Wall -std=c99
 graphic/bike.o: graphic/bike.c movement/bike-movement.h linked-list/shot-list.h
@@ -37,4 +37,4 @@ main.o: main.c view/game.h view/start-menu.h view/navigation.h view/end-game.h l
 clean:
 	rm -rf *.o
 mrproper: clean
-	rm -rf appexe
+	rm -rf batailleEtoiles
