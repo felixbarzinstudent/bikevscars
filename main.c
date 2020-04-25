@@ -53,5 +53,5 @@ int main(int argc, char** argv){
 void init() {
     glutInitWindowSize(WIDTH_STARTMENU, HEIGHT_STARTMENU);
     glutInitWindowPosition(XWINDOWPOSITION_STARTMENU, YWINDOWPOSITION_STARTMENU);
-    textureRoad = loadBMP_custom("./resources/road.bmp");
+    textureRoad = loadBMP_custom("resources/road.bmp");
 }
