@@ -1,4 +1,8 @@
-#include <GL/glut.h>
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>	
+#else	
+#include <GL/glut.h>	
+#endif
 
 /*
 * Ce loader permet de charger une image grâce à la librairie 'stb'

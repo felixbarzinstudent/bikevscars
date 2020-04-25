@@ -5,7 +5,11 @@
 
 #ifndef ENEMYSTRUCT_H
 #define ENEMYSTRUCT_H
-#include <GL/glut.h>
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>	
+#else	
+#include <GL/glut.h>	
+#endif
 #include "timer-struct.h"
 #include "../graphic/coordinate.h"
 

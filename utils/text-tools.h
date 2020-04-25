@@ -2,8 +2,13 @@
 * Ce fichier contient des fonctions qui formattent et affiche du texte sur la fenre
 */
 
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>
+#include <GLUT/gl.h>	
+#else	
+#include <GL/glut.h>	
 #include <GL/gl.h>
-#include <GL/glut.h>
+#endif
 #include "../graphic/bike.h"
 
 /* définition des fonctions */

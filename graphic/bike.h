@@ -1,9 +1,13 @@
 #ifndef BIKE_H
 #define BIKE_H
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>	
+#else	
+#include <GL/glut.h>	
+#endif
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <GL/glut.h>
 #include "coordinate.h"
 #include "../linked-list/shot-list.h"
 

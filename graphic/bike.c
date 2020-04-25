@@ -1,5 +1,9 @@
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>	
+#else	
+#include <GL/glut.h>	
+#endif
 #include <time.h>
-#include <GL/glut.h>
 #include "bike.h"
 #include "../linked-list/shot-list.h"
 #include "../movement/bike-movement.h"

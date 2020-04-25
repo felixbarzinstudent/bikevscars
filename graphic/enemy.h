@@ -1,6 +1,10 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include <GL/glut.h>
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>	
+#else	
+#include <GL/glut.h>	
+#endif
 #include "../linked-list/enemy-list.h"
 #include "../linked-list/enemy-shot-list.h"
 

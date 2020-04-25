@@ -1,4 +1,8 @@
-#include <GL/glut.h>
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>
+#else	
+#include <GL/glut.h>	
+#endif
 #include <stdio.h>
 #include <string.h>
 #include "navigation.h"

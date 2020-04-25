@@ -1,8 +1,12 @@
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>	
+#else	
+#include <GL/glut.h>	
+#endif
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <GL/glut.h>
 #include "obstacle.h"
 #include "../utils/calculus.h"
 #include "../utils/timer-tools.h"

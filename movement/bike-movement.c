@@ -4,7 +4,11 @@
 * Import GL/glut.h pour utiliser les fonctionnalités de la librairie GLUT OpenGL
 */
 
-#include <GL/glut.h>
+#ifdef	__APPLE_CC__	
+#include <GLUT/glut.h>	
+#else	
+#include <GL/glut.h>	
+#endif
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
