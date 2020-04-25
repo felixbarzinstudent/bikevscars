@@ -358,7 +358,7 @@ void displayStartMenuHighscores() {
     writeOnWindow(-0.3, 0.3, line1, strlen(line1), 1, 1, 0.1);
     writeOnWindow(-0.4, -0.5, lineRetour, strlen(lineRetour), 0, 0, 0.0);
 
-    char points[12];
+    char points[12] = "            ";
     char endLinePoints[9] = " points\0";
     char rank[4];
     char endLineRank[3] = ".\0";

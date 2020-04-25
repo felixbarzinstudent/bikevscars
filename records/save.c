@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "save.h"
-
 /* déclaration des variables */
 
 const int numberOfHighscoresToDisplay = 5; // Dans le menu, j'affiche les 5 meilleurs scores
@@ -15,11 +14,17 @@ void saveHighscores(int score) {
 	
 	fichier = fopen("records/highscores.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
-		for (int i = 0 ; i < numberOfHighscoresToDisplay; i++) {
+		for (int i = 0; i < numberOfHighscoresToDisplay; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
         }
 
 		fclose(fichier);
+
+        for (int i = 0; i < numberOfHighscoresToDisplay; i++) { // vérifie que les données sont cohérentes
+			if(tab[i] < 0 || tab[i] > 999)
+			    tab[i] = 0;
+		}
+
         tab[numberOfHighscoresToDisplay] = score;
 
         getTop(tab);
@@ -68,13 +73,16 @@ void saveCheckpoint(int points, int life, double seconds) {
 	}
 }
 
+/*
+* Pré-condition : un fichier de sauvegarde valide à sa premiere valeur et sa troisieme comprise entre 0 et 999 et sa deuxieme valeure compriuse entre 1 et 3
+*/
 int getLifeFromLastCheckpoint() {
 	int tab[3];
 	FILE *fichier;
 	
 	fichier = fopen("records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
-		for (int i = 0 ; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
         }
 
@@ -86,9 +94,22 @@ int getLifeFromLastCheckpoint() {
 	if(tab[1] <= 0)
 		exit(EXIT_FAILURE);
 
+	if( //si il y a une anomalie dans le fichier, renvoie la valeur par défaut pour la vie
+		tab[0] < 0 
+		|| tab[0] > 999
+		|| tab[1] < 1 
+		|| tab[1] > 3
+		|| tab[2] < 0
+		|| tab[2] > 999) {
+        return 3;
+		}
+
 	return tab[1];
 }
 
+/*
+* Pré-condition : un fichier de sauvegarde valide à sa premiere valeur et sa troisieme comprise entre 0 et 999 et sa deuxieme valeure compriuse entre 1 et 3
+*/
 int getPointsFromLastCheckpoint() {
 	int tab[3];
 	FILE *fichier;
@@ -104,6 +125,16 @@ int getPointsFromLastCheckpoint() {
 
 	if((tab[0] / 10 * 10) % 10 != 0)
 		exit(EXIT_FAILURE);
+
+    if( //si il y a une anomalie dans le fichier, renvoie la valeur par défaut pour les points
+		tab[0] < 0 
+		|| tab[0] > 999
+		|| tab[1] < 1 
+		|| tab[1] > 3
+		|| tab[2] < 0
+		|| tab[2] > 999) {
+        return 0;
+		}
 
 	return (tab[0] / 10 * 10);
 }
@@ -121,6 +152,16 @@ int getTimeFromLastCheckpoint() {
 		fclose(fichier);
 	} 
 
+    if( //si il y a une anomalie dans le fichier, renvoie la valeur par défaut pour les secondes
+		tab[0] < 0 
+		|| tab[0] > 999
+		|| tab[1] < 1 
+		|| tab[1] > 3
+		|| tab[2] < 0
+		|| tab[2] > 999) {
+        return 0;
+		}
+
 	return tab[2];
 
 }
@@ -135,5 +176,10 @@ void getHighscores(int highscores[], int number) {
         }
 
 		fclose(fichier);
+
+		for (int i = 0; i < number; i++) {
+			if(highscores[i] < 0 || highscores[i] > 999)
+			    highscores[i] = 0;
+		}
 	} 
 }
