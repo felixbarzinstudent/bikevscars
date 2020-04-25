@@ -4,7 +4,7 @@
 
 /* déclaration des variables */
 
-const int numberOfHighscoresToDisplay = 5;
+const int numberOfHighscoresToDisplay = 5; // Dans le menu, j'affiche les 5 meilleurs scores
 
 /* déclaration des fonctions */
 void getTop(int* tab);

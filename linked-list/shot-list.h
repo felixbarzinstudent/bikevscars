@@ -10,7 +10,7 @@
 typedef struct List
 {
     int size;
-    Shot *first;
+    Shot *first; // le premier élément de la liste est un Shot (tir) - voir description dans le fichier shot-struct.h
 } List;
 
 /*

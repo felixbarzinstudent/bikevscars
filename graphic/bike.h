@@ -9,8 +9,8 @@
 
 /* declaration des variables */
 
-extern const int _sonicWaveShot;
-extern const int _bubbleShot;
+extern const int _sonicWaveShot; //tir normal
+extern const int _bubbleShot; // tir bulle
 
 
 /* définition des structures */
@@ -24,7 +24,7 @@ typedef struct Bike {
     struct Coordinate position;
     int life;
     int state; // bonus in game : état invincible (1), état plus rapide, ...
-    double invincibilityDuration;
+    double invincibilityDuration; // définit le temps d’invincibilité que peut avoir un vélo à la suite de la perte d’une vie.
 } Bike;
 
 extern struct Bike _bike;

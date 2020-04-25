@@ -6,15 +6,15 @@
 #include "./../utils/timer-tools.h"
 
 /* initialisation des variables */
-const double bikeCooldown = 0.75;
+const double bikeCooldown = 0.75; // temps de pause entre les tirs
 const double bikeStartPosition = -0.75;
-const double invicibilityDuration = 4;
+const double invicibilityDuration = 4; // temps pendant lequel le vélo est invincible apres avoir perdu une vie
 const float initialShotSpeed = 0.00176;
 const int _sonicWaveShot = 1;
 const int _bubbleShot = 2;
 const int bikeStateVulnerable = 0;
 const int bikeStateInvincible = 1;
-const int maxRafaleShoot = 3;
+const int maxRafaleShoot = 3; // nombre de tir max que peut contenir une rafale de tire du vélo
 int counterShoot = 0; // pour compter le nombre de tirs avant déclenchement du cooldown
 struct Bike _bike;
 

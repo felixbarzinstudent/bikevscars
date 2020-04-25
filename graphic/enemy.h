@@ -6,10 +6,10 @@
 
 /* déclaration des variables */
 
-extern double _timeBetweenEnemyPop;
+extern double _timeBetweenEnemyPop; // délais d'attente entre l'apparition de chaque ennemi
 extern float _enemySpeedMax;
 extern float _enemySpeedMin;
-extern int _madMax;
+extern int _madMax; // agressivité de la voiture (suivre la trajectoire du vélo)
 
 /* définition des fonctions */
 

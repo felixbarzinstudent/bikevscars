@@ -6,7 +6,7 @@
 typedef struct EnemyList
 {
     int size;
-    Enemy *first;
+    Enemy *first; // le premier élément de la liste est un Enemy (voiture) - voir description dans le fichier enemy-struct.h
 } EnemyList;
 
 /*

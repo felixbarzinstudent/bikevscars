@@ -15,6 +15,11 @@
 #include <stdbool.h>
 #include "./coordinate.h"
 
+/*
+* Cet obstacle peut être emprisonné dans une bulle (tir spécial du vélo) et peut ensuite 
+* être détruit. Quand un tire entre en collision avec l’obstacle, les propriétés 
+* « isBubbled » et « isAlive » sont vérifiées
+*/
 typedef struct Obstacle {
     struct Coordinate position;
     bool isBubbled;
@@ -22,7 +27,7 @@ typedef struct Obstacle {
 } Obstacle;
 
 extern struct Obstacle _obstacle;
-extern bool _isAlreadyObstacle;
+extern bool _isAlreadyObstacle; // il ne peut y avoir qu'un obstacle à la fois sur l'écran de jeu
 
 /*
 * Cette fonction positionne l'obstacle sur la route

@@ -27,7 +27,7 @@ const int gameWindow = 1;
 
 const int difficultyNormal = 1;
 const int difficultyHardcore = 3;
-const int difficultyImpossible = 10;
+const int difficultyImpossible = 10; 
 
 GLuint texture;
 

@@ -2,7 +2,7 @@
 #define SAVE_H
 
 /*
-* Enregistre le score dans le fichier des meilleurs score si celui-ci est un des meilleurs
+* Enregistre le score dans le fichier des meilleurs scores si celui-ci est un des meilleurs
 * @Param {score} le score de la partie
 * Post-condition : les données doivent être écrites dans le fichier
 */

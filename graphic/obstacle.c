@@ -9,7 +9,7 @@
 
 /* déclaration des variables */
 
-bool _isAlreadyObstacle = false;
+bool _isAlreadyObstacle = false; // pour savoir si il y a déja un obstacle dans la fenêtre de jeu
 int minTimeBetweenObstacles = 4; //secondes
 struct Obstacle _obstacle;
 
