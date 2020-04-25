@@ -1,5 +1,5 @@
 #include <string.h>
-#include <../GL/glut.h>
+#include <GL/glut.h>
 #include "./bike.h"
 #include "./enemy.h"
 #include "./../linked-list/enemy-list.h"

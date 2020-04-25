@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <../GL/glut.h>
+#include <GL/glut.h>
 #include "./coordinate.h"
 #include "./../linked-list/shot-list.h"
 

@@ -12,6 +12,7 @@
         "stdio.h": "c",
         "enemy-shot-list.h": "c",
         "start-menu.h": "c",
-        "end-game.h": "c"
+        "end-game.h": "c",
+        "unistd.h": "c"
     }
 }

@@ -1,5 +1,5 @@
 #include <time.h>
-#include <../GL/glut.h>
+#include <GL/glut.h>
 #include "./bike.h"
 #include "./../linked-list/shot-list.h"
 #include "./../movement/bike-movement.h"

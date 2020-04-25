@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <../GL/glut.h>
+#include <GL/glut.h>
 #include "./obstacle.h"
 #include "./../utils/calculus.h"
 #include "./../utils/timer-tools.h"

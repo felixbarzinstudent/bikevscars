@@ -5,7 +5,7 @@
 
 #ifndef ENEMYSTRUCT_H
 #define ENEMYSTRUCT_H
-#include <../GL/glut.h>
+#include <GL/glut.h>
 #include "./timer-struct.h"
 #include "./../graphic/coordinate.h"
 

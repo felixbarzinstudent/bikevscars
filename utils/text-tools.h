@@ -18,7 +18,7 @@
 */
 void writeOnWindow(float x, float y, char text[], int size, float red, float green, float blue);
 /*
-* Cette fonction affiche la vie restante du vélo et le score
+* Cette fonction affiche la vie restante du vélo et le score, et les secondes
 * @Param {bike} objet dont la vie doit être affichée
 * @Param {total} le score total
 * @Param {secondsSaved} temps déja parcouru récupéré d'une sauvegarde
