@@ -5,7 +5,7 @@
 
 #ifndef SHOTSTRUCT_H
 #define SHOTSTRUCT_H
-#include "./../graphic/coordinate.h"
+#include "../graphic/coordinate.h"
 
 typedef struct Shot Shot;
 struct Shot

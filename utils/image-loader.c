@@ -1,6 +1,6 @@
 #include <GL/glut.h>
 #include <stdio.h>
-#include "./../lib/stb_image.h"
+#include "../lib/stb_image.h"
 
 GLuint loadTexture(char const *filename) {
     int x, y, n;

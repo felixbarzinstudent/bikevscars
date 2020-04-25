@@ -1,9 +1,9 @@
 #include <time.h>
 #include <GL/glut.h>
-#include "./bike.h"
-#include "./../linked-list/shot-list.h"
-#include "./../movement/bike-movement.h"
-#include "./../utils/timer-tools.h"
+#include "bike.h"
+#include "../linked-list/shot-list.h"
+#include "../movement/bike-movement.h"
+#include "../utils/timer-tools.h"
 
 /* initialisation des variables */
 const double bikeCooldown = 0.75; // temps de pause entre les tirs

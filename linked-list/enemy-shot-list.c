@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./enemy-shot-list.h"
-#include "./../graphic/coordinate.h"
+#include "enemy-shot-list.h"
+#include "../graphic/coordinate.h"
 
 EnemyShotList *newEnemyShotList()
 {

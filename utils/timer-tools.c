@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "./timer-tools.h"
-#include "./../structs/enemy-struct.h"
+#include "timer-tools.h"
+#include "../structs/enemy-struct.h"
 
 Timer timerInvincibility;
 bool timerInvincibilityFunc(double duration) {

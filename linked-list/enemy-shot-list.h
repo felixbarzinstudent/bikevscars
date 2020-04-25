@@ -5,7 +5,7 @@
 
 #ifndef ENEMYSHOTLIST_H
 #define ENEMYSHOTLIST_H
-#include "./../structs/shot-struct.h"
+#include "../structs/shot-struct.h"
 
 typedef struct EnemyShotList
 {

@@ -1,23 +1,23 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <string.h>
-#include "./game.h"
-#include "./navigation.h"
-#include "./../graphic/bike.h"
-#include "./../graphic/enemy.h"
-#include "./../graphic/obstacle.h"
-#include "./../linked-list/enemy-list.h"
-#include "./../linked-list/enemy-shot-list.h"
-#include "./../linked-list/shot-list.h"
-#include "./../movement/bike-movement.h"
-#include "./../records/save.h"
-#include "./../utils/calculus.h"
-#include "./../utils/image-loader.h"
-#include "./../utils/text-tools.h"
-#include "./../utils/timer-tools.h"
-#include "./../structs/enemy-struct.h"
+#include "game.h"
+#include "navigation.h"
+#include "../graphic/bike.h"
+#include "../graphic/enemy.h"
+#include "../graphic/obstacle.h"
+#include "../linked-list/enemy-list.h"
+#include "../linked-list/enemy-shot-list.h"
+#include "../linked-list/shot-list.h"
+#include "../movement/bike-movement.h"
+#include "../records/save.h"
+#include "../utils/calculus.h"
+#include "../utils/image-loader.h"
+#include "../utils/text-tools.h"
+#include "../utils/timer-tools.h"
+#include "../structs/enemy-struct.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "./../lib/stb_image.h"
+#include "../lib/stb_image.h"
 
 /* définititon des variables*/
 bool isInitGame = false;
@@ -377,19 +377,19 @@ void initGame(){
         
         resetTimers();
 
-        textureTaxi = loadTexture("./resources/taxialpha.png");
-        textureBike = loadTexture("./resources/bike.png");
-        texturePolice1 = loadTexture("./resources/police1.png");
-        texturePolice2 = loadTexture("./resources/police2.png");
-        texturePolice3 = loadTexture("./resources/police3.png");
-        textureWave = loadTexture("./resources/wave.png");
-        textureLightBeam = loadTexture("./resources/lightbeam.png");
-        textureBubble = loadTexture("./resources/bubble.png");
-        textureAudi = loadTexture("./resources/Audi.png");
-        textureMiniTruck = loadTexture("./resources/Mini_truck.png");
-        textureMiniVan = loadTexture("./resources/Mini_van.png");
-        textureViper = loadTexture("./resources/Black_viper.png");
-        textureCar = loadTexture("./resources/Car.png");
+        textureTaxi = loadTexture("resources/taxialpha.png");
+        textureBike = loadTexture("resources/bike.png");
+        texturePolice1 = loadTexture("resources/police1.png");
+        texturePolice2 = loadTexture("resources/police2.png");
+        texturePolice3 = loadTexture("resources/police3.png");
+        textureWave = loadTexture("resources/wave.png");
+        textureLightBeam = loadTexture("resources/lightbeam.png");
+        textureBubble = loadTexture("resources/bubble.png");
+        textureAudi = loadTexture("resources/Audi.png");
+        textureMiniTruck = loadTexture("resources/Mini_truck.png");
+        textureMiniVan = loadTexture("resources/Mini_van.png");
+        textureViper = loadTexture("resources/Black_viper.png");
+        textureCar = loadTexture("resources/Car.png");
         isInitGame = true;
     }
 }

@@ -1,9 +1,9 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <string.h>
-#include "./text-tools.h"
-#include "./../graphic/bike.h"
-#include "./../utils/timer-tools.h"
+#include "text-tools.h"
+#include "../graphic/bike.h"
+#include "../utils/timer-tools.h"
 
 void writeOnWindow(float x, float y, char text[], int size, float red, float green, float blue) {
     glColor3f(red, green, blue);

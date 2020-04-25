@@ -13,7 +13,7 @@
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 #include <stdbool.h>
-#include "./coordinate.h"
+#include "coordinate.h"
 
 /*
 * Cet obstacle peut être emprisonné dans une bulle (tir spécial du vélo) et peut ensuite 

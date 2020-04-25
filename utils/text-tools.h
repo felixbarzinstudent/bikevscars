@@ -4,7 +4,7 @@
 
 #include <GL/gl.h>
 #include <GL/glut.h>
-#include "./../graphic/bike.h"
+#include "../graphic/bike.h"
 
 /* définition des fonctions */
 

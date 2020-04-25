@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./enemy-list.h"
+#include "enemy-list.h"
 
 /* définition des fonctions */
 

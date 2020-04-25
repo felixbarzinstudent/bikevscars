@@ -1,6 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
-#include "./calculus.h"
+#include "calculus.h"
 
 float floatRandom(float min, float max)
 {

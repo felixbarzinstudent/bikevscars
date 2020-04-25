@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "./save.h"
+#include "save.h"
 
 /* déclaration des variables */
 
@@ -13,7 +13,7 @@ void saveHighscores(int score) {
 	int tab[numberOfHighscoresToDisplay + 1];
 	FILE *fichier;
 	
-	fichier = fopen("./records/highscores.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	fichier = fopen("records/highscores.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
 		for (int i = 0 ; i < numberOfHighscoresToDisplay; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
@@ -25,7 +25,7 @@ void saveHighscores(int score) {
         getTop(tab);
 	}    
 
-	fichier = fopen("./records/highscores.txt","w");// Ouverture du fichier en écriture grâce à "w"
+	fichier = fopen("records/highscores.txt","w");// Ouverture du fichier en écriture grâce à "w"
 	
 	if (fichier != NULL) { // Verifier que le fichier est ouvert
 		// Ecriture
@@ -56,7 +56,7 @@ void getTop(int* tab) {
 
 void saveCheckpoint(int points, int life, double seconds) {
 	FILE *fichier;
-	fichier = fopen("./records/checkpoint.txt","w");// Ouverture du fichier en écriture grâce à "w"
+	fichier = fopen("records/checkpoint.txt","w");// Ouverture du fichier en écriture grâce à "w"
 	
 	if (fichier != NULL) { // Verifier que le fichier est ouvert
 		// Ecriture
@@ -72,7 +72,7 @@ int getLifeFromLastCheckpoint() {
 	int tab[3];
 	FILE *fichier;
 	
-	fichier = fopen("./records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	fichier = fopen("records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
 		for (int i = 0 ; i < 3; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
@@ -93,7 +93,7 @@ int getPointsFromLastCheckpoint() {
 	int tab[3];
 	FILE *fichier;
 	
-	fichier = fopen("./records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	fichier = fopen("records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
 		for (int i = 0 ; i < 3; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
@@ -112,7 +112,7 @@ int getTimeFromLastCheckpoint() {
 	int tab[3];
 	FILE *fichier;
 	
-	fichier = fopen("./records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	fichier = fopen("records/checkpoint.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
 		for (int i = 0 ; i < 3; i++) {
 		    fscanf(fichier, "%d\n", tab+i);
@@ -128,7 +128,7 @@ int getTimeFromLastCheckpoint() {
 void getHighscores(int highscores[], int number) {
 	FILE *fichier;
 	
-	fichier = fopen("./records/highscores.txt","r"); // Ouverture du fichier en lecture grâce à "r"
+	fichier = fopen("records/highscores.txt","r"); // Ouverture du fichier en lecture grâce à "r"
 	if (fichier != NULL) {
 		for (int i = 0 ; i < number; i++) {
 		    fscanf(fichier, "%d\n", highscores+i);

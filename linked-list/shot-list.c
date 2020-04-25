@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./shot-list.h"
-#include "./../graphic/coordinate.h"
+#include "shot-list.h"
+#include "../graphic/coordinate.h"
 
 /* définition des fonctions */
 

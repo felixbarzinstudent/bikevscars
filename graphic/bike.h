@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <GL/glut.h>
-#include "./coordinate.h"
-#include "./../linked-list/shot-list.h"
+#include "coordinate.h"
+#include "../linked-list/shot-list.h"
 
 /* declaration des variables */
 

@@ -1,8 +1,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 #include <GL/glut.h>
-#include "./../linked-list/enemy-list.h"
-#include "./../linked-list/enemy-shot-list.h"
+#include "../linked-list/enemy-list.h"
+#include "../linked-list/enemy-shot-list.h"
 
 /* déclaration des variables */
 

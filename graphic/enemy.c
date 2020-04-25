@@ -1,11 +1,11 @@
 #include <string.h>
 #include <GL/glut.h>
-#include "./bike.h"
-#include "./enemy.h"
-#include "./../linked-list/enemy-list.h"
-#include "./../linked-list/enemy-shot-list.h"
-#include "./../utils/calculus.h"
-#include "./../utils/timer-tools.h"
+#include "bike.h"
+#include "enemy.h"
+#include "../linked-list/enemy-list.h"
+#include "../linked-list/enemy-shot-list.h"
+#include "../utils/calculus.h"
+#include "../utils/timer-tools.h"
 
 /* initialisation des variables */
 

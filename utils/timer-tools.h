@@ -5,7 +5,7 @@
 #define TIMERTOOLS_H
 #include <stdbool.h>
 #include <sys/time.h>
-#include "./../structs/enemy-struct.h"
+#include "../structs/enemy-struct.h"
 
 typedef struct Timer {
     bool lock;

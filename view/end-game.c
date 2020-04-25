@@ -1,11 +1,11 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <string.h>
-#include "./end-game.h"
-#include "./navigation.h"
-#include "./../graphic/bike.h"
-#include "./../graphic/enemy.h"
-#include "./../utils/text-tools.h"
+#include "end-game.h"
+#include "navigation.h"
+#include "../graphic/bike.h"
+#include "../graphic/enemy.h"
+#include "../utils/text-tools.h"
 
 /* définititon des variables*/
 

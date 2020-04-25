@@ -5,7 +5,7 @@
 
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
-#include "./../structs/shot-struct.h"
+#include "../structs/shot-struct.h"
 
 typedef struct List
 {
