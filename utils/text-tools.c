@@ -1,6 +1,5 @@
 #ifdef	__APPLE_CC__	
 #include <GLUT/glut.h>
-#include <GLUT/gl.h>	
 #else	
 #include <GL/glut.h>	
 #include <GL/gl.h>

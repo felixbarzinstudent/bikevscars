@@ -3,8 +3,7 @@
 */
 
 #ifdef	__APPLE_CC__	
-#include <GLUT/glut.h>
-#include <GLUT/gl.h>	
+#include <GLUT/glut.h>	
 #else	
 #include <GL/glut.h>	
 #include <GL/gl.h>

@@ -3,6 +3,7 @@
 #else	
 #include <GL/glut.h>	
 #endif
+#include <stdlib.h>
 #include <string.h>
 #include "bike.h"
 #include "enemy.h"

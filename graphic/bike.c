@@ -3,6 +3,7 @@
 #else	
 #include <GL/glut.h>	
 #endif
+#include <stdlib.h>
 #include <time.h>
 #include "bike.h"
 #include "../linked-list/shot-list.h"

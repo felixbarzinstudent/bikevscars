@@ -5,6 +5,7 @@
 #endif
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "timer-tools.h"
 #include "../structs/enemy-struct.h"
