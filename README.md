@@ -29,11 +29,9 @@ Cette commande permet la compilation de la solution grâce à une commande prés
 Exécuter ensuite la commande ./batailleEtoiles pour lancer le jeu.
 
 ## Commande de compilation (voire makefile) 
-gcc -Wall -std=c99 movement/bike-movement.o graphic/bike.o utils/calculus.o utils/text-tools.o utils/timer-tools.o view/start-menu.o view/game.o view/navigation.o view/end-game.o linked-list/shot-list.o graphic/enemy.o linked-list/enemy-list.o records/save.o linked-list/enemy-shot-list.o utils/image-loader.o graphic/obstacle.o main.o -o batailleEtoiles -lglut -lGLU -lGL -lm -ldl
-
 ## Makefile
-Commande pour nettoyage des fichiers *.o et du launcher : make mrproper
+Commande pour nettoyage des fichiers *.o et du launcher : make clean
 Commande pour compilation : make
 
 ## Assets/Sprites
-Royalty free license
+Royalty free license : https://unluckystudio.com/
